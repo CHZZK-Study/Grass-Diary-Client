@@ -1,27 +1,15 @@
-import * as stylex from "@stylexjs/stylex";
-
-const styles = stylex.create({
-  container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-
-    width: "100vw",
-    height: "100vh",
-  },
-  title: {
-    fontSize: "80px",
-    color: "green",
-    fontWeight: "bold",
-  },
-});
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Main from "./Page/Main";
+import CreateDiary from "./Page/CreateDiary";
 
 const App = () => {
   return (
-    <div {...stylex.props(styles.container)}>
-      <div {...stylex.props(styles.title)}>잔디 일기</div>
-      <div> TEST </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/main" element={<Main />} />
+        <Route path="/creatediary" element={<CreateDiary />} />
+      </Routes>
+    </Router>
   );
 };
 
