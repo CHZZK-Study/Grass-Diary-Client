@@ -1,18 +1,18 @@
-import * as stylex from "@stylexjs/stylex";
+import * as stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
   container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
 
-    width: "100vw",
-    height: "100vh",
+    width: '100vw',
+    height: '100vh',
   },
   title: {
-    fontSize: "80px",
-    color: "green",
-    fontWeight: "bold",
+    fontSize: '80px',
+    color: 'green',
+    fontWeight: 'bold',
   },
 });
 
