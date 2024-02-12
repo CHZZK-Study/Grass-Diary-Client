@@ -32,12 +32,6 @@ const styles = stylex.create({
     cursor: "pointer",
     marginRight: "16px",
   },
-  profileImg: {
-    width: "50px",
-    height: "50px",
-    borderRadius: "50%",
-    margin: "44px 0 28px 0",
-  },
 
   diaryContent: {
     padding: "16px 16px 100px 16px ",
@@ -81,6 +75,27 @@ const styles = stylex.create({
 });
 
 const viewHeader = stylex.create({
+  progileBox: {
+    position: "relative",
+    width: "50px",
+    height: "50px",
+    margin: "44px 0 28px 0",
+  },
+  profileImg: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    borderRadius: "50%",
+  },
+  emoji: {
+    zIndex: "1",
+    position: "absolute",
+    bottom: 0,
+    right: 0,
+    transform: "translate(3px, 3px)",
+  },
   diaryHeader: {
     position: "relative",
     borderBottom: "1px solid #BFBFBF",
@@ -122,6 +137,7 @@ const ellipsisStyles = stylex.create({
   },
   box: {
     height: "36px",
+    fontSize: "13px",
     textAlign: "center",
     lineHeight: "36px",
     borderBottom: {
@@ -166,8 +182,10 @@ const Diary = () => {
         </div>
 
         <div>
-          <img {...stylex.props(styles.profileImg)} src={testImg}></img>
-
+          <div {...stylex.props(viewHeader.progileBox)}>
+            <img {...stylex.props(viewHeader.profileImg)} src={testImg}></img>
+            <div {...stylex.props(viewHeader.emoji)}>😆</div>
+          </div>
           <div {...stylex.props(viewHeader.diaryHeader)}>
             <span {...stylex.props(viewHeader.title)}>11월 11일 목요일</span>
             <span {...stylex.props(viewHeader.time)}>23:01</span>
