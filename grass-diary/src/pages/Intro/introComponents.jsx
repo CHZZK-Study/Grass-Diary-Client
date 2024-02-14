@@ -3,8 +3,6 @@ import styles from './styles';
 import grassDiary from '../../assets/icon/grassDiary.png';
 import Button from '../../components/Button';
 
-import { Link } from 'react-router-dom';
-
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
 };
@@ -25,9 +23,7 @@ const ServiceMain = () => {
           나의 이야기를 키우다
         </p>
         <p>일상의 작은 기록들이 잔디처럼 자라나 큰 성장으로 이어져요</p>
-        <Link to="/login">
-          <Button />
-        </Link>
+        <Button />
       </div>
       <div {...stylex.props(styles.mainImage)}>
         <img src={grassDiary} alt="잔디 다이어리" />
