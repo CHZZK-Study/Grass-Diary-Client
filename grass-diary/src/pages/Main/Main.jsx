@@ -413,14 +413,7 @@ const MiddleSection = () => {
           <h2>기록 상자</h2>
           <span>총 2개의 기록을 보유하고 있어요!</span>
         </div>
-        <div>
-          <img
-            src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Animals/Hedgehog.png"
-            alt="Hedgehog"
-            width="25"
-            height="25"
-          />
-        </div>
+        <div></div>
       </div>
       <div {...stylex.props(MiddleSectionStyle.container)}>
         <div
