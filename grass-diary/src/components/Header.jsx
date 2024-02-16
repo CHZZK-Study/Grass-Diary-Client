@@ -10,9 +10,12 @@ const header = stylex.create({
     width: '100vw',
     height: '80px',
     padding: '0 50px',
+    maxWidth: '1200px',
+    margin: 'auto',
   },
   userMenu: {
     zIndex: '1',
+    position: 'relative',
     marginLeft: 'auto',
     display: 'flex',
     alignItems: 'center',
@@ -30,13 +33,13 @@ const header = stylex.create({
 const menuBar = stylex.create({
   container: {
     position: 'absolute',
-    top: '0',
-    right: '0',
+    top: '60px',
+    right: '-10px',
     width: '200px',
-    padding: '80px 20px 20px 20px',
+    padding: '20px',
     backgroundColor: 'white',
     justifyContent: 'center',
-    borderRadius: '0px 0px 20px 20px',
+    borderRadius: '15px',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
   },
   box: {
@@ -50,7 +53,6 @@ const menuBar = stylex.create({
 const MenuBar = () => {
   return (
     <div {...stylex.props(menuBar.container)}>
-      <hr />
       <ul>
         <Link to="/">
           <li {...stylex.props(menuBar.box)}>마이페이지</li>
@@ -83,9 +85,8 @@ const Header = () => {
         ) : (
           <i className="fa-solid fa-angle-down"></i>
         )}
+        {menuButton ? <MenuBar /> : ''}
       </div>
-
-      {menuButton ? <MenuBar /> : ''}
     </div>
   );
 };

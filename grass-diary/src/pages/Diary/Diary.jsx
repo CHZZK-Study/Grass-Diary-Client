@@ -14,6 +14,7 @@ const styles = stylex.create({
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
     padding: '65px 80px 0 80px',
+    maxWidth: '1200px',
   },
   feelBackground: {
     marginLeft: '20px',
