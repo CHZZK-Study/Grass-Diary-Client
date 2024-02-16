@@ -3,7 +3,10 @@ import { useState } from 'react';
 
 const styles = stylex.create({
   like: {
-    fontSize: '30px',
+    width: '30px',
+    height: '40px',
+    lineHeight: '40px',
+    fontSize: '20px',
     textAlign: 'center',
     cursor: 'pointer',
   },
