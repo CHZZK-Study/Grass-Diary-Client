@@ -1,29 +1,29 @@
-import * as stylex from "@stylexjs/stylex";
-import { useState } from "react";
+import * as stylex from '@stylexjs/stylex';
+import { useState } from 'react';
 
 const styles = stylex.create({
   ellipsis: {
-    zIndex: "1",
-    position: "relative",
+    zIndex: '1',
+    position: 'relative',
   },
   container: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     top: 0,
-    width: "136px",
-    border: "1px solid #BFBFBF",
-    borderRadius: "20px",
-    transform: "translate(15px, -8px)",
-    backgroundColor: "#ffffff",
+    width: '136px',
+    border: '1px solid #BFBFBF',
+    borderRadius: '20px',
+    transform: 'translate(15px, -8px)',
+    backgroundColor: '#ffffff',
   },
   box: {
-    height: "36px",
-    fontSize: "13px",
-    textAlign: "center",
-    lineHeight: "36px",
+    height: '36px',
+    fontSize: '13px',
+    textAlign: 'center',
+    lineHeight: '36px',
     borderBottom: {
-      default: "1px solid #BFBFBF",
-      ":last-child": "none",
+      default: '1px solid #BFBFBF',
+      ':last-child': 'none',
     },
   },
 });
@@ -44,13 +44,13 @@ const Ellipsis = () => {
   const [open, setOpen] = useState(false);
 
   const clickEllipsis = () => {
-    setOpen((current) => !current);
+    setOpen(current => !current);
   };
   return (
     <div>
       {open ? <Open /> : null}
       <div onClick={clickEllipsis} {...stylex.props(styles.ellipsis)}>
-        <i className='fa-solid fa-ellipsis-vertical'></i>
+        <i className="fa-solid fa-ellipsis-vertical"></i>
       </div>
     </div>
   );

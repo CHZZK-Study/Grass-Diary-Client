@@ -1,54 +1,54 @@
-import * as stylex from "@stylexjs/stylex";
-import testImg from "../../assets/icon/profile.jpeg";
-import Ellipsis from "./Ellipsis";
+import * as stylex from '@stylexjs/stylex';
+import testImg from '../../assets/icon/profile.jpeg';
+import Ellipsis from './Ellipsis';
 
 const styles = stylex.create({
   progileBox: {
-    position: "relative",
-    width: "50px",
-    height: "50px",
-    margin: "44px 0 28px 0",
+    position: 'relative',
+    width: '50px',
+    height: '50px',
+    margin: '44px 0 28px 0',
   },
   profileImg: {
-    position: "absolute",
+    position: 'absolute',
     top: 0,
     left: 0,
-    width: "100%",
-    height: "100%",
-    borderRadius: "50%",
-    objectFit: "cover",
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    objectFit: 'cover',
   },
   emoji: {
-    zIndex: "1",
-    position: "absolute",
+    zIndex: '1',
+    position: 'absolute',
     bottom: 0,
     right: 0,
-    transform: "translate(3px, 3px)",
+    transform: 'translate(3px, 3px)',
   },
   diaryHeader: {
-    position: "relative",
-    borderBottom: "1px solid #BFBFBF",
-    paddingBottom: "36px",
-    marginBottom: "36px",
+    position: 'relative',
+    borderBottom: '1px solid #BFBFBF',
+    paddingBottom: '36px',
+    marginBottom: '36px',
   },
   title: {
-    fontSize: "40px",
-    fontWeight: "600",
-    marginRight: "24px",
+    fontSize: '40px',
+    fontWeight: '600',
+    marginRight: '24px',
   },
   time: {
-    fontSize: "16px",
-    marginRight: "24px",
+    fontSize: '16px',
+    marginRight: '24px',
   },
   privateOrPubilc: {
-    fontSize: "16px",
+    fontSize: '16px',
   },
   ellipsis: {
-    position: "absolute",
+    position: 'absolute',
     bottom: 0,
     right: 0,
-    marginBottom: "36px",
-    cursor: "pointer",
+    marginBottom: '36px',
+    cursor: 'pointer',
   },
 });
 
