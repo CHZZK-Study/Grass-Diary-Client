@@ -9,10 +9,11 @@ const styles = stylex.create({
   wrap: {
     background: '#F9F9F9',
     width: '100vw',
+    height: '100vh',
     margin: 'auto',
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
-    padding: '65px 100px 0 100px',
+    padding: '65px 80px 0 80px',
   },
   feelBackground: {
     marginLeft: '20px',
@@ -63,9 +64,6 @@ const titleStyle = stylex.create({
   },
   diaryHeader: {
     position: 'relative',
-    borderBottom: '1px solid #BFBFBF',
-    paddingBottom: '36px',
-    marginBottom: '36px',
   },
   title: {
     fontSize: '40px',
@@ -83,19 +81,20 @@ const titleStyle = stylex.create({
     position: 'absolute',
     bottom: 0,
     right: 0,
-    marginBottom: '36px',
+    marginBottom: '7px',
     cursor: 'pointer',
   },
 });
 
 const contentStyle = stylex.create({
   diaryContent: {
-    padding: '16px 16px 100px 16px ',
+    margin: '36px 0px',
+    borderTop: '1px solid #BFBFBF',
   },
   hashTag: {
     color: '#28B91C',
     fontSize: '13px',
-    marginBottom: '36px',
+    margin: '36px 0',
   },
   content: {
     fontSize: '13px',
