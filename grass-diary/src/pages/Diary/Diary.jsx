@@ -1,11 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import { useRef } from 'react';
-
+import { useState } from 'react';
+import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
-import Title from './Title';
-import Content from './Content';
 
 const styles = stylex.create({
   wrap: {
@@ -40,27 +38,176 @@ const styles = stylex.create({
   },
 });
 
+const titleStyle = stylex.create({
+  progileBox: {
+    position: 'relative',
+    width: '50px',
+    height: '50px',
+    margin: '44px 0 28px 0',
+  },
+  profileImg: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    borderRadius: '50%',
+    objectFit: 'cover',
+  },
+  emoji: {
+    zIndex: '1',
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    transform: 'translate(3px, 3px)',
+  },
+  diaryHeader: {
+    position: 'relative',
+    borderBottom: '1px solid #BFBFBF',
+    paddingBottom: '36px',
+    marginBottom: '36px',
+  },
+  title: {
+    fontSize: '40px',
+    fontWeight: '600',
+    marginRight: '24px',
+  },
+  time: {
+    fontSize: '16px',
+    marginRight: '24px',
+  },
+  privateOrPubilc: {
+    fontSize: '16px',
+  },
+  ellipsis: {
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+    marginBottom: '36px',
+    cursor: 'pointer',
+  },
+});
+
+const contentStyle = stylex.create({
+  diaryContent: {
+    padding: '16px 16px 100px 16px ',
+  },
+  hashTag: {
+    color: '#28B91C',
+    fontSize: '13px',
+    marginBottom: '36px',
+  },
+  content: {
+    fontSize: '13px',
+    lineHeight: '25px',
+  },
+});
+
+const ellipsis = stylex.create({
+  ellipsis: {
+    zIndex: '1',
+    position: 'relative',
+  },
+  container: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    width: '136px',
+    border: '1px solid #BFBFBF',
+    borderRadius: '20px',
+    transform: 'translate(15px, -8px)',
+    backgroundColor: '#ffffff',
+  },
+  box: {
+    height: '36px',
+    fontSize: '13px',
+    textAlign: 'center',
+    lineHeight: '36px',
+    borderBottom: {
+      default: '1px solid #BFBFBF',
+      ':last-child': 'none',
+    },
+  },
+});
+
+const Ellipsis = () => {
+  const [open, setOpen] = useState(false);
+
+  const clickEllipsis = () => {
+    setOpen(current => !current);
+  };
+  return (
+    <div>
+      {open ? <OpenEllipsis /> : null}
+      <div onClick={clickEllipsis} {...stylex.props(ellipsis.ellipsis)}>
+        <i className="fa-solid fa-ellipsis-vertical"></i>
+      </div>
+    </div>
+  );
+};
+
+const OpenEllipsis = () => {
+  return (
+    <>
+      <div {...stylex.props(ellipsis.container)}>
+        <div {...stylex.props(ellipsis.box)}></div>
+        <div {...stylex.props(ellipsis.box)}>수정</div>
+        <div {...stylex.props(ellipsis.box)}>삭제</div>
+      </div>
+    </>
+  );
+};
+
+const Footer = () => {
+  return (
+    <div {...stylex.props(styles.diaryFooter)}>
+      <Like />
+      <div {...stylex.props(styles.feelBackground)}>
+        <div {...stylex.props(styles.feel)}></div>
+      </div>
+    </div>
+  );
+};
+
 const Diary = () => {
   const title = '11월 11일 목요일';
   const time = '23:01';
   const privateOrPubilc = '비공개';
   const hashTag = '#해시태그';
   const content = '오늘은 스터디 회의가 있는 날이었다.';
+  const emoji = '😆';
 
   return (
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
         <BackButton />
-        <Title title={title} time={time} privateOrPubilc={privateOrPubilc} />
-        <Content hashTag={hashTag} content={content} />
-
-        <div {...stylex.props(styles.diaryFooter)}>
-          <Like />
-          <div {...stylex.props(styles.feelBackground)}>
-            <div {...stylex.props(styles.feel)}></div>
+        {/* 일기 타이틀 */}
+        <div>
+          <div {...stylex.props(titleStyle.progileBox)}>
+            <img {...stylex.props(titleStyle.profileImg)} src={testImg}></img>
+            <div {...stylex.props(titleStyle.emoji)}>{emoji}</div>
+          </div>
+          <div {...stylex.props(titleStyle.diaryHeader)}>
+            <span {...stylex.props(titleStyle.title)}>{title}</span>
+            <span {...stylex.props(titleStyle.time)}>{time}</span>
+            <span {...stylex.props(titleStyle.privateOrPubilc)}>
+              {privateOrPubilc}
+            </span>
+            <div {...stylex.props(titleStyle.ellipsis)}>
+              <Ellipsis />
+            </div>
           </div>
         </div>
+
+        {/* 일기 내용 */}
+        <div {...stylex.props(contentStyle.diaryContent)}>
+          <div {...stylex.props(contentStyle.hashTag)}>{hashTag}</div>
+          <p {...stylex.props(contentStyle.content)}>{content}</p>
+        </div>
+
+        {/* 일기 하단 */}
+        <Footer />
       </div>
     </>
   );
