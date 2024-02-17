@@ -4,6 +4,7 @@ import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
+import UnmodifyModal from './UnmodifyModal';
 
 const styles = stylex.create({
   wrap: {
@@ -156,13 +157,26 @@ const Ellipsis = () => {
 };
 
 const OpenEllipsis = () => {
+  const [modifiable, setModifiable] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const linkToModify = () => {
+    if (!modifiable && !modifiable) {
+      setShowModal(true);
+      return;
+    }
+    console.log('수정가능');
+  };
   return (
     <>
       <div {...stylex.props(ellipsis.container)}>
         <div {...stylex.props(ellipsis.box)}></div>
-        <div {...stylex.props(ellipsis.box)}>수정</div>
+        <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
+          수정
+        </div>
         <div {...stylex.props(ellipsis.box)}>삭제</div>
       </div>
+      {showModal ? <UnmodifyModal setShowModal={setShowModal} /> : null}
     </>
   );
 };
@@ -186,6 +200,7 @@ const Diary = () => {
   const content = '오늘은 스터디 회의가 있는 날이었다.';
   const emoji = '😆';
   const userName = 'user name';
+
   return (
     <>
       <Header />
