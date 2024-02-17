@@ -10,8 +10,11 @@ const header = stylex.create({
     width: '100vw',
     height: '80px',
     padding: '0 50px',
-    maxWidth: '1200px',
+    maxWidth: '1080px',
     margin: 'auto',
+  },
+  logo: {
+    fontSize: '18px',
   },
   userMenu: {
     zIndex: '1',
@@ -28,42 +31,61 @@ const header = stylex.create({
     objectFit: 'cover',
     marginRight: '20px',
   },
+  arrowUp: {
+    transition: '0.5s',
+  },
+  arrowDown: {
+    transform: 'scaleY(-1)',
+  },
 });
 
 const menuBar = stylex.create({
   container: {
     position: 'absolute',
-    top: '60px',
+    top: '55px',
     right: '-10px',
-    width: '200px',
-    padding: '20px',
+    width: '180px',
     backgroundColor: 'white',
     justifyContent: 'center',
-    borderRadius: '15px',
+    borderRadius: '10px',
+    border: '1px solid #BFBFBF',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
   },
   box: {
     height: '40px',
     lineHeight: '40px',
-    fontSize: '13px',
-    paddingLeft: '20px',
+    margin: '10px 20px',
+    color: {
+      default: '#000000',
+      ':hover': '#28B91C',
+    },
+  },
+  span: {
+    marginLeft: '10px',
   },
 });
 
 const MenuBar = () => {
   return (
     <div {...stylex.props(menuBar.container)}>
-      <ul>
-        <Link to="/">
-          <li {...stylex.props(menuBar.box)}>마이페이지</li>
-        </Link>
-        <Link to="/">
-          <li {...stylex.props(menuBar.box)}>설정</li>
-        </Link>
-        <Link to="/">
-          <li {...stylex.props(menuBar.box)}>로그아웃</li>
-        </Link>
-      </ul>
+      <Link to="/">
+        <div {...stylex.props(menuBar.box)}>
+          <i className="fa-regular fa-user"></i>
+          <span {...stylex.props(menuBar.span)}>마이페이지</span>
+        </div>
+      </Link>
+      <Link to="/">
+        <div {...stylex.props(menuBar.box)}>
+          <i className="fa-solid fa-gear"></i>
+          <span {...stylex.props(menuBar.span)}>설정</span>
+        </div>
+      </Link>
+      <Link to="/">
+        <div {...stylex.props(menuBar.box)}>
+          <i className="fa-solid fa-arrow-right-from-bracket"></i>
+          <span {...stylex.props(menuBar.span)}>로그아웃</span>
+        </div>
+      </Link>
     </div>
   );
 };
@@ -77,14 +99,12 @@ const Header = () => {
 
   return (
     <div {...stylex.props(header.container)}>
-      <span>잔디일기</span>
+      <span {...stylex.props(header.logo)}>잔디일기</span>
       <div {...stylex.props(header.userMenu)} onClick={dropDown}>
         <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        {menuButton ? (
-          <i className="fa-solid fa-angle-up"></i>
-        ) : (
+        <div {...stylex.props(header.arrowUp, menuButton && header.arrowDown)}>
           <i className="fa-solid fa-angle-down"></i>
-        )}
+        </div>
         {menuButton ? <MenuBar /> : ''}
       </div>
     </div>
