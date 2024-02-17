@@ -14,20 +14,22 @@ const styles = stylex.create({
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
     padding: '65px 80px 0 80px',
-    maxWidth: '1200px',
+    maxWidth: '1080px',
   },
   feelBackground: {
-    marginLeft: '20px',
+    position: 'relative',
     width: '40px',
     height: '40px',
     backgroundColor: '#ffffff',
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginLeft: '20px',
   },
   feel: {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
     width: '34px',
     height: '34px',
     borderRadius: '50%',
@@ -62,6 +64,13 @@ const titleStyle = stylex.create({
     bottom: 0,
     right: 0,
     transform: 'translate(3px, 3px)',
+  },
+  name: {
+    width: '300px',
+    position: 'absolute',
+    bottom: 0,
+    left: '70px',
+    fontSize: '13px',
   },
   diaryHeader: {
     position: 'relative',
@@ -176,7 +185,7 @@ const Diary = () => {
   const hashTag = '#해시태그';
   const content = '오늘은 스터디 회의가 있는 날이었다.';
   const emoji = '😆';
-
+  const userName = 'user name';
   return (
     <>
       <Header />
@@ -187,6 +196,7 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img {...stylex.props(titleStyle.profileImg)} src={testImg}></img>
             <div {...stylex.props(titleStyle.emoji)}>{emoji}</div>
+            <div {...stylex.props(titleStyle.name)}>{userName}</div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
             <span {...stylex.props(titleStyle.title)}>{title}</span>
