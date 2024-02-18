@@ -42,32 +42,39 @@ const header = stylex.create({
 const menuBar = stylex.create({
   container: {
     position: 'absolute',
-    top: '55px',
-    right: '-10px',
-    width: '180px',
+    top: '62px',
+    right: '-20px',
+    width: '150px',
+    height: '0',
     backgroundColor: 'white',
     justifyContent: 'center',
-    borderRadius: '10px',
-    border: '1px solid #BFBFBF',
+    borderRadius: '15px',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px',
+    overflow: 'hidden',
+    transition: '0.5s',
+  },
+  toggle: {
+    height: '180px',
   },
   box: {
     height: '40px',
     lineHeight: '40px',
-    margin: '10px 20px',
+    margin: '15px 25px',
     color: {
       default: '#000000',
       ':hover': '#28B91C',
     },
+    transition: '0.2s',
   },
   span: {
     marginLeft: '10px',
+    fontSize: '14px',
   },
 });
 
-const MenuBar = () => {
+const MenuBar = ({ toggle }) => {
   return (
-    <div {...stylex.props(menuBar.container)}>
+    <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
       <Link to="/">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
@@ -91,10 +98,10 @@ const MenuBar = () => {
 };
 
 const Header = () => {
-  const [menuButton, setMenuButton] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   const dropDown = () => {
-    setMenuButton(current => !current);
+    setToggle(current => !current);
   };
 
   return (
@@ -102,10 +109,10 @@ const Header = () => {
       <span {...stylex.props(header.logo)}>잔디일기</span>
       <div {...stylex.props(header.userMenu)} onClick={dropDown}>
         <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        <div {...stylex.props(header.arrowUp, menuButton && header.arrowDown)}>
+        <div {...stylex.props(header.arrowUp, toggle && header.arrowDown)}>
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        {menuButton ? <MenuBar /> : ''}
+        <MenuBar toggle={toggle} />
       </div>
     </div>
   );
