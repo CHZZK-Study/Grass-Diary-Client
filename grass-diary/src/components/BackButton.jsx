@@ -16,6 +16,7 @@ const styles = stylex.create({
     borderRadius: '50%',
     cursor: 'pointer',
     marginRight: '16px',
+    transition: '0.3s',
   },
 });
 
