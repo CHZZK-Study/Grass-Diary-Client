@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
   background: {
-    zIndex: '2',
+    zIndex: '1',
     position: 'fixed',
     top: 0,
     left: 0,
@@ -17,14 +17,27 @@ const styles = stylex.create({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    zIndex: '1',
     backgroundColor: '#ffffff',
     borderRadius: '20px',
-    padding: '30px 20px',
+    padding: '20px',
+    textAlign: 'center',
   },
   close: {
-    textAlign: 'right',
+    float: 'right',
     cursor: 'pointer',
+    fontSize: '18px',
+    color: '#bdbdbd',
+  },
+  text: {
+    margin: '30px 10px',
+  },
+  bold: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+  },
+  ie: {
+    fontSize: '13px',
+    marginTop: '20px',
   },
 });
 
@@ -38,10 +51,15 @@ const UnmodifyModal = ({ setShowModal }) => {
         <div onClick={closeModal} {...stylex.props(styles.close)}>
           <i className="fa-solid fa-xmark"></i>
         </div>
-        <span>
-          일기는 <br />
-          당일 6:00 ~ 다음 날 05:59까지 수정 가능합니다.{' '}
-        </span>
+        <div {...stylex.props(styles.text)}>
+          <span {...stylex.props(styles.bold)}>
+            ⚠ 수정 가능한 시간이 아닙니다
+          </span>
+          <br />
+          <span {...stylex.props(styles.ie)}>
+            일기는 당일 06:00부터 다음 날 05:59까지 수정 가능합니다.
+          </span>
+        </div>
       </div>
     </div>
   );
