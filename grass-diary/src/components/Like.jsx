@@ -1,8 +1,15 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
 
-const push = stylex.keyframes({
+const pushLike = stylex.keyframes({
   '0%': { transform: 'scale(0.9)' },
+  '50%': { transform: 'scale(1.2)' },
+  '80%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1)' },
+});
+
+const pushDislike = stylex.keyframes({
+  '0%': { transform: 'scale(0.8)' },
   '50%': { transform: 'scale(1.2)' },
   '80%': { transform: 'scale(0.9)' },
   '100%': { transform: 'scale(1)' },
@@ -17,11 +24,12 @@ const styles = stylex.create({
     textAlign: 'center',
     cursor: 'pointer',
   },
-  unlike: {
-    fontSize: '30px',
+  dislike: {
+    animationName: pushDislike,
+    animationDuration: '0.5s',
   },
   like: {
-    animationName: push,
+    animationName: pushLike,
     animationDuration: '0.5s',
     color: 'red',
   },
@@ -41,7 +49,7 @@ const Like = () => {
           <i onClick={clickLike} className="fa-solid fa-heart"></i>
         </div>
       ) : (
-        <div>
+        <div {...stylex.props(styles.dislike)}>
           <i onClick={clickLike} className="fa-regular fa-heart"></i>
         </div>
       )}
