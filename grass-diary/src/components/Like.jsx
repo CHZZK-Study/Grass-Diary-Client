@@ -1,6 +1,13 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
 
+const push = stylex.keyframes({
+  '0%': { transform: 'scale(0.9)' },
+  '50%': { transform: 'scale(1.2)' },
+  '80%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1)' },
+});
+
 const styles = stylex.create({
   likeContainer: {
     width: '30px',
@@ -10,17 +17,22 @@ const styles = stylex.create({
     textAlign: 'center',
     cursor: 'pointer',
   },
+  unlike: {
+    fontSize: '30px',
+  },
   like: {
-    transition: '1s',
-    color: '#ff0000',
+    animationName: push,
+    animationDuration: '0.5s',
+    color: 'red',
   },
 });
 
 const Like = () => {
   const [like, setlike] = useState(false);
 
-  const clickLike = () => {
+  const clickLike = e => {
     setlike(current => !current);
+    console.log(e.target.className);
   };
   return (
     <div {...stylex.props(styles.likeContainer)}>
@@ -29,7 +41,9 @@ const Like = () => {
           <i onClick={clickLike} className="fa-solid fa-heart"></i>
         </div>
       ) : (
-        <i onClick={clickLike} className="fa-regular fa-heart"></i>
+        <div>
+          <i onClick={clickLike} className="fa-regular fa-heart"></i>
+        </div>
       )}
     </div>
   );
