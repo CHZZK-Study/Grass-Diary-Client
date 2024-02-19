@@ -1,26 +1,26 @@
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import * as stylex from "@stylexjs/stylex";
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import * as stylex from '@stylexjs/stylex';
 
 const SlideStyle = stylex.create({
   container: {
-    display: "flex",
-    padding: "50px",
+    display: 'flex',
+    padding: '50px',
   },
 
   slide: {
-    backgroundColor: "#f9f9f9",
-    borderLeft: "30px solid white",
-    borderRight: "30px solid white",
-    borderRadius: "30px",
+    backgroundColor: '#f9f9f9',
+    borderLeft: '30px solid white',
+    borderRight: '30px solid white',
+    borderRadius: '30px',
     height: 400,
   },
 
   content: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

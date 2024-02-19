@@ -1,119 +1,119 @@
-import * as stylex from "@stylexjs/stylex";
-import { useEffect, useState } from "react";
-import grass from "../../assets/icon/grass.png";
-import profile from "../../assets/icon/profile.jpeg";
-import mainCharacter from "../../assets/icon/mainCharacter.png";
-import SimpleSlider from "./CardSlider";
+import * as stylex from '@stylexjs/stylex';
+import { useEffect, useState } from 'react';
+import grass from '../../assets/icon/grass.png';
+import profile from '../../assets/icon/profile.jpeg';
+import mainCharacter from '../../assets/icon/mainCharacter.png';
+import SimpleSlider from './CardSlider';
 
 const styles = stylex.create({
   title: {
-    fontSize: "80px",
-    color: "green",
-    fontWeight: "bold",
+    fontSize: '80px',
+    color: 'green',
+    fontWeight: 'bold',
   },
   imgNav: {
     width: 50,
     height: 50,
-    borderRadius: "50%",
+    borderRadius: '50%',
   },
   navBar: {
-    backgroundColor: "white",
-    boxShadow: "1px 1px 1px 1px #E0E0E0",
-    display: "flex",
-    justifyContent: "space-around",
-    paddingTop: "15px",
-    paddingBottom: "15px",
-    position: "sticky",
+    backgroundColor: 'white',
+    boxShadow: '1px 1px 1px 1px #E0E0E0',
+    display: 'flex',
+    justifyContent: 'space-around',
+    paddingTop: '15px',
+    paddingBottom: '15px',
+    position: 'sticky',
     top: 0,
   },
   button: {
-    border: "none",
+    border: 'none',
     padding: 0,
     margin: 0,
-    background: "none",
-    cursor: "pointer",
+    background: 'none',
+    cursor: 'pointer',
   },
   ulListNone: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
-    listStyleType: "none",
-    padding: "0px",
-    fontWeight: "400",
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
+    listStyleType: 'none',
+    padding: '0px',
+    fontWeight: '400',
   },
   dropBox: {
-    border: "solid 1px #E0E0E0",
-    borderRadius: "10px",
-    position: "absolute",
-    width: "150%",
-    top: "150%",
-    boxShadow: "2px 2px 2px 2px #E0E0E0",
-    backgroundColor: "white",
+    border: 'solid 1px #E0E0E0',
+    borderRadius: '10px',
+    position: 'absolute',
+    width: '150%',
+    top: '150%',
+    boxShadow: '2px 2px 2px 2px #E0E0E0',
+    backgroundColor: 'white',
   },
   dropContainer: {
-    display: "flex",
+    display: 'flex',
     gap: 15,
-    alignItems: "center",
-    position: "relative",
-    padding: "0px 5px",
+    alignItems: 'center',
+    position: 'relative',
+    padding: '0px 5px',
   },
   dropBoxEffect: {
-    cursor: "pointer",
-    padding: "5px 10px",
-    display: "flex",
-    alignItems: "center",
-    transition: "background-color 0.8s ease",
+    cursor: 'pointer',
+    padding: '5px 10px',
+    display: 'flex',
+    alignItems: 'center',
+    transition: 'background-color 0.8s ease',
   },
   textWithIconLeft: {
-    paddingLeft: "10px",
+    paddingLeft: '10px',
   },
   textWithIconRight: {
-    marginRight: "10px",
+    marginRight: '10px',
   },
 });
 
 const TopSectionStyles = stylex.create({
   container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "200px",
-    backgroundColor: "#F9F9F9",
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '200px',
+    backgroundColor: '#F9F9F9',
     height: 400,
-    border: "solid 1px #F9F9F9",
-    borderRadius: "30px",
+    border: 'solid 1px #F9F9F9',
+    borderRadius: '30px',
   },
 
   bannerContainer: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "30px",
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '30px',
   },
 
   bannerTitle: {
-    display: "flex",
-    flexDirection: "column",
-    fontWeight: "bold",
+    display: 'flex',
+    flexDirection: 'column',
+    fontWeight: 'bold',
     fontSize: 25,
   },
 
   writeButton: {
     backgroundColor: {
-      default: "white",
-      ":hover": "black",
+      default: 'white',
+      ':hover': 'black',
     },
     color: {
-      default: "black",
-      ":hover": "white",
+      default: 'black',
+      ':hover': 'white',
     },
-    padding: "10px 20px",
+    padding: '10px 20px',
     margin: 0,
-    cursor: "pointer",
-    border: "solid outset 1px #E0E0E0",
-    borderRadius: "20px",
-    boxShadow: "1px 1px 1px 1px #E0E0E0",
-    fontWeight: "bold",
-    transition: "background-color 0.3s ease, color 0.3s ease",
+    cursor: 'pointer',
+    border: 'solid outset 1px #E0E0E0',
+    borderRadius: '20px',
+    boxShadow: '1px 1px 1px 1px #E0E0E0',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
   character: {
@@ -122,113 +122,113 @@ const TopSectionStyles = stylex.create({
   },
 
   bottomContainer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "200px",
-    paddingTop: "50px",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '200px',
+    paddingTop: '50px',
   },
 
   bottomLeftBox: {
-    display: "flex",
-    gap: "100px",
-    backgroundColor: "#F9F9F9",
-    border: "solid 1px #F9F9F9",
-    borderRadius: "20px",
-    padding: "70px",
+    display: 'flex',
+    gap: '100px',
+    backgroundColor: '#F9F9F9',
+    border: 'solid 1px #F9F9F9',
+    borderRadius: '20px',
+    padding: '70px',
   },
 
   bottomLeft: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "10px",
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '10px',
   },
   bottomRightBox: {
-    display: "flex",
-    gap: "100px",
-    backgroundColor: "#F9F9F9",
-    border: "solid 1px #F9F9F9",
-    borderRadius: "20px",
-    padding: "70px",
+    display: 'flex',
+    gap: '100px',
+    backgroundColor: '#F9F9F9',
+    border: 'solid 1px #F9F9F9',
+    borderRadius: '20px',
+    padding: '70px',
   },
 
   bottomRight: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
   },
 });
 
 const MiddleSectionStyle = stylex.create({
   text: {
-    fontWeight: "bold",
-    fontSize: "30px",
+    fontWeight: 'bold',
+    fontSize: '30px',
   },
 
   title: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "900px",
-    paddingTop: "50px",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '900px',
+    paddingTop: '50px',
   },
 
   container: {
-    display: "flex",
-    justifyContent: "center",
-    gap: "300px",
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '300px',
   },
 
   grassContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   rewardContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   button: {
     backgroundColor: {
-      default: "white",
-      ":hover": "black",
+      default: 'white',
+      ':hover': 'black',
     },
     color: {
-      default: "black",
-      ":hover": "white",
+      default: 'black',
+      ':hover': 'white',
     },
-    marginTop: "30px",
-    padding: "10px 20px",
-    cursor: "pointer",
-    border: "solid outset 1px #E0E0E0",
-    borderRadius: "20px",
-    boxShadow: "1px 1px 1px 1px #E0E0E0",
-    fontWeight: "bold",
-    transition: "background-color 0.3s ease, color 0.3s ease",
+    marginTop: '30px',
+    padding: '10px 20px',
+    cursor: 'pointer',
+    border: 'solid outset 1px #E0E0E0',
+    borderRadius: '20px',
+    boxShadow: '1px 1px 1px 1px #E0E0E0',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 });
 
 const BottomSectionStyle = stylex.create({
   container: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: "800px",
-    paddingTop: "50px",
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '800px',
+    paddingTop: '50px',
   },
 
   title: {
-    display: "flex",
-    alignItems: "center",
-    gap: "10px",
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
   },
 
   text: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
 });
 
@@ -240,9 +240,9 @@ const DropMenu = () => {
           <ul {...stylex.props(styles.ulListNone)}>
             <li
               {...stylex.props(styles.dropBoxEffect)}
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
-                console.log("HI");
+                console.log('HI');
               }}
             >
               <i className="fa-solid fa-user"></i>
@@ -252,9 +252,9 @@ const DropMenu = () => {
             </li>
             <li
               {...stylex.props(styles.dropBoxEffect)}
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
-                console.log("HI");
+                console.log('HI');
               }}
             >
               <i className="fa-solid fa-gear"></i>
@@ -262,9 +262,9 @@ const DropMenu = () => {
             </li>
             <li
               {...stylex.props(styles.dropBoxEffect)}
-              onClick={(e) => {
+              onClick={e => {
                 e.stopPropagation();
-                console.log("HI");
+                console.log('HI');
               }}
             >
               <i className="fa-solid fa-right-from-bracket"></i>
@@ -280,9 +280,9 @@ const DropMenu = () => {
 const Nav = () => {
   const [showDropMenu, setShowDropMenu] = useState(false);
 
-  const toggleDropMenu = (e) => {
+  const toggleDropMenu = e => {
     e.stopPropagation();
-    setShowDropMenu((prevState) => !prevState);
+    setShowDropMenu(prevState => !prevState);
   };
 
   useEffect(() => {
@@ -290,9 +290,9 @@ const Nav = () => {
       setShowDropMenu(false);
     };
 
-    document.addEventListener("click", closeMenu);
+    document.addEventListener('click', closeMenu);
     return () => {
-      document.removeEventListener("click", closeMenu);
+      document.removeEventListener('click', closeMenu);
     };
   }, []);
 
@@ -328,13 +328,13 @@ const TopSection = () => {
           <div {...stylex.props(TopSectionStyles.bannerTitle)}>
             <i
               className="fa-solid fa-lightbulb"
-              style={{ paddingBottom: "20px" }}
+              style={{ paddingBottom: '20px' }}
             ></i>
             <div>오늘은</div>
             <div>11월 11일</div>
             <div>빼빼로 데이입니다</div>
           </div>
-          <div style={{ display: "flex", gap: "10px" }}>
+          <div style={{ display: 'flex', gap: '10px' }}>
             <i className="fa-solid fa-circle-question"></i>
             <div>오늘 잠을 얼마나 잤나요?</div>
           </div>
@@ -354,17 +354,17 @@ const TopSection = () => {
         <div {...stylex.props(TopSectionStyles.bottomLeftBox)}>
           <div>
             <button {...stylex.props(styles.button)}>
-              <i className="fa-solid fa-book" style={{ fontSize: "50px" }}></i>
+              <i className="fa-solid fa-book" style={{ fontSize: '50px' }}></i>
             </button>
           </div>
 
           <div {...stylex.props(TopSectionStyles.bottomLeft)}>
-            <div style={{ fontWeight: "bold", fontSize: "20px" }}>
+            <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
               나의 일기장
               <button {...stylex.props(styles.button)}>
                 <i
                   className="fa-regular fa-circle-right"
-                  style={{ fontSize: "25px", paddingLeft: "90px" }}
+                  style={{ fontSize: '25px', paddingLeft: '90px' }}
                 ></i>
               </button>
             </div>
@@ -376,23 +376,23 @@ const TopSection = () => {
             <button {...stylex.props(styles.button)}>
               <i
                 className="fa-solid fa-user-group"
-                style={{ fontSize: "50px" }}
+                style={{ fontSize: '50px' }}
               ></i>
             </button>
           </div>
           <div {...stylex.props(TopSectionStyles.bottomRight)}>
             <div
               style={{
-                fontWeight: "bold",
-                fontSize: "20px",
-                marginBottom: "10px",
+                fontWeight: 'bold',
+                fontSize: '20px',
+                marginBottom: '10px',
               }}
             >
               교환 일기장
               <button {...stylex.props(styles.button)}>
                 <i
                   className="fa-regular fa-circle-right"
-                  style={{ fontSize: "25px", paddingLeft: "90px" }}
+                  style={{ fontSize: '25px', paddingLeft: '90px' }}
                 ></i>
               </button>
             </div>
