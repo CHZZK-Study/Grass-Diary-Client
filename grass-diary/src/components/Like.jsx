@@ -40,7 +40,6 @@ const Like = () => {
 
   const clickLike = e => {
     setlike(current => !current);
-    console.log(e.target.className);
   };
   return (
     <div {...stylex.props(styles.likeContainer)}>
