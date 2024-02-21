@@ -1,14 +1,15 @@
 import * as stylex from '@stylexjs/stylex';
+import { Link } from 'react-router-dom';
 
 const styles = stylex.create({
   button: {
     backgroundColor: {
       default: '#F9F9F9',
-      ':hover': '#BFBFBF',
+      ':hover': '#000000',
     },
     color: {
-      default: 'black',
-      ':hover': 'white',
+      default: '#000000',
+      ':hover': '#ffffff',
     },
     border: '1px solid #BFBFBF',
     width: '36px',
@@ -20,12 +21,14 @@ const styles = stylex.create({
   },
 });
 
-const BackButton = () => {
+const BackButton = ({ link }) => {
   return (
     <div>
-      <button type="button" {...stylex.props(styles.button)}>
-        <i className="fa-solid fa-arrow-left"></i>
-      </button>
+      <Link to={link}>
+        <button type="button" {...stylex.props(styles.button)}>
+          <i className="fa-solid fa-arrow-left"></i>
+        </button>
+      </Link>
     </div>
   );
 };
