@@ -7,11 +7,13 @@ const header = stylex.create({
   container: {
     display: 'flex',
     alignItems: 'center',
-    width: '100vw',
+    padding: '0 20px',
     height: '80px',
-    padding: '0 50px',
-    maxWidth: '1080px',
     margin: 'auto',
+    width: {
+      default: '1140px',
+      '@media (max-width: 1139px)': '100vw',
+    },
   },
   logo: {
     fontSize: '18px',
@@ -72,7 +74,7 @@ const menuBar = stylex.create({
   },
 });
 
-const MenuBar = ({ toggle }) => {
+const MenuBar = toggle => {
   return (
     <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
       <Link to="/">

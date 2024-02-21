@@ -9,13 +9,15 @@ import UnmodifyModal from './UnmodifyModal';
 const styles = stylex.create({
   wrap: {
     background: '#F9F9F9',
-    width: '100vw',
+    width: {
+      default: '1140px',
+      '@media (max-width: 1139px)': '100vw',
+    },
     height: '100vh',
-    margin: 'auto',
+    margin: '10px auto 0',
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
     padding: '65px 80px 0 80px',
-    maxWidth: '1080px',
   },
   feelBackground: {
     position: 'relative',
@@ -205,7 +207,7 @@ const Diary = () => {
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
-        <BackButton />
+        <BackButton link={'/'} />
         {/* 일기 타이틀 */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
