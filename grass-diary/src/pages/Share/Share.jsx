@@ -1,5 +1,8 @@
 import * as stylex from '@stylexjs/stylex';
 import Header from '../../components/Header';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Slider from 'react-slick';
 
 const styles = stylex.create({
   container: {
@@ -59,10 +62,10 @@ const feed = stylex.create({
     borderRadius: '20px 20px 0px 0px',
     marginRight: '20px',
     transition: '0.3s',
-    ':hover': {
-      transform: 'scale(1.02)',
-      transformOrigin: 'bottom',
-    },
+    // ':hover': {
+    //   transform: 'scale(1.02)',
+    //   transformOrigin: 'bottom',
+    // },
     userSelect: 'none',
   },
   likeContainer: {
@@ -86,20 +89,46 @@ const feed = stylex.create({
   },
 });
 
-const Top10Feed = likeCount => {
+const Top10Feed = () => {
   return (
     <div {...stylex.props(feed.box)}>
       <span {...stylex.props(feed.likeContainer)}>
         <span {...stylex.props(feed.like)}>
           <i className="fa-solid fa-heart"></i>
         </span>
-        <span {...stylex.props(feed.likeCount)}>{likeCount}</span>
+        <span {...stylex.props(feed.likeCount)}>100</span>
       </span>
       <div {...stylex.props(feed.likeCount)}></div>
       <div {...stylex.props(feed.content)}>일기 피드 내용</div>
     </div>
   );
 };
+
+function MultipleItems() {
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+  };
+  return (
+    <div className="slider-container">
+      <Slider {...settings}>
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+        <Top10Feed />
+      </Slider>
+    </div>
+  );
+}
 
 const Feed = () => {
   return (
@@ -116,7 +145,7 @@ const Share = () => {
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.topWrapper)}>
           <div {...stylex.props(styles.topTitle)}>🏆 이번 주 TOP 10</div>
-          <div {...stylex.props(styles.feedContainer)}>
+          {/* <div {...stylex.props(styles.feedContainer)}>
             <div {...stylex.props(styles.dragFeed)}>
               <Top10Feed likeCount={'100'} />
               <Top10Feed likeCount={'80'} />
@@ -129,10 +158,10 @@ const Share = () => {
               <Top10Feed likeCount={'10'} />
               <Top10Feed likeCount={'00'} />
             </div>
-
-            <div {...stylex.props(styles.scollBar)}></div>
-          </div>
+            <div {...stylex.props(styles.scollBar)}></div> */}
+          <MultipleItems />
         </div>
+        {/* </div> */}
 
         <div {...stylex.props(styles.normalWrapper)}>
           <div {...stylex.props(styles.normalTitle)}>
