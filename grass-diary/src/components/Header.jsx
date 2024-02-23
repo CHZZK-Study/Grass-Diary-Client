@@ -74,7 +74,7 @@ const menuBar = stylex.create({
   },
 });
 
-const MenuBar = toggle => {
+const MenuBar = ({ toggle }) => {
   return (
     <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
       <Link to="/">
