@@ -17,13 +17,18 @@ const styles = stylex.create({
   }),
 });
 
-const Button = () => {
+const Button = ({ text, onClick }) => {
   return (
-    <button
-      {...stylex.props(styles.startButton('150px', '#FFF', '#28CA3B', 'none'))}
-    >
-      일기 시작하기
-    </button>
+    <>
+      <button
+        onClick={onClick}
+        {...stylex.props(
+          styles.startButton('150px', '#FFF', '#28CA3B', 'none'),
+        )}
+      >
+        {text}
+      </button>
+    </>
   );
 };
 
