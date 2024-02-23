@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import stylex from '@stylexjs/stylex';
 import styles from './styles';
 import grassDiary from '../../assets/icon/grassDiary.png';
 import Button from '../../components/Button';
+import LoginModal from './LoginModal/LoginModal';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -14,6 +16,12 @@ const Section = ({ backgroundColor, height, children }) => (
 );
 
 const ServiceMain = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleButtonClick = () => {
+    setIsModalOpen(true);
+  };
+
   return (
     <div {...stylex.props(styles.mainContent('row'))}>
       <div {...stylex.props(styles.mainDescription)}>
@@ -23,7 +31,8 @@ const ServiceMain = () => {
           나의 이야기를 키우다
         </p>
         <p>일상의 작은 기록들이 잔디처럼 자라나 큰 성장으로 이어져요</p>
-        <Button />
+        <Button text="일기 시작하기" onClick={handleButtonClick} />
+        {isModalOpen && <LoginModal />}
       </div>
       <div {...stylex.props(styles.mainImage)}>
         <img src={grassDiary} alt="잔디 다이어리" />
@@ -68,7 +77,7 @@ const StartContent = () => {
       <h1 {...stylex.props(styles.contentDesc('28px'))}>
         지금 바로 잔디 일기를 시작해 보세요!
       </h1>
-      <Button />
+      <Button text="일기 시작하기" />
     </div>
   );
 };
