@@ -83,13 +83,11 @@ const TopSectionStyles = stylex.create({
     border: 'solid 1px #F9F9F9',
     borderRadius: '30px',
   },
-
   bannerContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: '30px',
   },
-
   bannerTitle: {
     display: 'flex',
     flexDirection: 'column',
@@ -120,7 +118,6 @@ const TopSectionStyles = stylex.create({
     width: 300,
     height: 300,
   },
-
   bottomContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -128,7 +125,6 @@ const TopSectionStyles = stylex.create({
     gap: '200px',
     paddingTop: '50px',
   },
-
   bottomLeftBox: {
     display: 'flex',
     gap: '100px',
@@ -137,7 +133,6 @@ const TopSectionStyles = stylex.create({
     borderRadius: '20px',
     padding: '70px',
   },
-
   bottomLeft: {
     display: 'flex',
     flexDirection: 'column',
@@ -151,7 +146,6 @@ const TopSectionStyles = stylex.create({
     borderRadius: '20px',
     padding: '70px',
   },
-
   bottomRight: {
     display: 'flex',
     flexDirection: 'column',

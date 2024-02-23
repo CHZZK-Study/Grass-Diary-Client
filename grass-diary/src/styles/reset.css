@@ -16,6 +16,14 @@ ol[role='list'] {
   list-style: none;
 }
 
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
 /* 핵심 body의 기본값을 설정합니다. */
 body {
   margin: 0;
@@ -43,6 +51,7 @@ h4 {
 a:not([class]) {
   text-decoration-skip-ink: auto;
   color: currentColor;
+  text-decoration: none;
 }
 
 img,
