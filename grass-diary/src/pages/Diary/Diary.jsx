@@ -5,6 +5,7 @@ import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
 import UnmodifyModal from './UnmodifyModal';
+import ConfirmDelete from './ConfirmDelete';
 
 const styles = stylex.create({
   wrap: {
@@ -160,14 +161,20 @@ const Ellipsis = () => {
 
 const OpenEllipsis = () => {
   const [modifiable, setModifiable] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [unmodifyModal, setUnmodifyModal] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
 
   const linkToModify = () => {
-    if (!modifiable && !modifiable) {
-      setShowModal(true);
+    // 수정 불가능한 상태이며 모달창이 false일 경우 모달창 true로 변경
+    if (!modifiable && !unmodifyModal) {
+      setUnmodifyModal(true);
       return;
     }
     console.log('수정가능');
+  };
+
+  const showConfirmModal = () => {
+    setConfirmDeleteModal(true);
   };
   return (
     <>
@@ -176,9 +183,14 @@ const OpenEllipsis = () => {
         <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
           수정
         </div>
-        <div {...stylex.props(ellipsis.box)}>삭제</div>
+        <div onClick={showConfirmModal} {...stylex.props(ellipsis.box)}>
+          삭제
+        </div>
       </div>
-      {showModal ? <UnmodifyModal setShowModal={setShowModal} /> : null}
+      {unmodifyModal ? <UnmodifyModal setShowModal={setUnmodifyModal} /> : null}
+      {confirmDeleteModal ? (
+        <ConfirmDelete setShowModal={setConfirmDeleteModal} />
+      ) : null}
     </>
   );
 };
