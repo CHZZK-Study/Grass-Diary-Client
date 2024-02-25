@@ -5,7 +5,8 @@ import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
 import UnmodifyModal from './UnmodifyModal';
-import ConfirmDelete from './ConfirmDelete';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import CompleteDeleteModal from './CompleteDeleteModal';
 
 const styles = stylex.create({
   wrap: {
@@ -163,6 +164,7 @@ const OpenEllipsis = () => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
 
   const linkToModify = () => {
     // 수정 불가능한 상태이며 모달창이 false일 경우 모달창 true로 변경
@@ -175,6 +177,10 @@ const OpenEllipsis = () => {
 
   const showConfirmModal = () => {
     setConfirmDeleteModal(true);
+  };
+
+  const deleteDiary = () => {
+    console.log('일기 삭제');
   };
   return (
     <>
@@ -189,7 +195,14 @@ const OpenEllipsis = () => {
       </div>
       {unmodifyModal ? <UnmodifyModal setShowModal={setUnmodifyModal} /> : null}
       {confirmDeleteModal ? (
-        <ConfirmDelete setShowModal={setConfirmDeleteModal} />
+        <ConfirmDeleteModal
+          setShowModal={setConfirmDeleteModal}
+          setDelete={deleteDiary}
+          setCompleteModal={setCompleteDeleteModal}
+        />
+      ) : null}
+      {completeDeleteModal ? (
+        <CompleteDeleteModal setShowModal={setCompleteDeleteModal} />
       ) : null}
     </>
   );
