@@ -19,7 +19,7 @@ const styles = stylex.create({
     transform: 'translate(-50%, -50%)',
     backgroundColor: '#ffffff',
     borderRadius: '20px',
-    padding: '20px 25px',
+    padding: '15px 25px',
     textAlign: 'center',
   },
   text: {
@@ -30,7 +30,7 @@ const styles = stylex.create({
     fontWeight: 'bold',
   },
   ie: {
-    marginTop: '25px',
+    marginTop: '20px',
     display: 'flex',
     justifyContent: 'center',
     gap: '20px',
@@ -52,11 +52,15 @@ const styles = stylex.create({
   },
 });
 
-const ConfirmDelete = ({ setShowModal }) => {
+const ConfirmDeleteModal = ({ setShowModal, setDelete, setCompleteModal }) => {
   const closeModal = () => {
     setShowModal(false);
   };
-  const deleteFeed = () => {};
+  const deleteDiary = () => {
+    setDelete();
+    setShowModal(false);
+    setCompleteModal(true);
+  };
   return (
     <div {...stylex.props(styles.background)}>
       <div {...stylex.props(styles.container)}>
@@ -67,7 +71,7 @@ const ConfirmDelete = ({ setShowModal }) => {
             <button onClick={closeModal} {...stylex.props(styles.button)}>
               취소
             </button>
-            <button onClick={deleteFeed} {...stylex.props(styles.button)}>
+            <button onClick={deleteDiary} {...stylex.props(styles.button)}>
               삭제
             </button>
           </div>
@@ -77,4 +81,4 @@ const ConfirmDelete = ({ setShowModal }) => {
   );
 };
 
-export default ConfirmDelete;
+export default ConfirmDeleteModal;
