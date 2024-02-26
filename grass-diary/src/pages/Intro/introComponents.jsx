@@ -18,8 +18,12 @@ const Section = ({ backgroundColor, height, children }) => (
 const ServiceMain = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleOpenModal = () => {
     setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -31,8 +35,10 @@ const ServiceMain = () => {
           나의 이야기를 키우다
         </p>
         <p>일상의 작은 기록들이 잔디처럼 자라나 큰 성장으로 이어져요</p>
-        <Button text="일기 시작하기" onClick={handleButtonClick} />
-        {isModalOpen && <LoginModal />}
+        <Button text="일기 시작하기" onClick={handleOpenModal} />
+        {isModalOpen && (
+          <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
+        )}
       </div>
       <div {...stylex.props(styles.mainImage)}>
         <img src={grassDiary} alt="잔디 다이어리" />
