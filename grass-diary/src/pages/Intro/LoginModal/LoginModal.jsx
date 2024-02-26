@@ -90,7 +90,7 @@ const LoginModal = ({ isOpen, isClose }) => {
   }
 
   return (
-    <div {...stylex.props(styles.container)}>
+    <div {...stylex.props(styles.container)} onClick={isClose}>
       <div {...stylex.props(styles.modal)}>
         <div {...stylex.props(styles.modalHeader)}>
           <span>회원가입 및 로그인</span>
