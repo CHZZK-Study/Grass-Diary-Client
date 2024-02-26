@@ -3,6 +3,7 @@ import Intro from './pages/Intro/Intro';
 import Main from './pages/Main/Main';
 import CreateDiary from './pages/CreateDiary/CreateDiary';
 import Diary from './pages/Diary/Diary';
+import Share from './pages/Share/Share';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: '/diary/view',
     element: <Diary />,
+  },
+  {
+    path: '/share',
+    element: <Share />,
   },
 ]);
 
