@@ -23,7 +23,7 @@ const Button = ({ text, onClick, width, color, backgroundColor, border }) => {
       <button
         onClick={onClick}
         {...stylex.props(
-          styles.startButton(width, color, backgroundColor, border),
+          styles.startButton('150px', '#FFF', '#28CA3B', 'none'),
         )}
       >
         {text}
