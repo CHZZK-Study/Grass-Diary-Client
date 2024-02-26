@@ -1,8 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
 import Header from '../../components/Header';
-import { useEffect, useState } from 'react';
-import grass from '../../assets/icon/grass.png';
-import profile from '../../assets/icon/profile.jpeg';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import SimpleSlider from './CardSlider';
 
@@ -232,94 +229,6 @@ const BottomSectionStyle = stylex.create({
     fontWeight: 'bold',
   },
 });
-
-const DropMenu = () => {
-  return (
-    <>
-      <div className="drop-box" {...stylex.props(styles.dropBox)}>
-        <div>
-          <ul {...stylex.props(styles.ulListNone)}>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-user"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>
-                마이 페이지
-              </span>
-            </li>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-gear"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>설정</span>
-            </li>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-right-from-bracket"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>로그아웃</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const Nav = () => {
-  const [showDropMenu, setShowDropMenu] = useState(false);
-
-  const toggleDropMenu = e => {
-    e.stopPropagation();
-    setShowDropMenu(prevState => !prevState);
-  };
-
-  useEffect(() => {
-    const closeMenu = () => {
-      setShowDropMenu(false);
-    };
-
-    document.addEventListener('click', closeMenu);
-    return () => {
-      document.removeEventListener('click', closeMenu);
-    };
-  }, []);
-
-  return (
-    <>
-      <div {...stylex.props(styles.navBar)}>
-        <img
-          src={grass}
-          alt="서비스 로고 아이콘"
-          {...stylex.props(styles.imgNav)}
-        />
-        <div {...stylex.props(styles.dropContainer)}>
-          <img
-            src={profile}
-            alt="사용자 프로필 사진"
-            {...stylex.props(styles.imgNav)}
-          />
-          <button {...stylex.props(styles.button)} onClick={toggleDropMenu}>
-            <i className="fa-solid fa-list"></i>
-          </button>
-          {showDropMenu && <DropMenu closeMenu={toggleDropMenu} />}
-        </div>
-      </div>
-    </>
-  );
-};
 
 const TopSection = () => {
   return (
