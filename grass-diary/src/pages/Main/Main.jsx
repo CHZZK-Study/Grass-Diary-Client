@@ -378,6 +378,9 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
+          <section>
+            <article>박스</article>
+          </section>
           <h2>나의 이번달 잔디</h2>
           <span>1월 일기는 현재까지 총 15개가 작성되었어요</span>
           <span>리워드를 확인 해보세요!</span>
@@ -392,6 +395,7 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
+          <h1>5,000</h1>
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>

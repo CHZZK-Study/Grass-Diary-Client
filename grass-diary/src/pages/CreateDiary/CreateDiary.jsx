@@ -2,6 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
 import Header from '../../components/Header';
 import Swal from 'sweetalert2';
+import BackButton from '../../components/BackButton';
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -140,6 +141,7 @@ const CreateDiary = () => {
         <Header />
       </header>
       <main {...stylex.props(CreateDiaryStyle.container)}>
+        <BackButton link={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
           <h2>11월 11일 목요일</h2>
         </section>
