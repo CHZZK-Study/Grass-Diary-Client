@@ -2,6 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import Header from '../../components/Header';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import SimpleSlider from './CardSlider';
+import { Link } from 'react-router-dom';
 
 const styles = stylex.create({
   title: {
@@ -248,9 +249,11 @@ const TopSection = () => {
             <i className="fa-solid fa-circle-question"></i>
             <div>오늘 잠을 얼마나 잤나요?</div>
           </div>
-          <button {...stylex.props(TopSectionStyles.writeButton)}>
-            오늘의 일기 쓰러가기
-          </button>
+          <Link to="/creatediary">
+            <button {...stylex.props(TopSectionStyles.writeButton)}>
+              오늘의 일기 쓰러가기
+            </button>
+          </Link>
         </div>
         <div>
           <img

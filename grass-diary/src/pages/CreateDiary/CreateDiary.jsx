@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
+import Header from '../../components/Header';
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -104,7 +105,7 @@ const CreateDiary = () => {
   return (
     <>
       <header>
-        <h1>Nav</h1>
+        <Header />
       </header>
       <main {...stylex.props(CreateDiaryStyle.container)}>
         <section {...stylex.props(CreateDiaryStyle.title)}>
