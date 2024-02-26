@@ -1,8 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import Header from '../../components/Header';
-import mainCharacter from '../../assets/icon/mainCharacter.png';
-import SimpleSlider from './CardSlider';
 import { Link } from 'react-router-dom';
+import mainCharacter from '../../assets/icon/mainCharacter.png';
+import Header from '../../components/Header';
+import SimpleSlider from './CardSlider';
+import Swal from 'sweetalert2';
 
 const styles = stylex.create({
   title: {
@@ -226,12 +227,27 @@ const BottomSectionStyle = stylex.create({
     gap: '10px',
   },
 
-  text: {
+  btn: {
     fontWeight: 'bold',
+    border: 'none',
+    backgroundColor: 'white',
+    cursor: 'pointer',
   },
 });
 
 const TopSection = () => {
+  const modal = () => {
+    Swal.fire({
+      title: '교환 일기장',
+      text: '교환 일기 서비스를 준비중이에요',
+      imageUrl: '/public/img/mainCharacter.png',
+      imageWidth: 300,
+      imageHeight: 300,
+      imageAlt: 'Custom image',
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+    });
+  };
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -272,15 +288,23 @@ const TopSection = () => {
           </div>
 
           <div {...stylex.props(TopSectionStyles.bottomLeft)}>
-            <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
-              나의 일기장
-              <button {...stylex.props(styles.button)}>
-                <i
-                  className="fa-regular fa-circle-right"
-                  style={{ fontSize: '25px', paddingLeft: '90px' }}
-                ></i>
-              </button>
-            </div>
+            <Link to="/mypage">
+              <div
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+              >
+                나의 일기장
+                <button {...stylex.props(styles.button)}>
+                  <i
+                    className="fa-regular fa-circle-right"
+                    style={{ fontSize: '25px', paddingLeft: '90px' }}
+                  ></i>
+                </button>
+              </div>
+            </Link>
             <div>나의 하루들은 어떻게 흘러갔을까?</div>
           </div>
         </div>
@@ -295,10 +319,12 @@ const TopSection = () => {
           </div>
           <div {...stylex.props(TopSectionStyles.bottomRight)}>
             <div
+              onClick={modal}
               style={{
                 fontWeight: 'bold',
                 fontSize: '20px',
                 marginBottom: '10px',
+                cursor: 'pointer',
               }}
             >
               교환 일기장
@@ -319,6 +345,19 @@ const TopSection = () => {
 };
 
 const MiddleSection = () => {
+  const modal = () => {
+    Swal.fire({
+      title: '테마 상점',
+      text: '테마 상점 준비중이에요',
+      imageUrl: '/public/img/subCharacter.png',
+      imageWidth: 300,
+      imageHeight: 300,
+      imageAlt: 'Custom image',
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+    });
+  };
+
   return (
     <>
       <div {...stylex.props(MiddleSectionStyle.title)}>
@@ -356,7 +395,7 @@ const MiddleSection = () => {
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
-          <button {...stylex.props(MiddleSectionStyle.button)}>
+          <button onClick={modal} {...stylex.props(MiddleSectionStyle.button)}>
             테마 상점
           </button>
         </div>
@@ -381,9 +420,11 @@ const BottomSection = () => {
           </div>
           <span>다른 사람의 하루를 구경하러 가볼까요?</span>
         </div>
-        <span {...stylex.props(BottomSectionStyle.text)}>
-          더 보러가기 <i className="fa-solid fa-chevron-right"></i>
-        </span>
+        <Link to="/share">
+          <button {...stylex.props(BottomSectionStyle.btn)}>
+            더 보러가기 <i className="fa-solid fa-chevron-right"></i>
+          </button>
+        </Link>
       </div>
     </>
   );
