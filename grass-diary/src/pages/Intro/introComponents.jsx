@@ -78,12 +78,25 @@ const SecondDesc = () => {
 };
 
 const StartContent = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
+
   return (
     <div {...stylex.props(styles.mainDescription('center'))}>
       <h1 {...stylex.props(styles.contentDesc('28px'))}>
         지금 바로 잔디 일기를 시작해 보세요!
       </h1>
-      <Button text="일기 시작하기" />
+      <Button text="일기 시작하기" onClick={handleOpenModal} />
+      {isModalOpen && (
+        <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
+      )}
     </div>
   );
 };
