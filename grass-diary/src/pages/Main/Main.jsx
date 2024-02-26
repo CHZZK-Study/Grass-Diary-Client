@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import Header from '../../components/Header';
 import { useEffect, useState } from 'react';
 import grass from '../../assets/icon/grass.png';
 import profile from '../../assets/icon/profile.jpeg';
@@ -479,7 +480,7 @@ const BottomSection = () => {
 const Main = () => {
   return (
     <>
-      <Nav />
+      <Header />
       <TopSection />
       <MiddleSection />
       <BottomSection />
