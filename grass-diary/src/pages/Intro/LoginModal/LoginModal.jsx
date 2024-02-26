@@ -1,5 +1,4 @@
 import stylex from '@stylexjs/stylex';
-import { useState } from 'react';
 import googleButton from '../../../assets/loginButton/googleButton.png';
 
 const styles = stylex.create({
@@ -50,8 +49,8 @@ const styles = stylex.create({
     fontSize: '30px',
     cursor: 'pointer',
 
-    backgroundColor: 'transparent',
     border: 'none',
+    backgroundColor: 'transparent',
   },
 
   modalContent: {
@@ -85,16 +84,18 @@ const styles = stylex.create({
   },
 });
 
-const LoginModal = () => {
-  const [isModalClose, setIsModalClose] = useState(false);
+const LoginModal = ({ isOpen, isClose }) => {
+  if (!isOpen) {
+    return null;
+  }
 
   return (
     <div {...stylex.props(styles.container)}>
       <div {...stylex.props(styles.modal)}>
         <div {...stylex.props(styles.modalHeader)}>
           <span>회원가입 및 로그인</span>
-          <button {...stylex.props(styles.xButton)}>
-            <i class="fa-solid fa-xmark"></i>
+          <button {...stylex.props(styles.xButton)} onClick={isClose}>
+            <i className="fa-solid fa-xmark"></i>
           </button>
         </div>
         <div {...stylex.props(styles.modalContent)}>
