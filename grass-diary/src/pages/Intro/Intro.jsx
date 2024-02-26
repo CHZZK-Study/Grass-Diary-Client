@@ -26,5 +26,6 @@ const Intro = () => {
       </Section>
     </Container>
   );
-  
+};
+
 export default Intro;
