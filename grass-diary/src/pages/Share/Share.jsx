@@ -66,13 +66,15 @@ const Feed = ({ likeCount }) => {
   );
 };
 
-function MultipleItems() {
+function PauseOnHover() {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2000,
+    pauseOnHover: true,
   };
   return (
     <div className="slider-container">
@@ -99,7 +101,7 @@ const Share = () => {
       <div {...stylex.props(styles.container)}>
         <section>
           <div {...stylex.props(styles.top10Title)}>🏆 이번 주 TOP 10</div>
-          <MultipleItems />
+          <PauseOnHover />
         </section>
 
         <div>
