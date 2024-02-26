@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
 import Header from '../../components/Header';
+import Swal from 'sweetalert2';
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -88,6 +89,12 @@ const CreateDiaryStyle = stylex.create({
     cursor: 'pointer',
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
+
+  imgBtn: {
+    border: 'none',
+    backgroundColor: 'white',
+    cursor: 'pointer',
+  },
 });
 
 const CreateDiary = () => {
@@ -100,6 +107,31 @@ const CreateDiary = () => {
 
   const handleTextChange = e => {
     setTextValue(e.target.value);
+  };
+
+  const imageUpload = async () => {
+    const { value: file } = await Swal.fire({
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+      title: '사진 선택',
+      input: 'file',
+      inputAttributes: {
+        accept: 'image/*',
+        'aria-label': 'Upload your profile picture',
+      },
+    });
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        Swal.fire({
+          confirmButtonColor: '#28CA3B',
+          confirmButtonText: '확인',
+          imageUrl: e.target.result,
+          imageAlt: 'The uploaded picture',
+        });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   return (
@@ -125,7 +157,12 @@ const CreateDiary = () => {
         <section>
           <article {...stylex.props(CreateDiaryStyle.border)}>
             <p {...stylex.props(CreateDiaryStyle.borderLine)}>
-              <i className="fa-regular fa-image"></i> 사진
+              <button
+                onClick={imageUpload}
+                {...stylex.props(CreateDiaryStyle.imgBtn)}
+              >
+                <i className="fa-regular fa-image"></i> 사진
+              </button>
             </p>
             <p {...stylex.props(CreateDiaryStyle.borderContent)}>
               <textarea
