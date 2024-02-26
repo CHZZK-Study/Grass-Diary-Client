@@ -24,7 +24,7 @@ const styles = stylex.create({
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-
+    
     width: '31.5rem',
     height: '18.5rem',
 
