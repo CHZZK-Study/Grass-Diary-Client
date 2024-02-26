@@ -21,17 +21,17 @@ const styles = stylex.create({
     flexDirection: 'column',
 
     position: 'fixed',
-    top: '300px',
+    top: '20rem',
 
-    width: '500px',
-    height: '300px',
+    width: '31.5rem',
+    height: '18.5rem',
 
-    borderRadius: '5px',
+    borderRadius: '0.3rem',
 
     boxShadow: '0 2px 12px 0 rgba(9, 8, 8, 0.1)',
     backgroundColor: '#FFF',
 
-    gap: '10px',
+    gap: '0.6rem',
   },
 
   modalHeader: {
@@ -39,14 +39,14 @@ const styles = stylex.create({
     justifyContent: 'space-between',
     alignItems: 'center',
 
-    height: '60px',
-    padding: '20px',
+    height: '3.75rem',
+    padding: '1.2rem',
 
     borderBottom: '1px solid #d1d1d1',
   },
 
   xButton: {
-    fontSize: '30px',
+    fontSize: '1.8rem',
     cursor: 'pointer',
 
     border: 'none',
@@ -59,8 +59,7 @@ const styles = stylex.create({
     justifyContent: 'center',
     alignItems: 'center',
 
-    height: 'calc(100% - 100px)',
-    gap: '15px',
+    height: 'calc(100% - 6.5rem)',
   },
 
   button: {
@@ -71,10 +70,10 @@ const styles = stylex.create({
   },
 
   buttonImage: {
-    width: '350px',
-    height: '70px',
+    width: '21.5rem',
+    height: '4.35rem',
 
-    borderRadius: '10px',
+    borderRadius: '0.6rem',
     objectFit: 'cover',
   },
 
