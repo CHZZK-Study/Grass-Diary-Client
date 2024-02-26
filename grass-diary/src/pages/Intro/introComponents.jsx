@@ -35,7 +35,14 @@ const ServiceMain = () => {
           나의 이야기를 키우다
         </p>
         <p>일상의 작은 기록들이 잔디처럼 자라나 큰 성장으로 이어져요</p>
-        <Button text="일기 시작하기" onClick={handleOpenModal} />
+        <Button
+          text="일기 시작하기"
+          onClick={handleOpenModal}
+          width="150px"
+          color="#FFF"
+          backgroundColor="#28CA3B"
+          border="none"
+        />
         {isModalOpen && (
           <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
         )}
@@ -83,7 +90,13 @@ const StartContent = () => {
       <h1 {...stylex.props(styles.contentDesc('1.75rem'))}>
         지금 바로 잔디 일기를 시작해 보세요!
       </h1>
-      <Button text="일기 시작하기" />
+      <Button
+        text="일기 시작하기"
+        width="150px"
+        color="#FFF"
+        backgroundColor="#28CA3B"
+        border="none"
+      />
     </div>
   );
 };
