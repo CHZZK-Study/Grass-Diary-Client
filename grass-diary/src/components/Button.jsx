@@ -17,13 +17,13 @@ const styles = stylex.create({
   }),
 });
 
-const Button = ({ text, onClick }) => {
+const Button = ({ text, onClick, width, color, backgroundColor, border }) => {
   return (
     <>
       <button
         onClick={onClick}
         {...stylex.props(
-          styles.startButton('150px', '#FFF', '#28CA3B', 'none'),
+          styles.startButton(width, color, backgroundColor, border),
         )}
       >
         {text}
