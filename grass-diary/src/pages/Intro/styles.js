@@ -21,7 +21,7 @@ const styles = stylex.create({
     backgroundColor,
   }),
 
-  mainDescription: (alignItems) => ({
+  mainDescription: alignItems => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -29,7 +29,7 @@ const styles = stylex.create({
     alignItems,
   }),
 
-  mainContent: (flexDirection) => ({
+  mainContent: flexDirection => ({
     display: 'flex',
     alignItems: 'center',
 
@@ -62,7 +62,7 @@ const styles = stylex.create({
     height,
   }),
 
-  contentDesc: (fontSize) => ({
+  contentDesc: fontSize => ({
     marginBottom: '0.6rem',
     fontSize,
   }),
