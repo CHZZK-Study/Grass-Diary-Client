@@ -40,10 +40,10 @@ const styles = stylex.create({
   }),
 
   mainTitle: {
-    fontSize: '60px',
+    fontSize: '3.75rem',
     fontWeight: '700',
 
-    margin: '0 0 5px -5px',
+    margin: '0 0 0.3rem -0.3rem',
   },
 
   mainImage: {
@@ -51,7 +51,7 @@ const styles = stylex.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
 
-    width: '540px',
+    width: '33.75rem',
   },
 
   contentImage: (width, height) => ({
@@ -63,7 +63,7 @@ const styles = stylex.create({
   }),
 
   contentDesc: (fontSize) => ({
-    marginBottom: '5px',
+    marginBottom: '0.6rem',
     fontSize,
   }),
 });

@@ -17,7 +17,7 @@ const styles = stylex.create({
   }),
 });
 
-const Button = ({ text, onClick }) => {
+const Button = ({ text, onClick, width, color, backgroundColor, border }) => {
   return (
     <>
       <button
