@@ -1,5 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
@@ -236,6 +238,21 @@ const BottomSectionStyle = stylex.create({
 });
 
 const TopSection = () => {
+  const [date, setDate] = useState(null);
+  const [todayQuestion, setTodayQuestion] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/main/todayInfo')
+      .then(response => {
+        setDate(response.data.date);
+        setTodayQuestion(response.data.todayQuestion);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   const modal = () => {
     Swal.fire({
       title: '교환 일기장',
@@ -248,6 +265,7 @@ const TopSection = () => {
       confirmButtonText: '확인',
     });
   };
+
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -257,13 +275,11 @@ const TopSection = () => {
               className="fa-solid fa-lightbulb"
               style={{ paddingBottom: '20px' }}
             ></i>
-            <div>오늘은</div>
-            <div>11월 11일</div>
-            <div>빼빼로 데이입니다</div>
+            <div>{date ? <p>{date}</p> : <p>Loading...</p>}</div>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
             <i className="fa-solid fa-circle-question"></i>
-            <div>오늘 잠을 얼마나 잤나요?</div>
+            <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
           </div>
           <Link to="/creatediary">
             <button {...stylex.props(TopSectionStyles.writeButton)}>
