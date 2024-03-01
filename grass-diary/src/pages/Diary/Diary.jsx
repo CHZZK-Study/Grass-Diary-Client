@@ -159,9 +159,8 @@ const Ellipsis = () => {
         open &&
         !ellisisRef.current.contains(event.target) &&
         !iconRef.current.contains(event.target)
-      ) {
+      )
         setOpen(false);
-      }
     };
 
     document.addEventListener('click', closeEllispis);
