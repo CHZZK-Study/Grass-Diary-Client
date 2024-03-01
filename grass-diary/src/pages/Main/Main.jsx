@@ -1,9 +1,11 @@
 import * as stylex from '@stylexjs/stylex';
+import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import grass from '../../assets/icon/grass.png';
-import profile from '../../assets/icon/profile.jpeg';
+import axios from 'axios';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
+import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
+import Swal from 'sweetalert2';
 
 const styles = stylex.create({
   title: {
@@ -83,11 +85,13 @@ const TopSectionStyles = stylex.create({
     border: 'solid 1px #F9F9F9',
     borderRadius: '30px',
   },
+
   bannerContainer: {
     display: 'flex',
     flexDirection: 'column',
     gap: '30px',
   },
+
   bannerTitle: {
     display: 'flex',
     flexDirection: 'column',
@@ -118,6 +122,7 @@ const TopSectionStyles = stylex.create({
     width: 300,
     height: 300,
   },
+
   bottomContainer: {
     display: 'flex',
     justifyContent: 'center',
@@ -125,6 +130,7 @@ const TopSectionStyles = stylex.create({
     gap: '200px',
     paddingTop: '50px',
   },
+
   bottomLeftBox: {
     display: 'flex',
     gap: '100px',
@@ -133,6 +139,7 @@ const TopSectionStyles = stylex.create({
     borderRadius: '20px',
     padding: '70px',
   },
+
   bottomLeft: {
     display: 'flex',
     flexDirection: 'column',
@@ -146,6 +153,7 @@ const TopSectionStyles = stylex.create({
     borderRadius: '20px',
     padding: '70px',
   },
+
   bottomRight: {
     display: 'flex',
     flexDirection: 'column',
@@ -221,100 +229,43 @@ const BottomSectionStyle = stylex.create({
     gap: '10px',
   },
 
-  text: {
+  btn: {
     fontWeight: 'bold',
+    border: 'none',
+    backgroundColor: 'white',
+    cursor: 'pointer',
   },
 });
 
-const DropMenu = () => {
-  return (
-    <>
-      <div className="drop-box" {...stylex.props(styles.dropBox)}>
-        <div>
-          <ul {...stylex.props(styles.ulListNone)}>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-user"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>
-                마이 페이지
-              </span>
-            </li>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-gear"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>설정</span>
-            </li>
-            <li
-              {...stylex.props(styles.dropBoxEffect)}
-              onClick={e => {
-                e.stopPropagation();
-                console.log('HI');
-              }}
-            >
-              <i className="fa-solid fa-right-from-bracket"></i>
-              <span {...stylex.props(styles.textWithIconLeft)}>로그아웃</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </>
-  );
-};
-
-const Nav = () => {
-  const [showDropMenu, setShowDropMenu] = useState(false);
-
-  const toggleDropMenu = e => {
-    e.stopPropagation();
-    setShowDropMenu(prevState => !prevState);
-  };
+const TopSection = () => {
+  const [date, setDate] = useState(null);
+  const [todayQuestion, setTodayQuestion] = useState(null);
 
   useEffect(() => {
-    const closeMenu = () => {
-      setShowDropMenu(false);
-    };
-
-    document.addEventListener('click', closeMenu);
-    return () => {
-      document.removeEventListener('click', closeMenu);
-    };
+    axios
+      .get('http://localhost:8080/api/main/todayInfo')
+      .then(response => {
+        setDate(response.data.date);
+        setTodayQuestion(response.data.todayQuestion);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
   }, []);
 
-  return (
-    <>
-      <div {...stylex.props(styles.navBar)}>
-        <img
-          src={grass}
-          alt="서비스 로고 아이콘"
-          {...stylex.props(styles.imgNav)}
-        />
-        <div {...stylex.props(styles.dropContainer)}>
-          <img
-            src={profile}
-            alt="사용자 프로필 사진"
-            {...stylex.props(styles.imgNav)}
-          />
-          <button {...stylex.props(styles.button)} onClick={toggleDropMenu}>
-            <i className="fa-solid fa-list"></i>
-          </button>
-          {showDropMenu && <DropMenu closeMenu={toggleDropMenu} />}
-        </div>
-      </div>
-    </>
-  );
-};
+  const modal = () => {
+    Swal.fire({
+      title: '교환 일기장',
+      text: '교환 일기 서비스를 준비중이에요',
+      imageUrl: '/public/img/mainCharacter.png',
+      imageWidth: 300,
+      imageHeight: 300,
+      imageAlt: 'Custom image',
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+    });
+  };
 
-const TopSection = () => {
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -324,17 +275,17 @@ const TopSection = () => {
               className="fa-solid fa-lightbulb"
               style={{ paddingBottom: '20px' }}
             ></i>
-            <div>오늘은</div>
-            <div>11월 11일</div>
-            <div>빼빼로 데이입니다</div>
+            <div>{date ? <p>{date}</p> : <p>Loading...</p>}</div>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
             <i className="fa-solid fa-circle-question"></i>
-            <div>오늘 잠을 얼마나 잤나요?</div>
+            <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
           </div>
-          <button {...stylex.props(TopSectionStyles.writeButton)}>
-            오늘의 일기 쓰러가기
-          </button>
+          <Link to="/creatediary">
+            <button {...stylex.props(TopSectionStyles.writeButton)}>
+              오늘의 일기 쓰러가기
+            </button>
+          </Link>
         </div>
         <div>
           <img
@@ -353,15 +304,23 @@ const TopSection = () => {
           </div>
 
           <div {...stylex.props(TopSectionStyles.bottomLeft)}>
-            <div style={{ fontWeight: 'bold', fontSize: '20px' }}>
-              나의 일기장
-              <button {...stylex.props(styles.button)}>
-                <i
-                  className="fa-regular fa-circle-right"
-                  style={{ fontSize: '25px', paddingLeft: '90px' }}
-                ></i>
-              </button>
-            </div>
+            <Link to="/mypage">
+              <div
+                style={{
+                  fontWeight: 'bold',
+                  fontSize: '20px',
+                  cursor: 'pointer',
+                }}
+              >
+                나의 일기장
+                <button {...stylex.props(styles.button)}>
+                  <i
+                    className="fa-regular fa-circle-right"
+                    style={{ fontSize: '25px', paddingLeft: '90px' }}
+                  ></i>
+                </button>
+              </div>
+            </Link>
             <div>나의 하루들은 어떻게 흘러갔을까?</div>
           </div>
         </div>
@@ -376,10 +335,12 @@ const TopSection = () => {
           </div>
           <div {...stylex.props(TopSectionStyles.bottomRight)}>
             <div
+              onClick={modal}
               style={{
                 fontWeight: 'bold',
                 fontSize: '20px',
                 marginBottom: '10px',
+                cursor: 'pointer',
               }}
             >
               교환 일기장
@@ -400,6 +361,19 @@ const TopSection = () => {
 };
 
 const MiddleSection = () => {
+  const modal = () => {
+    Swal.fire({
+      title: '테마 상점',
+      text: '테마 상점 준비중이에요',
+      imageUrl: '/public/img/subCharacter.png',
+      imageWidth: 300,
+      imageHeight: 300,
+      imageAlt: 'Custom image',
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+    });
+  };
+
   return (
     <>
       <div {...stylex.props(MiddleSectionStyle.title)}>
@@ -420,6 +394,9 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
+          <section>
+            <article>박스</article>
+          </section>
           <h2>나의 이번달 잔디</h2>
           <span>1월 일기는 현재까지 총 15개가 작성되었어요</span>
           <span>리워드를 확인 해보세요!</span>
@@ -434,10 +411,11 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
+          <h1>5,000</h1>
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
-          <button {...stylex.props(MiddleSectionStyle.button)}>
+          <button onClick={modal} {...stylex.props(MiddleSectionStyle.button)}>
             테마 상점
           </button>
         </div>
@@ -462,9 +440,11 @@ const BottomSection = () => {
           </div>
           <span>다른 사람의 하루를 구경하러 가볼까요?</span>
         </div>
-        <span {...stylex.props(BottomSectionStyle.text)}>
-          더 보러가기 <i className="fa-solid fa-chevron-right"></i>
-        </span>
+        <Link to="/share">
+          <button {...stylex.props(BottomSectionStyle.btn)}>
+            더 보러가기 <i className="fa-solid fa-chevron-right"></i>
+          </button>
+        </Link>
       </div>
     </>
   );
@@ -473,7 +453,7 @@ const BottomSection = () => {
 const Main = () => {
   return (
     <>
-      <Nav />
+      <Header />
       <TopSection />
       <MiddleSection />
       <BottomSection />
