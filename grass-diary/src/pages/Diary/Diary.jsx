@@ -1,10 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
 import UnmodifyModal from './UnmodifyModal';
+import ConfirmDeleteModal from './ConfirmDeleteModal';
+import CompleteDeleteModal from './CompleteDeleteModal';
 
 const styles = stylex.create({
   wrap: {
@@ -144,41 +146,87 @@ const ellipsis = stylex.create({
 
 const Ellipsis = () => {
   const [open, setOpen] = useState(false);
+  const ellisisRef = useRef(null);
+  const iconRef = useRef(null);
 
   const clickEllipsis = () => {
     setOpen(current => !current);
   };
+
+  useEffect(() => {
+    const closeEllispis = event => {
+      if (
+        open &&
+        !ellisisRef.current.contains(event.target) &&
+        !iconRef.current.contains(event.target)
+      )
+        setOpen(false);
+    };
+
+    document.addEventListener('click', closeEllispis);
+
+    return () => document.removeEventListener('click', closeEllispis);
+  }, [open]);
+
   return (
     <div>
-      {open ? <OpenEllipsis /> : null}
-      <div onClick={clickEllipsis} {...stylex.props(ellipsis.ellipsis)}>
+      {open && <OpenEllipsis ellisisRef={ellisisRef} />}
+      <div
+        ref={iconRef}
+        onClick={clickEllipsis}
+        {...stylex.props(ellipsis.ellipsis)}
+      >
         <i className="fa-solid fa-ellipsis-vertical"></i>
       </div>
     </div>
   );
 };
 
-const OpenEllipsis = () => {
+const OpenEllipsis = ({ ellisisRef }) => {
   const [modifiable, setModifiable] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [unmodifyModal, setUnmodifyModal] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
 
   const linkToModify = () => {
-    if (!modifiable && !modifiable) {
-      setShowModal(true);
+    // 수정 불가능한 상태이며 모달창이 false일 경우 모달창 true로 변경
+    if (!modifiable && !unmodifyModal) {
+      setUnmodifyModal(true);
       return;
     }
     console.log('수정가능');
   };
+
+  const showConfirmModal = () => {
+    setConfirmDeleteModal(true);
+  };
+
+  const deleteDiary = () => {
+    console.log('일기 삭제');
+  };
+
   return (
     <>
-      <div {...stylex.props(ellipsis.container)}>
+      <div ref={ellisisRef} {...stylex.props(ellipsis.container)}>
         <div {...stylex.props(ellipsis.box)}></div>
         <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
           수정
         </div>
-        <div {...stylex.props(ellipsis.box)}>삭제</div>
+        <div onClick={showConfirmModal} {...stylex.props(ellipsis.box)}>
+          삭제
+        </div>
       </div>
-      {showModal ? <UnmodifyModal setShowModal={setShowModal} /> : null}
+      {unmodifyModal && <UnmodifyModal setShowModal={setUnmodifyModal} />}
+      {confirmDeleteModal && (
+        <ConfirmDeleteModal
+          setShowModal={setConfirmDeleteModal}
+          setDelete={deleteDiary}
+          setCompleteModal={setCompleteDeleteModal}
+        />
+      )}
+      {completeDeleteModal && (
+        <CompleteDeleteModal setShowModal={setCompleteDeleteModal} />
+      )}
     </>
   );
 };
