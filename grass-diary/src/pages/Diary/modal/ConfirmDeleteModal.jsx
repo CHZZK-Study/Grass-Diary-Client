@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import Button from '../../../components/Button';
 
 const styles = stylex.create({
   background: {
@@ -36,20 +37,6 @@ const styles = stylex.create({
     gap: '20px',
     fontSize: '13px',
   },
-  button: {
-    width: '50px',
-    height: '30px',
-    backgroundColor: '#ffffff',
-    border: '1px solid #bdbdbd',
-    borderRadius: '10px',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#28CA3B',
-      color: '#ffffff',
-      border: 'none',
-    },
-    transition: '0.3s',
-  },
 });
 
 const ConfirmDeleteModal = ({ show, setDelete }) => {
@@ -66,12 +53,22 @@ const ConfirmDeleteModal = ({ show, setDelete }) => {
           <span {...stylex.props(styles.bold)}>⚠ 일기를 삭제하시겠습니까?</span>
           <br />
           <div {...stylex.props(styles.ie)}>
-            <button onClick={closeModal} {...stylex.props(styles.button)}>
-              취소
-            </button>
-            <button onClick={deleteDiary} {...stylex.props(styles.button)}>
-              삭제
-            </button>
+            <Button
+              text={'취소'}
+              onClick={closeModal}
+              width={'50px'}
+              color={'#fff'}
+              backgroundColor={'#28CA3B'}
+              border={'none'}
+            />
+            <Button
+              text={'삭제'}
+              onClick={deleteDiary}
+              width={'50px'}
+              color={'#fff'}
+              backgroundColor={'#28CA3B'}
+              border={'none'}
+            />
           </div>
         </div>
       </div>
