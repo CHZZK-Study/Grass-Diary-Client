@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
 import { Link } from 'react-router-dom';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 const header = stylex.create({
   container: {
@@ -74,12 +74,9 @@ const menuBar = stylex.create({
   },
 });
 
-const MenuBar = ({ toggle, headerRef }) => {
+const MenuBar = ({ toggle }) => {
   return (
-    <div
-      ref={headerRef}
-      {...stylex.props(menuBar.container, toggle && menuBar.toggle)}
-    >
+    <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
       <Link to="/">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
@@ -104,40 +101,20 @@ const MenuBar = ({ toggle, headerRef }) => {
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
-  const headerRef = useRef();
-  const iconRef = useRef();
 
   const dropDown = () => {
     setToggle(current => !current);
   };
-
-  useEffect(() => {
-    const closeToggle = e => {
-      if (
-        toggle &&
-        !headerRef.current.contains(e.target) &&
-        !iconRef.current.contains(e.target)
-      )
-        setToggle(false);
-    };
-
-    document.addEventListener('click', closeToggle);
-
-    return () => document.removeEventListener('click', closeToggle);
-  }, [toggle]);
 
   return (
     <div {...stylex.props(header.container)}>
       <span {...stylex.props(header.logo)}>잔디일기</span>
       <div {...stylex.props(header.userMenu)} onClick={dropDown}>
         <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        <div
-          ref={iconRef}
-          {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
-        >
+        <div {...stylex.props(header.arrowUp, toggle && header.arrowDown)}>
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        <MenuBar headerRef={headerRef} toggle={toggle} />
+        <MenuBar toggle={toggle} />
       </div>
     </div>
   );
