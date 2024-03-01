@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
@@ -146,21 +146,44 @@ const ellipsis = stylex.create({
 
 const Ellipsis = () => {
   const [open, setOpen] = useState(false);
+  const ellisisRef = useRef(null);
+  const iconRef = useRef(null);
 
   const clickEllipsis = () => {
     setOpen(current => !current);
   };
+
+  useEffect(() => {
+    const closeEllispis = event => {
+      if (
+        open &&
+        !ellisisRef.current.contains(event.target) &&
+        !iconRef.current.contains(event.target)
+      ) {
+        setOpen(false);
+      }
+    };
+
+    document.addEventListener('click', closeEllispis);
+
+    return () => document.removeEventListener('click', closeEllispis);
+  }, [open]);
+
   return (
     <div>
-      {open ? <OpenEllipsis /> : null}
-      <div onClick={clickEllipsis} {...stylex.props(ellipsis.ellipsis)}>
+      {open && <OpenEllipsis ellisisRef={ellisisRef} />}
+      <div
+        ref={iconRef}
+        onClick={clickEllipsis}
+        {...stylex.props(ellipsis.ellipsis)}
+      >
         <i className="fa-solid fa-ellipsis-vertical"></i>
       </div>
     </div>
   );
 };
 
-const OpenEllipsis = () => {
+const OpenEllipsis = ({ ellisisRef }) => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
@@ -182,9 +205,10 @@ const OpenEllipsis = () => {
   const deleteDiary = () => {
     console.log('일기 삭제');
   };
+
   return (
     <>
-      <div {...stylex.props(ellipsis.container)}>
+      <div ref={ellisisRef} {...stylex.props(ellipsis.container)}>
         <div {...stylex.props(ellipsis.box)}></div>
         <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
           수정
@@ -193,17 +217,17 @@ const OpenEllipsis = () => {
           삭제
         </div>
       </div>
-      {unmodifyModal ? <UnmodifyModal setShowModal={setUnmodifyModal} /> : null}
-      {confirmDeleteModal ? (
+      {unmodifyModal && <UnmodifyModal setShowModal={setUnmodifyModal} />}
+      {confirmDeleteModal && (
         <ConfirmDeleteModal
           setShowModal={setConfirmDeleteModal}
           setDelete={deleteDiary}
           setCompleteModal={setCompleteDeleteModal}
         />
-      ) : null}
-      {completeDeleteModal ? (
+      )}
+      {completeDeleteModal && (
         <CompleteDeleteModal setShowModal={setCompleteDeleteModal} />
-      ) : null}
+      )}
     </>
   );
 };
