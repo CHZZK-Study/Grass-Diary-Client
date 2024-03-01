@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const styles = stylex.create({
   button: {
