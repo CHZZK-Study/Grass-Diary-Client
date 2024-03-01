@@ -1,5 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const styles = stylex.create({
   button: {
@@ -21,14 +21,17 @@ const styles = stylex.create({
   },
 });
 
-const BackButton = ({ link }) => {
+const BackButton = () => {
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1);
+  };
   return (
     <div>
-      <Link to={link}>
-        <button type="button" {...stylex.props(styles.button)}>
-          <i className="fa-solid fa-arrow-left"></i>
-        </button>
-      </Link>
+      <button onClick={goBack} type="button" {...stylex.props(styles.button)}>
+        <i className="fa-solid fa-arrow-left"></i>
+      </button>
     </div>
   );
 };
