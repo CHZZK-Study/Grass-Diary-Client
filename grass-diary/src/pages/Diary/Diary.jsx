@@ -1,12 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState, useRef, useEffect } from 'react';
 import testImg from '../../assets/icon/profile.jpeg';
+import Ellipsis from './Ellipsis';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
-import UnmodifyModal from './UnmodifyModal';
-import ConfirmDeleteModal from './ConfirmDeleteModal';
-import CompleteDeleteModal from './CompleteDeleteModal';
 
 const styles = stylex.create({
   wrap: {
@@ -117,120 +114,6 @@ const contentStyle = stylex.create({
   },
 });
 
-const ellipsis = stylex.create({
-  ellipsis: {
-    zIndex: '1',
-    position: 'relative',
-  },
-  container: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    width: '136px',
-    border: '1px solid #BFBFBF',
-    borderRadius: '20px',
-    transform: 'translate(15px, -8px)',
-    backgroundColor: '#ffffff',
-  },
-  box: {
-    height: '36px',
-    fontSize: '13px',
-    textAlign: 'center',
-    lineHeight: '36px',
-    borderBottom: {
-      default: '1px solid #BFBFBF',
-      ':last-child': 'none',
-    },
-  },
-});
-
-const Ellipsis = () => {
-  const [open, setOpen] = useState(false);
-  const ellisisRef = useRef(null);
-  const iconRef = useRef(null);
-
-  const clickEllipsis = () => {
-    setOpen(current => !current);
-  };
-
-  useEffect(() => {
-    const closeEllispis = event => {
-      if (
-        open &&
-        !ellisisRef.current.contains(event.target) &&
-        !iconRef.current.contains(event.target)
-      )
-        setOpen(false);
-    };
-
-    document.addEventListener('click', closeEllispis);
-
-    return () => document.removeEventListener('click', closeEllispis);
-  }, [open]);
-
-  return (
-    <div>
-      {open && <OpenEllipsis ellisisRef={ellisisRef} />}
-      <div
-        ref={iconRef}
-        onClick={clickEllipsis}
-        {...stylex.props(ellipsis.ellipsis)}
-      >
-        <i className="fa-solid fa-ellipsis-vertical"></i>
-      </div>
-    </div>
-  );
-};
-
-const OpenEllipsis = ({ ellisisRef }) => {
-  const [modifiable, setModifiable] = useState(false);
-  const [unmodifyModal, setUnmodifyModal] = useState(false);
-  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
-  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-
-  const linkToModify = () => {
-    // 수정 불가능한 상태이며 모달창이 false일 경우 모달창 true로 변경
-    if (!modifiable && !unmodifyModal) {
-      setUnmodifyModal(true);
-      return;
-    }
-    console.log('수정가능');
-  };
-
-  const showConfirmModal = () => {
-    setConfirmDeleteModal(true);
-  };
-
-  const deleteDiary = () => {
-    console.log('일기 삭제');
-  };
-
-  return (
-    <>
-      <div ref={ellisisRef} {...stylex.props(ellipsis.container)}>
-        <div {...stylex.props(ellipsis.box)}></div>
-        <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
-          수정
-        </div>
-        <div onClick={showConfirmModal} {...stylex.props(ellipsis.box)}>
-          삭제
-        </div>
-      </div>
-      {unmodifyModal && <UnmodifyModal setShowModal={setUnmodifyModal} />}
-      {confirmDeleteModal && (
-        <ConfirmDeleteModal
-          setShowModal={setConfirmDeleteModal}
-          setDelete={deleteDiary}
-          setCompleteModal={setCompleteDeleteModal}
-        />
-      )}
-      {completeDeleteModal && (
-        <CompleteDeleteModal setShowModal={setCompleteDeleteModal} />
-      )}
-    </>
-  );
-};
-
 const Footer = () => {
   return (
     <div {...stylex.props(styles.diaryFooter)}>
@@ -255,7 +138,7 @@ const Diary = () => {
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
-        <BackButton link={'/'} />
+        <BackButton />
         {/* 일기 타이틀 */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
