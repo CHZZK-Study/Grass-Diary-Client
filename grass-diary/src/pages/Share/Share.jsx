@@ -3,6 +3,7 @@ import Header from '../../components/Header';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
+import { Link } from 'react-router-dom';
 
 const styles = stylex.create({
   container: {
@@ -50,9 +51,9 @@ const slider = stylex.create({
   },
 });
 
-const Feed = ({ likeCount }) => {
+const Feed = ({ likeCount, link }) => {
   return (
-    <div>
+    <Link to={link}>
       <article {...stylex.props(slider.box)}>
         <div {...stylex.props(slider.like)}>
           <span>
@@ -62,7 +63,7 @@ const Feed = ({ likeCount }) => {
         </div>
         <div>일기 내용</div>
       </article>
-    </div>
+    </Link>
   );
 };
 
@@ -79,16 +80,16 @@ function PauseOnHover() {
   return (
     <div className="slider-container">
       <Slider {...settings}>
-        <Feed likeCount={1} />
-        <Feed likeCount={2} />
-        <Feed likeCount={3} />
-        <Feed likeCount={4} />
-        <Feed likeCount={5} />
-        <Feed likeCount={6} />
-        <Feed likeCount={7} />
-        <Feed likeCount={8} />
-        <Feed likeCount={9} />
-        <Feed likeCount={10} />
+        <Feed likeCount={1} link={'/diary/view'} />
+        <Feed likeCount={2} link={'/diary/view'} />
+        <Feed likeCount={3} link={'/diary/view'} />
+        <Feed likeCount={4} link={'/diary/view'} />
+        <Feed likeCount={5} link={'/diary/view'} />
+        <Feed likeCount={6} link={'/diary/view'} />
+        <Feed likeCount={7} link={'/diary/view'} />
+        <Feed likeCount={8} link={'/diary/view'} />
+        <Feed likeCount={9} link={'/diary/view'} />
+        <Feed likeCount={10} link={'/diary/view'} />
       </Slider>
     </div>
   );
@@ -109,14 +110,14 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            <Feed />
-            <Feed />
-            <Feed />
-            <Feed />
-            <Feed />
-            <Feed />
-            <Feed />
-            <Feed />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} />
           </div>
         </div>
       </div>
