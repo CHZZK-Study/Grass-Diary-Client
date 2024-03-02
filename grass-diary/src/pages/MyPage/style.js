@@ -202,11 +202,18 @@ const styles = stylex.create({
     objectFit: 'cover',
   },
 
+  emoji: {
+    fontSize: '22px',
+    zIndex: '1',
+    position: 'relative',
+    transform: 'translate(-19px, 33px)',
+  },
+
   smallDetailes: {
     display: 'flex',
     flexDirection: 'column',
 
-    paddingLeft: '20px',
+    paddingLeft: '5px',
     gap: '3px',
   },
 

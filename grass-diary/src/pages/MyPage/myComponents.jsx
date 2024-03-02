@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import Like from '../../components/Like';
@@ -63,15 +63,16 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 const Profile = () => {
   const [profile, setProfile] = useState([]);
 
-  axios
-    .get('http://localhost:8080/api/member/profile/1')
-    .then(response => {
-      setProfile(response.data);
-      console.log(response.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/member/profile/1')
+      .then(response => {
+        setProfile(response.data);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  });
 
   return (
     <div {...stylex.props(styles.profileDetails)}>
@@ -172,26 +173,45 @@ const SearchBar = () => {
 };
 
 const Diary = () => {
+  const [diaryList, setDiaryList] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:8080/api/diary/main/1`)
+      .then(response => {
+        setDiaryList(response.data.content);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   return (
     <div {...stylex.props(styles.diaryList)}>
-      <div {...stylex.props(styles.diary)}>
-        <div {...stylex.props(styles.smallProfileSection)}>
-          <img {...stylex.props(styles.smallProfile)} src={basicProfile}></img>
-          <div {...stylex.props(styles.smallDetailes)}>
-            <span {...stylex.props(styles.name)}>2023년 3월 1일</span>
-            <span {...stylex.props(styles.time)}>02:38</span>
+      {diaryList.map((diary, index) => (
+        <div {...stylex.props(styles.diary)} key={index}>
+          <div {...stylex.props(styles.smallProfileSection)}>
+            <img
+              {...stylex.props(styles.smallProfile)}
+              src={basicProfile}
+            ></img>
+            <div {...stylex.props(styles.emoji)}>🥺</div>
+            <div {...stylex.props(styles.smallDetailes)}>
+              <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
+              <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+            </div>
+          </div>
+          <div {...stylex.props(styles.diaryContent)}>
+            <span {...stylex.props(styles.hashtag)}>{diary.tags}</span>
+            <span>{diary.content}</span>
+            <img src={diaryImage}></img>
+          </div>
+          <div {...stylex.props(styles.likeSection)}>
+            <Like />
+            <span>{diary.likeCount}</span>
           </div>
         </div>
-        <div {...stylex.props(styles.diaryContent)}>
-          <span {...stylex.props(styles.hashtag)}>#해시태그</span>
-          <span>임시 내용</span>
-          <img src={diaryImage}></img>
-        </div>
-        <div {...stylex.props(styles.likeSection)}>
-          <Like />
-          <span>3</span>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };
