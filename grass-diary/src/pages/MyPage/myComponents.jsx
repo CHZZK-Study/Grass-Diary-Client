@@ -1,11 +1,12 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useState } from 'react';
+import axios from 'axios';
 
 import Like from '../../components/Like';
 import Button from '../../components/Button';
-import profile from '../../assets/icon/profile.jpeg';
 import diaryImage from '../../assets/icon/diaryImage.png';
+import basicProfile from '../../assets/icon/basicProfile.png';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -60,10 +61,29 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 };
 
 const Profile = () => {
+  const [profile, setProfile] = useState([]);
+
+  axios
+    .get('http://localhost:8080/api/member/profile/1')
+    .then(response => {
+      setProfile(response.data);
+      console.log(response.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+
   return (
     <div {...stylex.props(styles.profileDetails)}>
       <div {...stylex.props(styles.profileLeft)}>
-        <img {...stylex.props(styles.profileImage)} src={profile}></img>
+        <img
+          {...stylex.props(styles.profileImage)}
+          src={
+            profile.profileImageURL !== null
+              ? profile.profileImageURL
+              : basicProfile
+          }
+        ></img>
         <div>
           <Button
             text="교환 일기 신청"
@@ -76,11 +96,15 @@ const Profile = () => {
       </div>
       <div {...stylex.props(styles.profileRight)}>
         <div {...stylex.props(styles.nameSection)}>
-          <span>홍길동</span>
+          <span>{profile.nickName}</span>
         </div>
         <Grass />
         <div>
-          <span>소개글입니다</span>
+          <span>
+            {profile.profileIntro !== null
+              ? profile.profileIntro
+              : '소개글입니다.'}
+          </span>
         </div>
       </div>
     </div>
@@ -152,7 +176,7 @@ const Diary = () => {
     <div {...stylex.props(styles.diaryList)}>
       <div {...stylex.props(styles.diary)}>
         <div {...stylex.props(styles.smallProfileSection)}>
-          <img {...stylex.props(styles.smallProfile)} src={profile}></img>
+          <img {...stylex.props(styles.smallProfile)} src={basicProfile}></img>
           <div {...stylex.props(styles.smallDetailes)}>
             <span {...stylex.props(styles.name)}>2023년 3월 1일</span>
             <span {...stylex.props(styles.time)}>02:38</span>
