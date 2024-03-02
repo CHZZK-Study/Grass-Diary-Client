@@ -361,6 +361,19 @@ const TopSection = () => {
 };
 
 const MiddleSection = () => {
+  const [rewardPoint, setRewardPoint] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/member/totalReward/1')
+      .then(response => {
+        setRewardPoint(response.data.rewardPoint);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   const modal = () => {
     Swal.fire({
       title: '테마 상점',
@@ -411,7 +424,7 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          <h1>5,000</h1>
+          <h1>{rewardPoint}</h1>
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
