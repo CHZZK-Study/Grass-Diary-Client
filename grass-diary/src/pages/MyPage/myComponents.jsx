@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 
 import Like from '../../components/Like';
@@ -174,6 +174,19 @@ const SearchBar = () => {
 
 const Diary = () => {
   const [diaryList, setDiaryList] = useState([]);
+  const [mood, setMood] = useState([]);
+
+  const emoji = [
+    ['🤯', '🤬', '😭'],
+    ['👿', '😡', '🤢'],
+    ['😵‍💫', '😱', '🤕'],
+    ['😰', '😢', '😤'],
+    ['😕', '🤔', '🙄'],
+    ['😌', '🙂', '😶'],
+    ['😊', '😀', '🫢'],
+    ['🤗', '😃', '😆'],
+    ['🤣', '😆', '😍'],
+  ];
 
   useEffect(() => {
     axios
@@ -186,6 +199,18 @@ const Diary = () => {
       });
   }, []);
 
+  useMemo(() => {
+    const moods = [];
+
+    for (let i = 0; i < diaryList.length; i++) {
+      let mood = diaryList[i].transparency.toString()[2] - 1;
+      let randomIndex = Math.floor(Math.random() * 3);
+      moods.push(emoji[mood][randomIndex]);
+    }
+
+    setMood(moods);
+  }, [diaryList]);
+
   return (
     <div {...stylex.props(styles.diaryList)}>
       {diaryList.map((diary, index) => (
@@ -195,7 +220,7 @@ const Diary = () => {
               {...stylex.props(styles.smallProfile)}
               src={basicProfile}
             ></img>
-            <div {...stylex.props(styles.emoji)}>🥺</div>
+            <div {...stylex.props(styles.emoji)}>{mood[index]}</div>
             <div {...stylex.props(styles.smallDetailes)}>
               <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
               <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
