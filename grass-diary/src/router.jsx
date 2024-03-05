@@ -4,6 +4,7 @@ import Main from './pages/Main/Main';
 import CreateDiary from './pages/CreateDiary/CreateDiary';
 import Diary from './pages/Diary/Diary';
 import Share from './pages/Share/Share';
+import Setting from './pages/Setting/Setting';
 
 const router = createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: '/share',
     element: <Share />,
+  },
+  {
+    path: '/setting',
+    element: <Setting />,
   },
 ]);
 
