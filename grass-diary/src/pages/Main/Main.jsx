@@ -6,6 +6,7 @@ import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
+import dayjs from 'dayjs';
 
 const styles = stylex.create({
   title: {
@@ -212,6 +213,31 @@ const MiddleSectionStyle = stylex.create({
     fontWeight: 'bold',
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
+
+  grassBox: {
+    backgroundColor: '#e0e0e0',
+    width: '20px',
+    height: '20px',
+    margin: '2px',
+    borderRadius: '5px',
+  },
+
+  calendar: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+
+  day: {
+    backgroundColor: '#e0e0e0',
+    height: '35px',
+    width: '11%',
+    padding: '2px',
+    borderRadius: '5px',
+    margin: '4px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const BottomSectionStyle = stylex.create({
@@ -362,12 +388,55 @@ const TopSection = () => {
 
 const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState(null);
+  const [grassCount, setGrassCount] = useState(null);
+  const [grassColor, setGrassColor] = useState(null);
+  const currentDate = dayjs();
+
+  // console.log(currentDate.format('DD/MM/YYYY'));
+  // const currentMonth = currentDate.format('MM');
+  // const currentDay = currentDate.format('DD');
+  // console.log(currentMonth);
+  // console.log(currentDay);
+
+  const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
+  const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
+
+  const daysInMonth = Array.from(
+    { length: currentMonthLastDay.date() },
+    (_, i) => i + 1,
+  );
+
+  console.log(currentMonthLastDay.date());
+  console.log(daysInMonth);
+
+  const weeksInMonth = [];
+  let week = [];
+
+  daysInMonth.forEach((day, index) => {
+    week.push(day);
+    if ((index + 1) % 7 === 0 || index === daysInMonth.length - 1) {
+      weeksInMonth.push(week);
+      week = [];
+    }
+  });
 
   useEffect(() => {
     axios
       .get('http://localhost:8080/api/member/totalReward/1')
       .then(response => {
         setRewardPoint(response.data.rewardPoint);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/main/grass/1')
+      .then(response => {
+        setGrassCount(response.data.count);
+        setGrassColor(response.data.grassInfoDTO.colorRGB);
       })
       .catch(error => {
         console.log('Error', error);
@@ -408,7 +477,15 @@ const MiddleSection = () => {
             height="125"
           />
           <section>
-            <article>박스</article>
+            <div {...stylex.props(MiddleSectionStyle.calendar)}>
+              {daysInMonth.map(day => (
+                <div {...stylex.props(MiddleSectionStyle.day)} key={day}>
+                  {/* {day} */}
+                </div>
+              ))}
+            </div>
+            <div>{grassCount}</div>
+            <div>{grassColor}</div>
           </section>
           <h2>나의 이번달 잔디</h2>
           <span>1월 일기는 현재까지 총 15개가 작성되었어요</span>
