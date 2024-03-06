@@ -31,37 +31,53 @@ const styles = stylex.create({
   },
 });
 
-const slider = stylex.create({
+const feed = stylex.create({
   box: {
     backgroundColor: '#EAEAEA',
     borderRadius: '20px 20px 0px 0px',
     margin: '10px',
-    padding: '20px',
+    padding: '20px 30px',
     width: '360px',
     height: '440px',
     ':hover': {
       transform: 'scale(1.02)',
     },
     transition: '0.3s',
+    overflow: 'hidden',
   },
   like: {
     display: 'flex',
     gap: '5px',
     justifyContent: 'flex-end',
   },
+  title: {
+    fontSize: '22px',
+    fontWeight: '600',
+    margin: '20px 0',
+  },
+  content: {
+    height: '300px',
+    lineHeight: '27px',
+    overflow: 'hidden',
+  },
 });
 
-const Feed = ({ likeCount, link }) => {
+const Feed = ({ likeCount, link, title, content }) => {
   return (
     <Link to={link}>
-      <article {...stylex.props(slider.box)}>
-        <div {...stylex.props(slider.like)}>
+      <article {...stylex.props(feed.box)}>
+        <div {...stylex.props(feed.like)}>
           <span>
             <i className="fa-solid fa-heart"></i>
           </span>
           <span>{likeCount}</span>
         </div>
-        <div>일기 내용</div>
+        <div {...stylex.props(feed.title)}>{title}</div>
+        <div {...stylex.props(feed.content)}>
+          {content && content.length > 420
+            ? `${content.slice(0, 425)}...`
+            : content}
+        </div>
       </article>
     </Link>
   );
@@ -77,10 +93,19 @@ function PauseOnHover() {
     autoplaySpeed: 2000,
     pauseOnHover: true,
   };
+  const title = '일기 제목';
+  const content =
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
+
   return (
     <div className="slider-container">
       <Slider {...settings}>
-        <Feed likeCount={1} link={'/diary/view'} />
+        <Feed
+          likeCount={1}
+          link={'/diary/view'}
+          title={title}
+          content={content}
+        />
         <Feed likeCount={2} link={'/diary/view'} />
         <Feed likeCount={3} link={'/diary/view'} />
         <Feed likeCount={4} link={'/diary/view'} />
@@ -96,6 +121,9 @@ function PauseOnHover() {
 }
 
 const Share = () => {
+  const title = '일기 제목';
+  const content =
+    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
   return (
     <>
       <Header />
@@ -110,7 +138,7 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/view'} title={title} content={content} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
