@@ -1,12 +1,16 @@
 import * as stylex from '@stylexjs/stylex';
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import testImg from '../../assets/icon/profile.jpeg';
-import Ellipsis from './Ellipsis';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
+import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+
+import UnmodifyModal from './modal/UnmodifyModal';
+import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
+import CompleteDeleteModal from './modal/CompleteDeleteModal';
 
 const styles = stylex.create({
   wrap: {
@@ -127,6 +131,48 @@ const Footer = () => {
   );
 };
 
+const Setting = () => {
+  const [modifiable, setModifiable] = useState(false);
+  const [unmodifyModal, setUnmodifyModal] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
+
+  const showConfirmModal = () => setConfirmDeleteModal(true);
+
+  const linkToModify = () => {
+    if (!modifiable && !unmodifyModal) {
+      setUnmodifyModal(true);
+      return;
+    }
+    // 수정 가능할 때의 로직
+  };
+
+  const deleteDiary = () => {
+    setCompleteDeleteModal(true);
+    // 일기 삭제 로직
+  };
+
+  return (
+    <>
+      <EllipsisIcon translateValue={'115px'}>
+        <EllipsisBox onClick={linkToModify} text={'수정'} />
+        <EllipsisBox onClick={showConfirmModal} text={'삭제'} />
+      </EllipsisIcon>
+
+      {unmodifyModal && <UnmodifyModal setter={setUnmodifyModal} />}
+      {confirmDeleteModal && (
+        <ConfirmDeleteModal
+          setter={setConfirmDeleteModal}
+          setDelete={deleteDiary}
+        />
+      )}
+      {completeDeleteModal && (
+        <CompleteDeleteModal setter={setCompleteDeleteModal} />
+      )}
+    </>
+  );
+};
+
 const Diary = () => {
   const title = '11월 11일 목요일';
   const time = '23:01';
@@ -166,7 +212,7 @@ const Diary = () => {
               {privateOrPubilc}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Ellipsis />
+              <Setting />
             </div>
           </div>
         </div>

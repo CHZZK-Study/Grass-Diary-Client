@@ -41,8 +41,8 @@ const styles = stylex.create({
   },
 });
 
-const UnmodifyModal = ({ show }) => {
-  const closeModal = () => show(false);
+const UnmodifyModal = ({ setter }) => {
+  const closeModal = () => setter(false);
 
   return (
     <div {...stylex.props(styles.background)}>
