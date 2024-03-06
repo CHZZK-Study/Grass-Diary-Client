@@ -265,7 +265,6 @@ const TopSection = () => {
       confirmButtonText: '확인',
     });
   };
-
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
