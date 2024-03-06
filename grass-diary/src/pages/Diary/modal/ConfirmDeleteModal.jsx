@@ -39,12 +39,12 @@ const styles = stylex.create({
   },
 });
 
-const ConfirmDeleteModal = ({ show, setDelete }) => {
-  const closeModal = () => show(false);
+const ConfirmDeleteModal = ({ setter, setDelete }) => {
+  const closeModal = () => setter(false);
 
   const deleteDiary = () => {
     setDelete();
-    show(false);
+    setter(false);
   };
   return (
     <div {...stylex.props(styles.background)}>
