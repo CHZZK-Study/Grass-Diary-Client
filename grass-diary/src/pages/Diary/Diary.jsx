@@ -1,4 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
+import { useEffect } from 'react';
+import axios from 'axios';
+
 import testImg from '../../assets/icon/profile.jpeg';
 import Ellipsis from './Ellipsis';
 import Header from '../../components/Header';
@@ -25,7 +28,6 @@ const styles = stylex.create({
     backgroundColor: '#ffffff',
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
-    marginLeft: '20px',
   },
   feel: {
     position: 'absolute',
@@ -133,6 +135,17 @@ const Diary = () => {
   const content = '오늘은 스터디 회의가 있는 날이었다.';
   const emoji = '😆';
   const userName = 'user name';
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/diary/16')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
 
   return (
     <>
