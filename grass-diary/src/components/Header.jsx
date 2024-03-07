@@ -83,7 +83,7 @@ const MenuBar = ({ toggle }) => {
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
         </div>
       </Link>
-      <Link to="/">
+      <Link to="/setting">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-solid fa-gear"></i>
           <span {...stylex.props(menuBar.span)}>설정</span>
