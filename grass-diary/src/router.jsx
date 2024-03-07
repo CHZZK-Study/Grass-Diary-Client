@@ -5,6 +5,7 @@ import CreateDiary from './pages/CreateDiary/CreateDiary';
 import Diary from './pages/Diary/Diary';
 import Share from './pages/Share/Share';
 import Setting from './pages/Setting/Setting';
+import MyPage from './pages/MyPage/MyPage';
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
   {
     path: '/setting',
     element: <Setting />,
+  },
+  {
+    path: '/mypage',
+    element: <MyPage />,
   },
 ]);
 

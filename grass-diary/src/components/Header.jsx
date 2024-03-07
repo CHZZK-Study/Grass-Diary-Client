@@ -77,7 +77,7 @@ const menuBar = stylex.create({
 const MenuBar = ({ toggle }) => {
   return (
     <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
-      <Link to="/">
+      <Link to="/mypage">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
