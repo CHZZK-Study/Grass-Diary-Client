@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import AnimateReward from './AnimateReward';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -391,9 +392,10 @@ const MiddleSection = () => {
   const [grassCount, setGrassCount] = useState(null);
   const [grassColor, setGrassColor] = useState(null);
   const currentDate = dayjs();
+  const currentMonth = currentDate.format('M');
+  const temporaryPoint = grassCount * 10;
 
   // console.log(currentDate.format('DD/MM/YYYY'));
-  // const currentMonth = currentDate.format('MM');
   // const currentDay = currentDate.format('DD');
   // console.log(currentMonth);
   // console.log(currentDay);
@@ -461,7 +463,7 @@ const MiddleSection = () => {
       <div {...stylex.props(MiddleSectionStyle.title)}>
         <div>
           <h2>기록 상자</h2>
-          <span>총 2개의 기록을 보유하고 있어요!</span>
+          <span>총 {grassCount}개의 기록을 보유하고 있어요!</span>
         </div>
         <div></div>
       </div>
@@ -478,17 +480,25 @@ const MiddleSection = () => {
           />
           <section>
             <div {...stylex.props(MiddleSectionStyle.calendar)}>
-              {daysInMonth.map(day => (
-                <div {...stylex.props(MiddleSectionStyle.day)} key={day}>
+              {daysInMonth.map((day, index) => (
+                <div
+                  {...stylex.props(MiddleSectionStyle.day)}
+                  key={day}
+                  style={
+                    index < grassCount
+                      ? { backgroundColor: `rgb(${grassColor})` }
+                      : {}
+                  }
+                >
                   {/* {day} */}
                 </div>
               ))}
             </div>
-            <div>{grassCount}</div>
-            <div>{grassColor}</div>
           </section>
           <h2>나의 이번달 잔디</h2>
-          <span>1월 일기는 현재까지 총 15개가 작성되었어요</span>
+          <span>
+            {currentMonth}월 일기는 현재까지 총 {grassCount}개가 작성되었어요
+          </span>
           <span>리워드를 확인 해보세요!</span>
         </div>
         <div
@@ -501,7 +511,9 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          <h1>{rewardPoint}</h1>
+          {/* <h1>{rewardPoint}</h1> */}
+          {/* <h1>{temporaryPoint}</h1> */}
+          <AnimateReward n={temporaryPoint} />
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
