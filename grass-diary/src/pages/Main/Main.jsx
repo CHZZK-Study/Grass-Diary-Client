@@ -1,14 +1,13 @@
 import * as stylex from '@stylexjs/stylex';
 import AnimateReward from './AnimateReward';
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
-import { useInView } from 'react-intersection-observer';
 
 const styles = stylex.create({
   title: {
