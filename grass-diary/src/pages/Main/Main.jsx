@@ -1,13 +1,14 @@
 import * as stylex from '@stylexjs/stylex';
 import AnimateReward from './AnimateReward';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import axios from 'axios';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
+import { useInView } from 'react-intersection-observer';
 
 const styles = stylex.create({
   title: {
@@ -463,7 +464,9 @@ const MiddleSection = () => {
       <div {...stylex.props(MiddleSectionStyle.title)}>
         <div>
           <h2>기록 상자</h2>
-          <span>총 {grassCount}개의 기록을 보유하고 있어요!</span>
+          <span>
+            총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
+          </span>
         </div>
         <div></div>
       </div>
@@ -497,9 +500,15 @@ const MiddleSection = () => {
           </section>
           <h2>나의 이번달 잔디</h2>
           <span>
-            {currentMonth}월 일기는 현재까지 총 {grassCount}개가 작성되었어요
+            {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
+            개가 작성되었어요
           </span>
-          <span>리워드를 확인 해보세요!</span>
+          {grassCount ? (
+            <span>리워드를 확인 해보세요!</span>
+          ) : (
+            <span>일기를 쓰고 잔디를 심어보세요!</span>
+          )}
+          {/* <span>리워드를 확인 해보세요!</span> */}
         </div>
         <div
           className="cardSectionR"
