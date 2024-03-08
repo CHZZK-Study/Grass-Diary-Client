@@ -80,13 +80,13 @@ const MenuBar = ({ toggle, headerRef }) => {
       ref={headerRef}
       {...stylex.props(menuBar.container, toggle && menuBar.toggle)}
     >
-      <Link to="/">
+      <Link to="/mypage">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
         </div>
       </Link>
-      <Link to="/">
+      <Link to="/setting">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-solid fa-gear"></i>
           <span {...stylex.props(menuBar.span)}>설정</span>
