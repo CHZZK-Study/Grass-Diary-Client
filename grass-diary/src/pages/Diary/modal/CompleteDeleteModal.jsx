@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import Button from '../../../components/Button';
 
 const styles = stylex.create({
   background: {
@@ -35,16 +36,11 @@ const styles = stylex.create({
     fontSize: '18px',
     fontWeight: 'bold',
   },
-  ie: {
-    fontSize: '13px',
-    marginTop: '20px',
-  },
 });
 
-const UnmodifyModal = ({ setShowModal }) => {
-  const closeModal = () => {
-    setShowModal(false);
-  };
+const CompleteDeleteModal = ({ setter }) => {
+  const closeModal = () => setter(false);
+
   return (
     <div {...stylex.props(styles.background)}>
       <div {...stylex.props(styles.container)}>
@@ -53,11 +49,7 @@ const UnmodifyModal = ({ setShowModal }) => {
         </div>
         <div {...stylex.props(styles.text)}>
           <span {...stylex.props(styles.bold)}>
-            ⚠ 수정 가능한 시간이 아닙니다
-          </span>
-          <br />
-          <span {...stylex.props(styles.ie)}>
-            일기는 당일 06:00부터 다음 날 05:59까지 수정 가능합니다.
+            <i className="fa-solid fa-circle-check"></i> 일기가 삭제되었습니다
           </span>
         </div>
       </div>
@@ -65,4 +57,4 @@ const UnmodifyModal = ({ setShowModal }) => {
   );
 };
 
-export default UnmodifyModal;
+export default CompleteDeleteModal;

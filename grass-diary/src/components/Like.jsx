@@ -2,26 +2,24 @@ import * as stylex from '@stylexjs/stylex';
 import { useState } from 'react';
 
 const pushLike = stylex.keyframes({
-  '0%': { transform: 'scale(0.9)' },
-  '50%': { transform: 'scale(1.2)' },
-  '80%': { transform: 'scale(0.9)' },
-  '100%': { transform: 'scale(1)' },
+  '0%': { fontSize: '19px' },
+  '50%': { fontSize: '24px' },
+  '80%': { fontSize: '18px' },
+  '100%': { fontSize: '20px' },
 });
 
 const pushDislike = stylex.keyframes({
-  '0%': { transform: 'scale(0.8)' },
-  '50%': { transform: 'scale(1.2)' },
-  '80%': { transform: 'scale(0.9)' },
-  '100%': { transform: 'scale(1)' },
+  '0%': { fontSize: '18px' },
+  '50%': { fontSize: '24px' },
+  '80%': { fontSize: '18px' },
+  '100%': { fontSize: '20px' },
 });
 
 const styles = stylex.create({
   likeContainer: {
-    width: '30px',
-    height: '40px',
-    lineHeight: '40px',
+    margin: 'auto 10px',
     fontSize: '20px',
-    textAlign: 'center',
+
     cursor: 'pointer',
   },
   dislike: {
@@ -29,30 +27,39 @@ const styles = stylex.create({
     animationDuration: '0.5s',
   },
   like: {
+    color: 'red',
     animationName: pushLike,
     animationDuration: '0.5s',
-    color: 'red',
+  },
+  count: {
+    margin: 'auto 10px auto 0 ',
+    fontSize: '15px',
+    fontWeight: '600',
   },
 });
 
-const Like = () => {
+const Like = ({ likeCount }) => {
   const [like, setlike] = useState(false);
 
   const clickLike = e => {
     setlike(current => !current);
   };
+
   return (
-    <div {...stylex.props(styles.likeContainer)}>
-      {like ? (
-        <div {...stylex.props(styles.like)}>
-          <i onClick={clickLike} className="fa-solid fa-heart"></i>
-        </div>
-      ) : (
-        <div {...stylex.props(styles.dislike)}>
-          <i onClick={clickLike} className="fa-regular fa-heart"></i>
-        </div>
-      )}
-    </div>
+    <>
+      <div {...stylex.props(styles.likeContainer)}>
+        {like ? (
+          <span {...stylex.props(styles.like)}>
+            <i onClick={clickLike} className="fa-solid fa-heart"></i>
+          </span>
+        ) : (
+          <span {...stylex.props(styles.dislike)}>
+            <i onClick={clickLike} className="fa-regular fa-heart"></i>
+          </span>
+        )}
+      </div>
+      <span {...stylex.props(styles.count)}>{likeCount}</span>
+    </>
   );
 };
 
