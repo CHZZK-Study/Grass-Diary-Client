@@ -4,6 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 const styles = stylex.create({
   container: {
@@ -34,7 +36,7 @@ const styles = stylex.create({
 const feed = stylex.create({
   box: {
     backgroundColor: '#EAEAEA',
-    borderRadius: '20px 20px 0px 0px',
+    borderRadius: '20px',
     margin: '10px',
     padding: '20px 30px',
     width: '360px',
@@ -84,6 +86,17 @@ const Feed = ({ likeCount, link, title, content }) => {
 };
 
 function PauseOnHover() {
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/diary/1')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
