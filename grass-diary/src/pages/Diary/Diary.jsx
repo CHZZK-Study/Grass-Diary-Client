@@ -137,6 +137,27 @@ const Setting = id => {
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
+  const createdDate = '24년 03월 13일';
+  const date = new Date();
+  useEffect(() => {
+    if (
+      createdDate.slice(0, 2) === String(date.getFullYear()).slice(2, 4) &&
+      createdDate.slice(5, 6) == date.getMonth() + 1 &&
+      createdDate.slice(8, 10) == date.getDate()
+    ) {
+      setModifiable(true);
+      console.log('당일 맞음');
+    } else if (
+      createdDate.slice(8, 10) == date.getDate() - 1 &&
+      date.getHours() < 6 &&
+      date.getMinutes() < 60
+    ) {
+      setModifiable(true);
+      console.log('당일 아니지만 가능');
+    } else {
+      console.log('수정 불가가가');
+    }
+  }, []);
 
   const showConfirmModal = () => setConfirmDeleteModal(true);
 
@@ -150,6 +171,7 @@ const Setting = id => {
 
   const deleteDiary = () => {
     setCompleteDeleteModal(true);
+    // 삭제 로직
   };
 
   return (
