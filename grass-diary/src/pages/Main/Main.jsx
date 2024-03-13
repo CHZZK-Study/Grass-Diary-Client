@@ -268,9 +268,16 @@ const TopSection = () => {
   const [date, setDate] = useState(null);
   const [todayQuestion, setTodayQuestion] = useState(null);
 
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   useEffect(() => {
     axios
-      .get('http://localhost:8080/api/main/todayInfo')
+      .get('http://localhost:8080/api/main/todayInfo', config)
       .then(response => {
         setDate(response.data.date);
         setTodayQuestion(response.data.todayQuestion);
@@ -292,7 +299,6 @@ const TopSection = () => {
       confirmButtonText: '확인',
     });
   };
-
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -561,6 +567,11 @@ const BottomSection = () => {
 };
 
 const Main = () => {
+  const params = new URLSearchParams(window.location.search);
+  const ACCESS_TOKEN = params.get('accessToken');
+
+  localStorage.setItem('accessToken', ACCESS_TOKEN);
+
   return (
     <>
       <Header />

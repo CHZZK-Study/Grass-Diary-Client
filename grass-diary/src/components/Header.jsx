@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const header = stylex.create({
   container: {
@@ -74,16 +74,19 @@ const menuBar = stylex.create({
   },
 });
 
-const MenuBar = ({ toggle }) => {
+const MenuBar = ({ toggle, headerRef }) => {
   return (
-    <div {...stylex.props(menuBar.container, toggle && menuBar.toggle)}>
-      <Link to="/">
+    <div
+      ref={headerRef}
+      {...stylex.props(menuBar.container, toggle && menuBar.toggle)}
+    >
+      <Link to="/mypage">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
         </div>
       </Link>
-      <Link to="/">
+      <Link to="/setting">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-solid fa-gear"></i>
           <span {...stylex.props(menuBar.span)}>설정</span>
@@ -101,20 +104,40 @@ const MenuBar = ({ toggle }) => {
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
+  const headerRef = useRef();
+  const iconRef = useRef();
 
   const dropDown = () => {
     setToggle(current => !current);
   };
+
+  useEffect(() => {
+    const closeToggle = e => {
+      if (
+        toggle &&
+        !headerRef.current.contains(e.target) &&
+        !iconRef.current.contains(e.target)
+      )
+        setToggle(false);
+    };
+
+    document.addEventListener('click', closeToggle);
+
+    return () => document.removeEventListener('click', closeToggle);
+  }, [toggle]);
 
   return (
     <div {...stylex.props(header.container)}>
       <span {...stylex.props(header.logo)}>잔디일기</span>
       <div {...stylex.props(header.userMenu)} onClick={dropDown}>
         <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        <div {...stylex.props(header.arrowUp, toggle && header.arrowDown)}>
+        <div
+          ref={iconRef}
+          {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+        >
           <i className="fa-solid fa-angle-down"></i>
         </div>
-        <MenuBar toggle={toggle} />
+        <MenuBar headerRef={headerRef} toggle={toggle} />
       </div>
     </div>
   );

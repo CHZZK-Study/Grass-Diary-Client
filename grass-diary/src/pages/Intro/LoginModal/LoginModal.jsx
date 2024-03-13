@@ -12,7 +12,11 @@ const styles = stylex.create({
 
     width: '100vw',
     height: '300vh',
+  },
 
+  background: {
+    width: '100%',
+    height: '100%',
     backgroundColor: '#ffffff78',
   },
 
@@ -90,8 +94,13 @@ const LoginModal = ({ isOpen, isClose }) => {
     return null;
   }
 
+  const handleGoogleLogin = () => {
+    window.open('http://localhost:8080/api/auth/google', '_self');
+  };
+
   return (
-    <div {...stylex.props(styles.container)} onClick={isClose}>
+    <div {...stylex.props(styles.container)}>
+      <div {...stylex.props(styles.background)} onClick={isClose}></div>
       <div {...stylex.props(styles.modal)}>
         <div {...stylex.props(styles.modalHeader)}>
           <span>회원가입 및 로그인</span>
@@ -100,7 +109,7 @@ const LoginModal = ({ isOpen, isClose }) => {
           </button>
         </div>
         <div {...stylex.props(styles.modalContent)}>
-          <button {...stylex.props(styles.button)}>
+          <button {...stylex.props(styles.button)} onClick={handleGoogleLogin}>
             <img {...stylex.props(styles.buttonImage)} src={googleButton}></img>
           </button>
         </div>

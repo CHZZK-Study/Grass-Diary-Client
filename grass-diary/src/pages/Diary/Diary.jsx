@@ -1,10 +1,16 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+
 import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
-import UnmodifyModal from './UnmodifyModal';
+import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+
+import UnmodifyModal from './modal/UnmodifyModal';
+import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
+import CompleteDeleteModal from './modal/CompleteDeleteModal';
 
 const styles = stylex.create({
   wrap: {
@@ -26,7 +32,6 @@ const styles = stylex.create({
     backgroundColor: '#ffffff',
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
-    marginLeft: '20px',
   },
   feel: {
     position: 'absolute',
@@ -115,74 +120,6 @@ const contentStyle = stylex.create({
   },
 });
 
-const ellipsis = stylex.create({
-  ellipsis: {
-    zIndex: '1',
-    position: 'relative',
-  },
-  container: {
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    width: '136px',
-    border: '1px solid #BFBFBF',
-    borderRadius: '20px',
-    transform: 'translate(15px, -8px)',
-    backgroundColor: '#ffffff',
-  },
-  box: {
-    height: '36px',
-    fontSize: '13px',
-    textAlign: 'center',
-    lineHeight: '36px',
-    borderBottom: {
-      default: '1px solid #BFBFBF',
-      ':last-child': 'none',
-    },
-  },
-});
-
-const Ellipsis = () => {
-  const [open, setOpen] = useState(false);
-
-  const clickEllipsis = () => {
-    setOpen(current => !current);
-  };
-  return (
-    <div>
-      {open ? <OpenEllipsis /> : null}
-      <div onClick={clickEllipsis} {...stylex.props(ellipsis.ellipsis)}>
-        <i className="fa-solid fa-ellipsis-vertical"></i>
-      </div>
-    </div>
-  );
-};
-
-const OpenEllipsis = () => {
-  const [modifiable, setModifiable] = useState(false);
-  const [showModal, setShowModal] = useState(false);
-
-  const linkToModify = () => {
-    if (!modifiable && !modifiable) {
-      setShowModal(true);
-      return;
-    }
-    console.log('수정가능');
-  };
-  return (
-    <>
-      <div {...stylex.props(ellipsis.container)}>
-        <div {...stylex.props(ellipsis.box)}></div>
-        <div onClick={linkToModify} {...stylex.props(ellipsis.box)}>
-          수정
-        </div>
-        <div {...stylex.props(ellipsis.box)}>삭제</div>
-      </div>
-      {showModal ? <UnmodifyModal setShowModal={setShowModal} /> : null}
-    </>
-  );
-};
-
 const Footer = () => {
   return (
     <div {...stylex.props(styles.diaryFooter)}>
@@ -191,6 +128,48 @@ const Footer = () => {
         <div {...stylex.props(styles.feel)}></div>
       </div>
     </div>
+  );
+};
+
+const Setting = () => {
+  const [modifiable, setModifiable] = useState(false);
+  const [unmodifyModal, setUnmodifyModal] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
+
+  const showConfirmModal = () => setConfirmDeleteModal(true);
+
+  const linkToModify = () => {
+    if (!modifiable && !unmodifyModal) {
+      setUnmodifyModal(true);
+      return;
+    }
+    // 수정 가능할 때의 로직
+  };
+
+  const deleteDiary = () => {
+    setCompleteDeleteModal(true);
+    // 일기 삭제 로직
+  };
+
+  return (
+    <>
+      <EllipsisIcon translateValue={'115px'}>
+        <EllipsisBox onClick={linkToModify} text={'수정'} />
+        <EllipsisBox onClick={showConfirmModal} text={'삭제'} />
+      </EllipsisIcon>
+
+      {unmodifyModal && <UnmodifyModal setter={setUnmodifyModal} />}
+      {confirmDeleteModal && (
+        <ConfirmDeleteModal
+          setter={setConfirmDeleteModal}
+          setDelete={deleteDiary}
+        />
+      )}
+      {completeDeleteModal && (
+        <CompleteDeleteModal setter={setCompleteDeleteModal} />
+      )}
+    </>
   );
 };
 
@@ -203,11 +182,29 @@ const Diary = () => {
   const emoji = '😆';
   const userName = 'user name';
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    axios
+      .get('http://localhost:8080/api/diary/16', config)
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   return (
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
-        <BackButton link={'/'} />
+        <BackButton />
         {/* 일기 타이틀 */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
@@ -222,7 +219,7 @@ const Diary = () => {
               {privateOrPubilc}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Ellipsis />
+              <Setting />
             </div>
           </div>
         </div>
