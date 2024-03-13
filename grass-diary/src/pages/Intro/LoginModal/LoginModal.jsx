@@ -94,6 +94,10 @@ const LoginModal = ({ isOpen, isClose }) => {
     return null;
   }
 
+  const handleGoogleLogin = () => {
+    window.open('http://localhost:8080/api/auth/google', '_self');
+  };
+
   return (
     <div {...stylex.props(styles.container)}>
       <div {...stylex.props(styles.background)} onClick={isClose}></div>
@@ -105,7 +109,7 @@ const LoginModal = ({ isOpen, isClose }) => {
           </button>
         </div>
         <div {...stylex.props(styles.modalContent)}>
-          <button {...stylex.props(styles.button)}>
+          <button {...stylex.props(styles.button)} onClick={handleGoogleLogin}>
             <img {...stylex.props(styles.buttonImage)} src={googleButton}></img>
           </button>
         </div>
