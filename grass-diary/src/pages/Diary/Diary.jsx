@@ -200,8 +200,15 @@ const Diary = () => {
   const [diary, setDiary] = useState({});
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     axios
-      .get(`http://localhost:8080/api/diary/${id}`)
+      .get(`http://localhost:8080/api/${id}`, config)
       .then(response => {
         const diary = response.data;
         setDiary(diary);
