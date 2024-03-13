@@ -137,7 +137,7 @@ const Setting = id => {
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  const createdDate = '24년 03월 13일';
+  const createdDate = '24년 03월 12일'; // 임시 데이터
   const date = new Date();
   useEffect(() => {
     if (
@@ -145,17 +145,18 @@ const Setting = id => {
       createdDate.slice(5, 6) == date.getMonth() + 1 &&
       createdDate.slice(8, 10) == date.getDate()
     ) {
+      // 당일 : 일기 수정 가능
       setModifiable(true);
-      console.log('당일 맞음');
     } else if (
       createdDate.slice(8, 10) == date.getDate() - 1 &&
       date.getHours() < 6 &&
       date.getMinutes() < 60
     ) {
+      // 다음 날 새벽 5시 59분 전까지 : 일기 수정 가능
       setModifiable(true);
-      console.log('당일 아니지만 가능');
     } else {
-      console.log('수정 불가가가');
+      // 그 외 시간 : 수정 불가능
+      setModifiable(false);
     }
   }, []);
 
@@ -171,7 +172,6 @@ const Setting = id => {
 
   const deleteDiary = () => {
     setCompleteDeleteModal(true);
-    // 삭제 로직
   };
 
   return (
