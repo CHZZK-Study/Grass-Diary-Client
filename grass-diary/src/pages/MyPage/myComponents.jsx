@@ -63,9 +63,16 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 const Profile = () => {
   const [profile, setProfile] = useState([]);
 
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
   useEffect(() => {
     axios
-      .get('http://localhost:8080/api/member/profile/1')
+      .get('http://localhost:8080/api/member/profile/1', config)
       .then(response => {
         setProfile(response.data);
       })
@@ -189,8 +196,15 @@ const Diary = () => {
   ];
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     axios
-      .get(`http://localhost:8080/api/diary/main/1`)
+      .get(`http://localhost:8080/api/diary/main/1`, config)
       .then(response => {
         setDiaryList(response.data.content);
       })
