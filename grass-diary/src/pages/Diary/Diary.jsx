@@ -183,8 +183,15 @@ const Diary = () => {
   const userName = 'user name';
 
   useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
     axios
-      .get('http://localhost:8080/api/diary/16')
+      .get('http://localhost:8080/api/diary/16', config)
       .then(response => {
         console.log(response);
       })
