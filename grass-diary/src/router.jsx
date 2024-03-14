@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     element: <CreateDiary />,
   },
   {
-    path: '/diary/view',
+    path: '/diary/:id',
     element: <Diary />,
   },
   {

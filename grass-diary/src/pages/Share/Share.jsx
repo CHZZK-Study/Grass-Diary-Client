@@ -4,6 +4,9 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
+import testImg from '../../assets/icon/profile.jpeg';
 
 const styles = stylex.create({
   container: {
@@ -34,7 +37,7 @@ const styles = stylex.create({
 const feed = stylex.create({
   box: {
     backgroundColor: '#EAEAEA',
-    borderRadius: '20px 20px 0px 0px',
+    borderRadius: '20px',
     margin: '10px',
     padding: '20px 30px',
     width: '360px',
@@ -50,6 +53,20 @@ const feed = stylex.create({
     gap: '5px',
     justifyContent: 'flex-end',
   },
+  header: {
+    display: 'flex',
+  },
+  img: {
+    width: '40px',
+    height: '40px',
+    objectFit: 'cover',
+    borderRadius: '50%',
+  },
+  name: {
+    lineHeight: '40px',
+    marginLeft: '10px',
+    fontSize: '13px',
+  },
   title: {
     fontSize: '22px',
     fontWeight: '600',
@@ -62,7 +79,7 @@ const feed = stylex.create({
   },
 });
 
-const Feed = ({ likeCount, link, title, content }) => {
+const Feed = ({ likeCount, link, title, content, name }) => {
   return (
     <Link to={link}>
       <article {...stylex.props(feed.box)}>
@@ -72,10 +89,15 @@ const Feed = ({ likeCount, link, title, content }) => {
           </span>
           <span>{likeCount}</span>
         </div>
+        <div {...stylex.props(feed.header)}>
+          <img {...stylex.props(feed.img)} src={testImg}></img>
+          <div {...stylex.props(feed.name)}>{name}</div>
+        </div>
+
         <div {...stylex.props(feed.title)}>{title}</div>
         <div {...stylex.props(feed.content)}>
-          {content && content.length > 420
-            ? `${content.slice(0, 425)}...`
+          {content && content.length > 350
+            ? `${content.slice(0, 350)}...`
             : content}
         </div>
       </article>
@@ -84,6 +106,17 @@ const Feed = ({ likeCount, link, title, content }) => {
 };
 
 function PauseOnHover() {
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/diary/1')
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   const settings = {
     dots: true,
     infinite: true,
@@ -93,6 +126,7 @@ function PauseOnHover() {
     autoplaySpeed: 2000,
     pauseOnHover: true,
   };
+  const name = '작성자';
   const title = '일기 제목';
   const content =
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
@@ -105,6 +139,7 @@ function PauseOnHover() {
           link={'/diary/view'}
           title={title}
           content={content}
+          name={name}
         />
         <Feed likeCount={2} link={'/diary/view'} />
         <Feed likeCount={3} link={'/diary/view'} />
@@ -121,6 +156,7 @@ function PauseOnHover() {
 }
 
 const Share = () => {
+  const name = '작성자';
   const title = '일기 제목';
   const content =
     'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
@@ -138,7 +174,12 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            <Feed link={'/diary/view'} title={title} content={content} />
+            <Feed
+              link={'/diary/view'}
+              title={title}
+              content={content}
+              name={name}
+            />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
