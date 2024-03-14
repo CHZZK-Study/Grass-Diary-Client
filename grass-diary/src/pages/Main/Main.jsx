@@ -1,4 +1,5 @@
 import * as stylex from '@stylexjs/stylex';
+import AnimateReward from './AnimateReward';
 import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,6 +7,7 @@ import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
+import dayjs from 'dayjs';
 
 const styles = stylex.create({
   title: {
@@ -212,6 +214,31 @@ const MiddleSectionStyle = stylex.create({
     fontWeight: 'bold',
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
+
+  grassBox: {
+    backgroundColor: '#e0e0e0',
+    width: '20px',
+    height: '20px',
+    margin: '2px',
+    borderRadius: '5px',
+  },
+
+  calendar: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+
+  day: {
+    backgroundColor: '#e0e0e0',
+    height: '35px',
+    width: '11%',
+    padding: '2px',
+    borderRadius: '5px',
+    margin: '4px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const BottomSectionStyle = stylex.create({
@@ -367,6 +394,63 @@ const TopSection = () => {
 };
 
 const MiddleSection = () => {
+  const [rewardPoint, setRewardPoint] = useState(null);
+  const [grassCount, setGrassCount] = useState(null);
+  const [grassColor, setGrassColor] = useState(null);
+  const currentDate = dayjs();
+  const currentMonth = currentDate.format('M');
+  const temporaryPoint = grassCount * 10;
+
+  // console.log(currentDate.format('DD/MM/YYYY'));
+  // const currentDay = currentDate.format('DD');
+  // console.log(currentMonth);
+  // console.log(currentDay);
+
+  const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
+  const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
+
+  const daysInMonth = Array.from(
+    { length: currentMonthLastDay.date() },
+    (_, i) => i + 1,
+  );
+
+  console.log(currentMonthLastDay.date());
+  console.log(daysInMonth);
+
+  const weeksInMonth = [];
+  let week = [];
+
+  daysInMonth.forEach((day, index) => {
+    week.push(day);
+    if ((index + 1) % 7 === 0 || index === daysInMonth.length - 1) {
+      weeksInMonth.push(week);
+      week = [];
+    }
+  });
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/member/totalReward/1')
+      .then(response => {
+        setRewardPoint(response.data.rewardPoint);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/main/grass/1')
+      .then(response => {
+        setGrassCount(response.data.count);
+        setGrassColor(response.data.grassInfoDTO.colorRGB);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
+
   const modal = () => {
     Swal.fire({
       title: '테마 상점',
@@ -385,7 +469,9 @@ const MiddleSection = () => {
       <div {...stylex.props(MiddleSectionStyle.title)}>
         <div>
           <h2>기록 상자</h2>
-          <span>총 2개의 기록을 보유하고 있어요!</span>
+          <span>
+            총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
+          </span>
         </div>
         <div></div>
       </div>
@@ -401,11 +487,33 @@ const MiddleSection = () => {
             height="125"
           />
           <section>
-            <article>박스</article>
+            <div {...stylex.props(MiddleSectionStyle.calendar)}>
+              {daysInMonth.map((day, index) => (
+                <div
+                  {...stylex.props(MiddleSectionStyle.day)}
+                  key={day}
+                  style={
+                    index < grassCount
+                      ? { backgroundColor: `rgb(${grassColor})` }
+                      : {}
+                  }
+                >
+                  {/* {day} */}
+                </div>
+              ))}
+            </div>
           </section>
           <h2>나의 이번달 잔디</h2>
-          <span>1월 일기는 현재까지 총 15개가 작성되었어요</span>
-          <span>리워드를 확인 해보세요!</span>
+          <span>
+            {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
+            개가 작성되었어요
+          </span>
+          {grassCount ? (
+            <span>리워드를 확인 해보세요!</span>
+          ) : (
+            <span>일기를 쓰고 잔디를 심어보세요!</span>
+          )}
+          {/* <span>리워드를 확인 해보세요!</span> */}
         </div>
         <div
           className="cardSectionR"
@@ -417,7 +525,9 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          <h1>5,000</h1>
+          {/* <h1>{rewardPoint}</h1> */}
+          {/* <h1>{temporaryPoint}</h1> */}
+          <AnimateReward n={temporaryPoint} />
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
