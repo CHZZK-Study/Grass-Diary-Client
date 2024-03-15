@@ -29,6 +29,7 @@ const CreateDiaryStyle = stylex.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: '30px',
   },
 
   border: {
@@ -100,13 +101,20 @@ const CreateDiaryStyle = stylex.create({
     backgroundColor: 'white',
     cursor: 'pointer',
   },
+
+  todayMood: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const CreateDiary = () => {
   const [textValue, setTextValue] = useState('');
   const [inputValue, setInputValue] = useState('');
   const [todayQuestion, setTodayQuestion] = useState();
-  const [test, setTest] = useState();
+  const [isPrivate, setIsPrivate] = useState(true);
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
@@ -125,12 +133,21 @@ const CreateDiary = () => {
       .get('http://localhost:8080/api/main/todayInfo', config)
       .then(response => {
         setTodayQuestion(response.data.todayQuestion);
-        setTest(response.data.date);
       })
       .catch(error => {
         console.log('오늘의 질문 에러', error);
       });
   }, []);
+
+  const handlePrivateChange = () => {
+    setIsPrivate(true);
+    console.log('비공개');
+  };
+
+  const handlePublicChange = () => {
+    setIsPrivate(false);
+    console.log('공개');
+  };
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -180,12 +197,39 @@ const CreateDiary = () => {
         <section>
           <article {...stylex.props(CreateDiaryStyle.subtitle)}>
             <label>
-              <input type="checkbox" />
+              <input
+                type="radio"
+                value="private"
+                checked={isPrivate}
+                onChange={handlePrivateChange}
+              />
               비공개
-              <input type="checkbox" />
+              <input
+                type="radio"
+                value="public"
+                checked={!isPrivate}
+                onChange={handlePublicChange}
+              />
               공개
             </label>
-            <p>오늘의 기분</p>
+            <div {...stylex.props(CreateDiaryStyle.todayMood)}>
+              <div>오늘의 기분</div>
+              <input
+                type="range"
+                name="todayMood"
+                min="0"
+                max="10"
+                list="values"
+              />
+              <datalist id="values">
+                <option value="0" label="0"></option>
+                <option value="2" label="2"></option>
+                <option value="4" label="4"></option>
+                <option value="6" label="6"></option>
+                <option value="8" label="8"></option>
+                <option value="10" label="10"></option>
+              </datalist>
+            </div>
           </article>
         </section>
         <section>
