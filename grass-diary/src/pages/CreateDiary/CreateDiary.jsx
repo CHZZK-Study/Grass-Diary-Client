@@ -105,6 +105,9 @@ const CreateDiaryStyle = stylex.create({
 const CreateDiary = () => {
   const [textValue, setTextValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const [todayQuestion, setTodayQuestion] = useState();
+  const [test, setTest] = useState();
+
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const currentDay = currentDate.format('DD');
@@ -116,6 +119,18 @@ const CreateDiary = () => {
       Authorization: `Bearer ${token}`,
     },
   };
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/main/todayInfo', config)
+      .then(response => {
+        setTodayQuestion(response.data.todayQuestion);
+        setTest(response.data.date);
+      })
+      .catch(error => {
+        console.log('오늘의 질문 에러', error);
+      });
+  }, []);
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -189,7 +204,7 @@ const CreateDiary = () => {
                 type="text"
                 value={textValue}
                 onChange={handleTextChange}
-                placeholder={textValue ? '' : '오늘 잠은 얼마나 잤나요?'}
+                placeholder={textValue ? '' : todayQuestion}
               />
             </p>
           </article>
