@@ -16,6 +16,7 @@ const header = stylex.create({
     },
   },
   logo: {
+    cursor: 'pointer',
     fontSize: '18px',
   },
   userMenu: {
@@ -128,7 +129,10 @@ const Header = () => {
 
   return (
     <div {...stylex.props(header.container)}>
-      <span {...stylex.props(header.logo)}>잔디일기</span>
+      <Link to="/main">
+        <span {...stylex.props(header.logo)}>잔디일기</span>
+      </Link>
+
       <div {...stylex.props(header.userMenu)} onClick={dropDown}>
         <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
         <div

@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
 import testImg from '../../assets/icon/profile.jpeg';
@@ -131,11 +132,33 @@ const Footer = () => {
   );
 };
 
-const Setting = () => {
+const Setting = id => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
+  const createdDate = '24년 03월 12일'; // 임시 데이터
+  const date = new Date();
+  useEffect(() => {
+    if (
+      createdDate.slice(0, 2) === String(date.getFullYear()).slice(2, 4) &&
+      createdDate.slice(5, 6) == date.getMonth() + 1 &&
+      createdDate.slice(8, 10) == date.getDate()
+    ) {
+      // 당일 : 일기 수정 가능
+      setModifiable(true);
+    } else if (
+      createdDate.slice(8, 10) == date.getDate() - 1 &&
+      date.getHours() < 6 &&
+      date.getMinutes() < 60
+    ) {
+      // 다음 날 새벽 5시 59분 전까지 : 일기 수정 가능
+      setModifiable(true);
+    } else {
+      // 그 외 시간 : 수정 불가능
+      setModifiable(false);
+    }
+  }, []);
 
   const showConfirmModal = () => setConfirmDeleteModal(true);
 
@@ -149,7 +172,6 @@ const Setting = () => {
 
   const deleteDiary = () => {
     setCompleteDeleteModal(true);
-    // 일기 삭제 로직
   };
 
   return (
@@ -174,13 +196,8 @@ const Setting = () => {
 };
 
 const Diary = () => {
-  const title = '11월 11일 목요일';
-  const time = '23:01';
-  const privateOrPubilc = '비공개';
-  const hashTag = '#해시태그';
-  const content = '오늘은 스터디 회의가 있는 날이었다.';
-  const emoji = '😆';
-  const userName = 'user name';
+  const id = useParams().id;
+  const [diary, setDiary] = useState({});
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -191,15 +208,15 @@ const Diary = () => {
     };
 
     axios
-      .get('http://localhost:8080/api/diary/16', config)
+      .get(`http://localhost:8080/api/${id}`, config)
       .then(response => {
-        console.log(response);
+        const diary = response.data;
+        setDiary(diary);
       })
       .catch(error => {
         console.log('Error', error);
       });
   }, []);
-
   return (
     <>
       <Header />
@@ -209,25 +226,25 @@ const Diary = () => {
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
             <img {...stylex.props(titleStyle.profileImg)} src={testImg}></img>
-            <div {...stylex.props(titleStyle.emoji)}>{emoji}</div>
-            <div {...stylex.props(titleStyle.name)}>{userName}</div>
+            <div {...stylex.props(titleStyle.emoji)}>X</div>
+            <div {...stylex.props(titleStyle.name)}>name</div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
-            <span {...stylex.props(titleStyle.title)}>{title}</span>
-            <span {...stylex.props(titleStyle.time)}>{time}</span>
+            <span {...stylex.props(titleStyle.title)}>title</span>
+            <span {...stylex.props(titleStyle.time)}>time</span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
-              {privateOrPubilc}
+              {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Setting />
+              <Setting id={id} />
             </div>
           </div>
         </div>
 
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
-          <div {...stylex.props(contentStyle.hashTag)}>{hashTag}</div>
-          <p {...stylex.props(contentStyle.content)}>{content}</p>
+          <div {...stylex.props(contentStyle.hashTag)}>hashtag</div>
+          <p {...stylex.props(contentStyle.content)}>{diary.content}</p>
         </div>
 
         {/* 일기 하단 */}
