@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import BackButton from '../../components/BackButton';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -106,6 +108,7 @@ const CreateDiary = () => {
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const currentDay = currentDate.format('DD');
+  const currentDDay = currentDate.format('ddd');
 
   const token = localStorage.getItem('accessToken');
   const config = {
@@ -156,7 +159,7 @@ const CreateDiary = () => {
         <BackButton link={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
           <h2>
-            {currentMonth}월 {currentDay}일
+            {currentMonth}월 {currentDay}일 {currentDDay}요일
           </h2>
         </section>
         <section>
