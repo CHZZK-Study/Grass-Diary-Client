@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
-import testImg from '../../assets/icon/profile.jpeg';
+import testImg from '../../assets/icon/basicProfile.png';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
@@ -208,9 +208,10 @@ const Diary = () => {
     };
 
     axios
-      .get(`http://localhost:8080/api/${id}`, config)
+      .get(`http://localhost:8080/api/diary/${id}`, config)
       .then(response => {
         const diary = response.data;
+        console.log(diary);
         setDiary(diary);
       })
       .catch(error => {
@@ -225,13 +226,16 @@ const Diary = () => {
         {/* 일기 타이틀 */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
-            <img {...stylex.props(titleStyle.profileImg)} src={testImg}></img>
+            <img
+              {...stylex.props(titleStyle.profileImg)}
+              src={diary.hasImage ? null : testImg}
+            ></img>
             <div {...stylex.props(titleStyle.emoji)}>X</div>
             <div {...stylex.props(titleStyle.name)}>name</div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
-            <span {...stylex.props(titleStyle.title)}>title</span>
-            <span {...stylex.props(titleStyle.time)}>time</span>
+            <span {...stylex.props(titleStyle.title)}>{diary.createdDate}</span>
+            <span {...stylex.props(titleStyle.time)}>{diary.createdAt}</span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
@@ -243,7 +247,11 @@ const Diary = () => {
 
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
-          <div {...stylex.props(contentStyle.hashTag)}>hashtag</div>
+          <div {...stylex.props(contentStyle.hashTag)}>
+            {diary.tags?.map(tag => {
+              return `#${tag.tag} `;
+            })}
+          </div>
           <p {...stylex.props(contentStyle.content)}>{diary.content}</p>
         </div>
 
