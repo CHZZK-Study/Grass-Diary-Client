@@ -175,12 +175,12 @@ const Share = () => {
           </div>
           <div {...stylex.props(styles.latestFeed)}>
             <Feed
-              link={'/diary/view'}
+              link={'/diary/1'}
               title={title}
               content={content}
               name={name}
             />
-            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/1'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />

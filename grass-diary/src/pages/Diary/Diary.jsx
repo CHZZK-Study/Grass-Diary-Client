@@ -121,17 +121,6 @@ const contentStyle = stylex.create({
   },
 });
 
-const Footer = () => {
-  return (
-    <div {...stylex.props(styles.diaryFooter)}>
-      <Like />
-      <div {...stylex.props(styles.feelBackground)}>
-        <div {...stylex.props(styles.feel)}></div>
-      </div>
-    </div>
-  );
-};
-
 const Setting = id => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
@@ -198,40 +187,52 @@ const Setting = id => {
 const Diary = () => {
   const id = useParams().id;
   const [diary, setDiary] = useState({});
+  const [profile, setProfile] = useState();
+
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+    const fetchDiaryData = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/api/diary/${id}`,
+          config,
+        );
+        setDiary(response.data);
+        console.log(response.data);
+        const memberId = response.data.memberId;
+        const responseMember = await axios.get(
+          `http://localhost:8080/api/member/profile/${memberId}`,
+          config,
+        );
+        setProfile(responseMember.data);
+      } catch (err) {
+        console.log('상세 페이지 Error >>', err);
+      }
     };
-
-    axios
-      .get(`http://localhost:8080/api/diary/${id}`, config)
-      .then(response => {
-        const diary = response.data;
-        console.log(diary);
-        setDiary(diary);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
+    fetchDiaryData();
   }, []);
   return (
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
         <BackButton />
-        {/* 일기 타이틀 */}
+        {/* 일기 타이틀  */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={diary.hasImage ? null : testImg}
+              src={profile ? profile.profileImageURL : testImg}
             ></img>
             <div {...stylex.props(titleStyle.emoji)}>X</div>
-            <div {...stylex.props(titleStyle.name)}>name</div>
+            <div {...stylex.props(titleStyle.name)}>
+              {profile ? profile.nickName : null}
+            </div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
             <span {...stylex.props(titleStyle.title)}>{diary.createdDate}</span>
@@ -256,7 +257,12 @@ const Diary = () => {
         </div>
 
         {/* 일기 하단 */}
-        <Footer />
+        <div {...stylex.props(styles.diaryFooter)}>
+          <Like likeCount={diary.likeCount !== 0 ? diary.likeCount : null} />
+          <div {...stylex.props(styles.feelBackground)}>
+            <div {...stylex.props(styles.feel)}></div>
+          </div>
+        </div>
       </div>
     </>
   );
