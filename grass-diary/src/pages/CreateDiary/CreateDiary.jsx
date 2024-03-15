@@ -113,8 +113,26 @@ const CreateDiaryStyle = stylex.create({
 const CreateDiary = () => {
   const [textValue, setTextValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+
   const [todayQuestion, setTodayQuestion] = useState();
   const [isPrivate, setIsPrivate] = useState(true);
+
+  const [moodValue, setMoodValue] = useState(5);
+  const emoticons = [
+    '😠',
+    '😕',
+    '😐',
+    '🙂',
+    '😀',
+    '😄',
+    '😊',
+    '🤗',
+    '😍',
+    '🥳',
+    '🎉',
+  ];
+
+  const selectedEmoticon = emoticons[moodValue];
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
@@ -147,6 +165,10 @@ const CreateDiary = () => {
   const handlePublicChange = () => {
     setIsPrivate(false);
     console.log('공개');
+  };
+
+  const handleMoodChange = e => {
+    setMoodValue(parseInt(e.target.value));
   };
 
   const handleInputChange = e => {
@@ -213,6 +235,7 @@ const CreateDiary = () => {
               공개
             </label>
             <div {...stylex.props(CreateDiaryStyle.todayMood)}>
+              <div style={{ fontSize: '30px' }}>{selectedEmoticon}</div>
               <div>오늘의 기분</div>
               <input
                 type="range"
@@ -220,6 +243,8 @@ const CreateDiary = () => {
                 min="0"
                 max="10"
                 list="values"
+                value={moodValue}
+                onChange={handleMoodChange}
               />
               <datalist id="values">
                 <option value="0" label="0"></option>
