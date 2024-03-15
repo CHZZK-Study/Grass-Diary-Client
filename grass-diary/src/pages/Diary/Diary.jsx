@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import testImg from '../../assets/icon/basicProfile.png';
@@ -121,7 +121,7 @@ const contentStyle = stylex.create({
   },
 });
 
-const Setting = id => {
+const Setting = ({ id, config }) => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
@@ -152,7 +152,12 @@ const Setting = id => {
     // 일기 수정 가능 시,
   };
 
-  const deleteDiary = () => {
+  const deleteDiary = async () => {
+    const response = await axios.delete(
+      `http://localhost:8080/api/diary/${id}`,
+      config,
+    );
+    // console.log('삭제 response', response);
     setCompleteDeleteModal(true);
   };
 
@@ -179,6 +184,7 @@ const Setting = id => {
 
 const Diary = () => {
   const id = useParams().id;
+  const navigate = useNavigate();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
 
@@ -197,7 +203,7 @@ const Diary = () => {
           config,
         );
         setDiary(response.data);
-        console.log(response.data);
+        // console.log(response.data);
         const memberId = response.data.memberId;
         const responseMember = await axios.get(
           `http://localhost:8080/api/member/profile/${memberId}`,
@@ -205,7 +211,8 @@ const Diary = () => {
         );
         setProfile(responseMember.data);
       } catch (err) {
-        console.log('상세 페이지 Error >>', err);
+        // console.log('상세 페이지 Error >>', err);
+        navigate('/non-existent-page');
       }
     };
     fetchDiaryData();
@@ -234,7 +241,7 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Setting id={id} />
+              <Setting id={id} config={config} />
             </div>
           </div>
         </div>
