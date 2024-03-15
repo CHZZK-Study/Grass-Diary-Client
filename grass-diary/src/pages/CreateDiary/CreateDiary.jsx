@@ -1,8 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Swal from 'sweetalert2';
 import BackButton from '../../components/BackButton';
+import axios from 'axios';
+import dayjs from 'dayjs';
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -101,6 +103,16 @@ const CreateDiaryStyle = stylex.create({
 const CreateDiary = () => {
   const [textValue, setTextValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+  const currentDate = dayjs();
+  const currentMonth = currentDate.format('M');
+  const currentDay = currentDate.format('DD');
+
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -143,7 +155,9 @@ const CreateDiary = () => {
       <main {...stylex.props(CreateDiaryStyle.container)}>
         <BackButton link={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
-          <h2>11월 11일 목요일</h2>
+          <h2>
+            {currentMonth}월 {currentDay}일
+          </h2>
         </section>
         <section>
           <article {...stylex.props(CreateDiaryStyle.subtitle)}>
