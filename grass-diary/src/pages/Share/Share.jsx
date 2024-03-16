@@ -137,12 +137,17 @@ const PauseOnHover = () => {
     <div className="slider-container">
       <Slider {...settings}>
         {top10Datas?.map(data => {
+          const date = data.createdAt;
+          const title =
+            `${date.slice(2, 4)}년 ` +
+            `${date.slice(5, 7)}월 ` +
+            `${date.slice(8, 10)}일`;
           return (
             <Feed
               key={data.diaryId}
               likeCount={data.diaryLikeCount}
               link={`/diary/${data.diaryId}`}
-              title={data.createdAt}
+              title={title}
               content={data.diaryContent}
               name={data.nickname}
             />
@@ -192,12 +197,17 @@ const Share = () => {
           </div>
           <div {...stylex.props(styles.latestFeed)}>
             {LatestDatas?.map(data => {
+              const date = data.createdAt;
+              const title =
+                `${date.slice(2, 4)}년 ` +
+                `${date.slice(5, 7)}월 ` +
+                `${date.slice(8, 10)}일`;
               return (
                 <Feed
                   key={data.diaryId}
                   likeCount={data.diaryLikeCount}
                   link={`/diary/${data.diaryId}`}
-                  title={data.createdAt}
+                  title={title}
                   content={data.content}
                   name={data.nickname}
                 />
