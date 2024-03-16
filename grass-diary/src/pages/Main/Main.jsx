@@ -567,10 +567,18 @@ const BottomSection = () => {
 };
 
 const Main = () => {
-  const params = new URLSearchParams(window.location.search);
-  const ACCESS_TOKEN = params.get('accessToken');
 
-  localStorage.setItem('accessToken', ACCESS_TOKEN);
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const accessToken = params.get('accessToken');
+
+    if (accessToken) {
+      localStorage.setItem('accessToken', accessToken);
+
+      const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+      window.history.pushState({ path: mainURL }, null, mainURL);
+    }
+  }, []);
 
   return (
     <>
