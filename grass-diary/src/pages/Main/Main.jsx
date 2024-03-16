@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import AnimateReward from './AnimateReward';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
+import { checkAuth } from '../../utils/checkAuth';
 
 const styles = stylex.create({
   title: {
@@ -567,6 +568,8 @@ const BottomSection = () => {
 };
 
 const Main = () => {
+  const navigate = useNavigate();
+  const isAthenticated = checkAuth();
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -578,6 +581,8 @@ const Main = () => {
       const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
       window.history.pushState({ path: mainURL }, null, mainURL);
     }
+
+    if (!isAthenticated) navigate('/');
   }, []);
 
   return (
