@@ -154,10 +154,29 @@ const PauseOnHover = () => {
 };
 
 const Share = () => {
-  const name = '작성자';
-  const title = '일기 제목';
-  const content =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const [cursorId, setCursorId] = useState(922337203685477600);
+  const [LatestDatas, setLatestDatas] = useState();
+  useEffect(() => {
+    axios
+      .get(
+        `http://localhost:8080/api/shared/diaries/latest?cursorId=${cursorId}&size=12`,
+        config,
+      )
+      .then(response => {
+        setCursorId(response.data.diaries[11].diaryId);
+        setLatestDatas(response.data.diaries);
+      })
+      .catch(error => {
+        console.log('Share Latest Error', error);
+      });
+  }, []);
+
   return (
     <>
       <Header />
@@ -172,19 +191,18 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            <Feed
-              link={'/diary/16'}
-              title={title}
-              content={content}
-              name={name}
-            />
-            <Feed link={'/diary/17'} />
-            <Feed link={'/diary/18'} />
-            <Feed link={'/diary/19'} />
-            <Feed link={'/diary/view'} />
-            <Feed link={'/diary/view'} />
-            <Feed link={'/diary/view'} />
-            <Feed link={'/diary/view'} />
+            {LatestDatas?.map(data => {
+              return (
+                <Feed
+                  key={data.diaryId}
+                  likeCount={data.diaryLikeCount}
+                  link={`/diary/${data.diaryId}`}
+                  title={data.createdAt}
+                  content={data.content}
+                  name={data.nickname}
+                />
+              );
+            })}
           </div>
         </div>
       </div>
