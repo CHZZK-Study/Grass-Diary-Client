@@ -167,7 +167,9 @@ const Share = () => {
   };
   const [cursorId, setCursorId] = useState(922337203685477600);
   const [LatestDatas, setLatestDatas] = useState();
+
   useEffect(() => {
+    window.scrollTo(0, 0);
     axios
       .get(
         `http://localhost:8080/api/shared/diaries/latest?cursorId=${cursorId}&size=12`,

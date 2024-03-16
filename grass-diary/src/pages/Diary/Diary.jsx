@@ -196,6 +196,10 @@ const Diary = () => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [id]);
+
+  useEffect(() => {
     const fetchDiaryData = async () => {
       try {
         const response = await axios.get(
