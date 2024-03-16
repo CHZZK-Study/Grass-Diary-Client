@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import testImg from '../../assets/icon/profile.jpeg';
 
@@ -104,16 +104,23 @@ const Feed = ({ likeCount, link, title, content, name }) => {
     </Link>
   );
 };
+const PauseOnHover = () => {
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const [top10Datas, setTop10Datas] = useState();
 
-function PauseOnHover() {
   useEffect(() => {
     axios
-      .get('http://localhost:8080/api/diary/1')
+      .get('http://localhost:8080/api/shared/diaries/popular', config)
       .then(response => {
-        console.log(response);
+        setTop10Datas(response.data);
       })
       .catch(error => {
-        console.log('Error', error);
+        console.log('Share Top10 Error', error);
       });
   }, []);
 
@@ -126,34 +133,25 @@ function PauseOnHover() {
     autoplaySpeed: 2000,
     pauseOnHover: true,
   };
-  const name = '작성자';
-  const title = '일기 제목';
-  const content =
-    'Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil suscipit corporis quibusdam quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, nsecessitatibus quo.Lorem ipsum dolor sitamet consectetur adipisicing elit. Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.Nihil suscipit corporis quibusdam  quas. Aspernatur aperiam aut aliquid maiores expedita repudiandae deleniti quisquam corrupti neque illo facilis, rerum voluptatum, elit.';
-
   return (
     <div className="slider-container">
       <Slider {...settings}>
-        <Feed
-          likeCount={1}
-          link={'/diary/view'}
-          title={title}
-          content={content}
-          name={name}
-        />
-        <Feed likeCount={2} link={'/diary/view'} />
-        <Feed likeCount={3} link={'/diary/view'} />
-        <Feed likeCount={4} link={'/diary/view'} />
-        <Feed likeCount={5} link={'/diary/view'} />
-        <Feed likeCount={6} link={'/diary/view'} />
-        <Feed likeCount={7} link={'/diary/view'} />
-        <Feed likeCount={8} link={'/diary/view'} />
-        <Feed likeCount={9} link={'/diary/view'} />
-        <Feed likeCount={10} link={'/diary/view'} />
+        {top10Datas?.map(data => {
+          return (
+            <Feed
+              key={data.diaryId}
+              likeCount={data.diaryLikeCount}
+              link={`/diary/${data.diaryId}`}
+              title={data.createdAt}
+              content={data.diaryContent}
+              name={data.nickname}
+            />
+          );
+        })}
       </Slider>
     </div>
   );
-}
+};
 
 const Share = () => {
   const name = '작성자';
@@ -175,14 +173,14 @@ const Share = () => {
           </div>
           <div {...stylex.props(styles.latestFeed)}>
             <Feed
-              link={'/diary/32'}
+              link={'/diary/16'}
               title={title}
               content={content}
               name={name}
             />
-            <Feed link={'/diary/1'} />
-            <Feed link={'/diary/view'} />
-            <Feed link={'/diary/view'} />
+            <Feed link={'/diary/17'} />
+            <Feed link={'/diary/18'} />
+            <Feed link={'/diary/19'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
             <Feed link={'/diary/view'} />
