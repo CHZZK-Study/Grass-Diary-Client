@@ -188,7 +188,7 @@ const Diary = () => {
   ];
 
   useEffect(() => {
-    API.get(`/diary/main/1`, config)
+    API.get(`/diary/main/1`)
       .then(response => {
         setDiaryList(response.data.content);
       })
