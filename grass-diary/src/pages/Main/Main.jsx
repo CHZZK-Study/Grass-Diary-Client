@@ -8,7 +8,7 @@ import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
-import { checkAuth } from '../../utils/checkAuth';
+import { checkAuth } from '../../utils/authUtils';
 
 const styles = stylex.create({
   title: {
