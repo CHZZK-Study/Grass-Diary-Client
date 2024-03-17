@@ -13,8 +13,13 @@ const SlideStyle = stylex.create({
     backgroundColor: '#f9f9f9',
     borderLeft: '30px solid white',
     borderRight: '30px solid white',
-    borderRadius: '30px',
+    borderRadius: '50px',
     height: 400,
+    ':hover': {
+      transform: 'scale(1.02)',
+    },
+    transition: '0.3s',
+    margin: '10px',
   },
 
   content: {
