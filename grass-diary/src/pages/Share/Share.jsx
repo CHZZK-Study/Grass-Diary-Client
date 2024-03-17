@@ -5,8 +5,8 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import { useEffect } from 'react';
-import axios from 'axios';
 import testImg from '../../assets/icon/profile.jpeg';
+import API from '../../services';
 
 const styles = stylex.create({
   container: {
@@ -107,8 +107,7 @@ const Feed = ({ likeCount, link, title, content, name }) => {
 
 function PauseOnHover() {
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/diary/1')
+    API.get('/diary/1')
       .then(response => {
         console.log(response);
       })

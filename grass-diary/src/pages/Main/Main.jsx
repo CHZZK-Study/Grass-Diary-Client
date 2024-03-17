@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import AnimateReward from './AnimateReward';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../../services/index';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
 import SimpleSlider from './CardSlider';
@@ -269,16 +269,8 @@ const TopSection = () => {
   const [date, setDate] = useState(null);
   const [todayQuestion, setTodayQuestion] = useState(null);
 
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/main/todayInfo', config)
+    API.get('/main/todayInfo')
       .then(response => {
         setDate(response.data.date);
         setTodayQuestion(response.data.todayQuestion);
@@ -430,8 +422,7 @@ const MiddleSection = () => {
   });
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/member/totalReward/1')
+    API.get('/member/totalReward/1')
       .then(response => {
         setRewardPoint(response.data.rewardPoint);
       })
@@ -441,8 +432,7 @@ const MiddleSection = () => {
   }, []);
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/main/grass/1')
+    API.get('/main/grass/1')
       .then(response => {
         setGrassCount(response.data.count);
         setGrassColor(response.data.grassInfoDTO.colorRGB);
