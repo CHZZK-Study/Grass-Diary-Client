@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { clearAuth } from '../utils/authUtils';
 
 const API = axios.create({
   baseURL: 'http://localhost:8080/api',
@@ -13,6 +14,17 @@ API.interceptors.request.use(
   },
 
   error => Promise.reject(error),
+);
+
+API.interceptors.response.use(
+  response => response,
+  error => {
+    if (error.response && error.response.status === 500) {
+      clearAuth();
+    }
+
+    return Promise.reject(error);
+  },
 );
 
 export default API;
