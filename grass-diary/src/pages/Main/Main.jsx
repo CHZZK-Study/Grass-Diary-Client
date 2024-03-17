@@ -559,21 +559,25 @@ const BottomSection = () => {
 
 const Main = () => {
   const navigate = useNavigate();
-  const isAthenticated = checkAuth();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const accessToken = params.get('accessToken');
+    const initLoad = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const accessToken = params.get('accessToken');
 
-    if (accessToken) {
-      localStorage.setItem('accessToken', accessToken);
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
 
-      const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-      window.history.pushState({ path: mainURL }, null, mainURL);
-    }
+        const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+        window.history.pushState({ path: mainURL }, null, mainURL);
+      }
 
-    if (!isAthenticated) navigate('/');
-  }, []);
+      const isAuthenticated = await checkAuth();
+      if (!isAuthenticated) navigate('/');
+    };
+
+    initLoad();
+  }, [navigate]);
 
   return (
     <>
