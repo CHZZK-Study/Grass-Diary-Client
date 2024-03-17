@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../services/index';
 
 import testImg from '../../assets/icon/profile.jpeg';
 import Header from '../../components/Header';
@@ -200,15 +200,7 @@ const Diary = () => {
   const [diary, setDiary] = useState({});
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios
-      .get(`http://localhost:8080/api/${id}`, config)
+    API.get(`/${id}`)
       .then(response => {
         const diary = response.data;
         setDiary(diary);
@@ -217,6 +209,7 @@ const Diary = () => {
         console.log('Error', error);
       });
   }, []);
+
   return (
     <>
       <Header />
