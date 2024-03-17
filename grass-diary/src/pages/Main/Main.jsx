@@ -431,16 +431,16 @@ const MiddleSection = () => {
       });
   }, []);
 
-  useEffect(() => {
-    API.get('/main/grass/1')
-      .then(response => {
-        setGrassCount(response.data.count);
-        setGrassColor(response.data.grassInfoDTO.colorRGB);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   API.get('/main/grass/1')
+  //     .then(response => {
+  //       setGrassCount(response.data.count);
+  //       setGrassColor(response.data.grassInfoDTO.colorRGB);
+  //     })
+  //     .catch(error => {
+  //       console.log('Error', error);
+  //     });
+  // }, []);
 
   const modal = () => {
     Swal.fire({
