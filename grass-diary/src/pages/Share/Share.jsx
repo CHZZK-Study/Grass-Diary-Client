@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import testImg from '../../assets/icon/profile.jpeg';
 
@@ -31,6 +31,11 @@ const styles = stylex.create({
   latestFeed: {
     display: 'flex',
     flexFlow: 'row wrap',
+  },
+  observer: {
+    margin: 'auto',
+    width: '50px',
+    height: '50px',
   },
 });
 
@@ -159,30 +164,55 @@ const PauseOnHover = () => {
 };
 
 const Share = () => {
+  const [cursorId, setCursorId] = useState(922337203685477600);
+  const [LatestDatas, setLatestDatas] = useState([]);
+  const target = useRef();
   const token = localStorage.getItem('accessToken');
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const [cursorId, setCursorId] = useState(922337203685477600);
-  const [LatestDatas, setLatestDatas] = useState();
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
+  const getApi = () => {
     axios
       .get(
-        `http://localhost:8080/api/shared/diaries/latest?cursorId=${cursorId}&size=12`,
+        `http://localhost:8080/api/shared/diaries/latest?cursorId=${cursorId}&size=3`,
         config,
       )
       .then(response => {
-        setCursorId(response.data.diaries[11].diaryId);
-        setLatestDatas(response.data.diaries);
+        if (response.data.diaries.length > 0) {
+          setCursorId(response.data.diaries.at(-1).diaryId);
+          setLatestDatas(prev => [...prev, ...response.data.diaries]);
+        } else {
+          console.log('불러올 데이터가 없습니다');
+        }
       })
       .catch(error => {
         console.log('Share Latest Error', error);
       });
-  }, []);
+  };
+
+  const callback = async ([entry]) => {
+    if (entry.isIntersecting) {
+      getApi();
+    }
+  };
+
+  useEffect(() => {
+    if (LatestDatas.length === 0) {
+      window.scrollTo(0, 0);
+    }
+
+    const observer = new IntersectionObserver(callback, { threshold: 1 });
+    observer.observe(target.current);
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [LatestDatas]);
 
   return (
     <>
@@ -216,6 +246,7 @@ const Share = () => {
               );
             })}
           </div>
+          <div ref={target} {...stylex.props(styles.observer)}></div>
         </div>
       </div>
     </>
