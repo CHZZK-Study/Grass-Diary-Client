@@ -5,6 +5,10 @@ import Button from '../../components/Button';
 import LoginModal from './LoginModal/LoginModal';
 import useModal from '../../hooks/useModal';
 
+import { checkAuth } from '../../utils/authUtils';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
 };
@@ -16,19 +20,35 @@ const Section = ({ backgroundColor, height, children }) => (
 );
 
 const OpenModalButton = () => {
+  const navigate = useNavigate();
   const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const loggedIn = async () => {
+      const accessToken = await checkAuth();
+      if (accessToken) setIsLoggedIn(true);
+    };
+
+    loggedIn();
+  }, []);
+
+  const handleStartButton = () => {
+    if (isLoggedIn) navigate('/main');
+    else handleOpenModal();
+  };
 
   return (
     <>
       <Button
         text="일기 시작하기"
-        onClick={handleOpenModal}
+        onClick={handleStartButton}
         width="150px"
         color="#FFF"
         backgroundColor="#28CA3B"
         border="none"
       />
-      {isModalOpen && (
+      {!isLoggedIn && isModalOpen && (
         <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
       )}
     </>
