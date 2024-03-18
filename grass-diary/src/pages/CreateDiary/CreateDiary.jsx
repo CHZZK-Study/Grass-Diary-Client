@@ -1,8 +1,12 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '../../components/Header';
 import Swal from 'sweetalert2';
 import BackButton from '../../components/BackButton';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import 'dayjs/locale/ko';
+dayjs.locale('ko');
 
 const CreateDiaryStyle = stylex.create({
   container: {
@@ -25,6 +29,7 @@ const CreateDiaryStyle = stylex.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    padding: '30px',
   },
 
   border: {
@@ -96,11 +101,75 @@ const CreateDiaryStyle = stylex.create({
     backgroundColor: 'white',
     cursor: 'pointer',
   },
+
+  todayMood: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 const CreateDiary = () => {
   const [textValue, setTextValue] = useState('');
   const [inputValue, setInputValue] = useState('');
+
+  const [todayQuestion, setTodayQuestion] = useState();
+  const [isPrivate, setIsPrivate] = useState(true);
+
+  const [moodValue, setMoodValue] = useState(5);
+  const emoticons = [
+    '😠',
+    '😕',
+    '😐',
+    '🙂',
+    '😀',
+    '😄',
+    '😊',
+    '🤗',
+    '😍',
+    '🥳',
+    '🎉',
+  ];
+
+  const selectedEmoticon = emoticons[moodValue];
+
+  const currentDate = dayjs();
+  const currentMonth = currentDate.format('M');
+  const currentDay = currentDate.format('DD');
+  const currentDDay = currentDate.format('ddd');
+
+  const token = localStorage.getItem('accessToken');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:8080/api/main/todayInfo', config)
+      .then(response => {
+        setTodayQuestion(response.data.todayQuestion);
+      })
+      .catch(error => {
+        console.log('오늘의 질문 에러', error);
+      });
+  }, []);
+
+  const handlePrivateChange = () => {
+    setIsPrivate(true);
+    console.log('비공개');
+  };
+
+  const handlePublicChange = () => {
+    setIsPrivate(false);
+    console.log('공개');
+  };
+
+  const handleMoodChange = e => {
+    setMoodValue(parseInt(e.target.value));
+  };
 
   const handleInputChange = e => {
     setInputValue(e.target.value);
@@ -143,17 +212,49 @@ const CreateDiary = () => {
       <main {...stylex.props(CreateDiaryStyle.container)}>
         <BackButton link={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
-          <h2>11월 11일 목요일</h2>
+          <h2>
+            {currentMonth}월 {currentDay}일 {currentDDay}요일
+          </h2>
         </section>
         <section>
           <article {...stylex.props(CreateDiaryStyle.subtitle)}>
             <label>
-              <input type="checkbox" />
+              <input
+                type="radio"
+                value="private"
+                checked={isPrivate}
+                onChange={handlePrivateChange}
+              />
               비공개
-              <input type="checkbox" />
+              <input
+                type="radio"
+                value="public"
+                checked={!isPrivate}
+                onChange={handlePublicChange}
+              />
               공개
             </label>
-            <p>오늘의 기분</p>
+            <div {...stylex.props(CreateDiaryStyle.todayMood)}>
+              <div style={{ fontSize: '30px' }}>{selectedEmoticon}</div>
+              <div>오늘의 기분</div>
+              <input
+                type="range"
+                name="todayMood"
+                min="0"
+                max="10"
+                list="values"
+                value={moodValue}
+                onChange={handleMoodChange}
+              />
+              <datalist id="values">
+                <option value="0" label="0"></option>
+                <option value="2" label="2"></option>
+                <option value="4" label="4"></option>
+                <option value="6" label="6"></option>
+                <option value="8" label="8"></option>
+                <option value="10" label="10"></option>
+              </datalist>
+            </div>
           </article>
         </section>
         <section>
@@ -172,7 +273,7 @@ const CreateDiary = () => {
                 type="text"
                 value={textValue}
                 onChange={handleTextChange}
-                placeholder={textValue ? '' : '오늘 잠은 얼마나 잤나요?'}
+                placeholder={textValue ? '' : todayQuestion}
               />
             </p>
           </article>

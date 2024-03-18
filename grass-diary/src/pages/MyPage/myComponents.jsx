@@ -1,12 +1,12 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useState, useEffect, useMemo } from 'react';
-import axios from 'axios';
 
 import Like from '../../components/Like';
 import Button from '../../components/Button';
 import diaryImage from '../../assets/icon/diaryImage.png';
 import basicProfile from '../../assets/icon/basicProfile.png';
+import API from '../../services';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -63,16 +63,8 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 const Profile = () => {
   const [profile, setProfile] = useState([]);
 
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/member/profile/1', config)
+    API.get('/member/profile/1')
       .then(response => {
         setProfile(response.data);
       })
@@ -196,15 +188,7 @@ const Diary = () => {
   ];
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    axios
-      .get(`http://localhost:8080/api/diary/main/1`, config)
+    API.get(`/diary/main/1`)
       .then(response => {
         setDiaryList(response.data.content);
       })

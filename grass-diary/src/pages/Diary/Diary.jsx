@@ -1,7 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import API from '../../services/index';
 
 import testImg from '../../assets/icon/basicProfile.png';
 import Header from '../../components/Header';
@@ -121,7 +121,7 @@ const contentStyle = stylex.create({
   },
 });
 
-const Setting = ({ id, config }) => {
+const Setting = id => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
@@ -153,11 +153,7 @@ const Setting = ({ id, config }) => {
   };
 
   const deleteDiary = async () => {
-    const response = await axios.delete(
-      `http://localhost:8080/api/diary/${id}`,
-      config,
-    );
-    // console.log('삭제 response', response);
+    await API.delete(`/diary/${id}`);
     setCompleteDeleteModal(true);
   };
 
@@ -188,39 +184,25 @@ const Diary = () => {
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
 
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+  const fetchDiaryData = async () => {
+    try {
+      const response = await API.get(`/diary/${id}`);
+      const memberId = response.data.memberId;
+      const responseMember = await API.get(`/member/profile/${memberId}`);
+
+      setDiary(response.data);
+      setProfile(responseMember.data);
+    } catch (err) {
+      console.log('상세 페이지 Error >>', err);
+      navigate('/non-existent-page');
+    }
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
-
-  useEffect(() => {
-    const fetchDiaryData = async () => {
-      try {
-        const response = await axios.get(
-          `http://localhost:8080/api/diary/${id}`,
-          config,
-        );
-        setDiary(response.data);
-        // console.log(response.data);
-        const memberId = response.data.memberId;
-        const responseMember = await axios.get(
-          `http://localhost:8080/api/member/profile/${memberId}`,
-          config,
-        );
-        setProfile(responseMember.data);
-      } catch (err) {
-        // console.log('상세 페이지 Error >>', err);
-        navigate('/non-existent-page');
-      }
-    };
     fetchDiaryData();
   }, []);
+
   return (
     <>
       <Header />
@@ -245,7 +227,7 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Setting id={id} config={config} />
+              <Setting id={id} />
             </div>
           </div>
         </div>

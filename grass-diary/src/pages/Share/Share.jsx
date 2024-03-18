@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import testImg from '../../assets/icon/profile.jpeg';
+import API from '../../services';
 
 const styles = stylex.create({
   container: {
@@ -110,17 +111,10 @@ const Feed = ({ likeCount, link, title, content, name }) => {
   );
 };
 const PauseOnHover = () => {
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
   const [top10Datas, setTop10Datas] = useState();
 
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/shared/diaries/popular', config)
+    API.get('/shared/diaries/popular')
       .then(response => {
         setTop10Datas(response.data);
       })
@@ -167,19 +161,9 @@ const Share = () => {
   const [cursorId, setCursorId] = useState(922337203685477600);
   const [LatestDatas, setLatestDatas] = useState([]);
   const target = useRef();
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
 
   const getApi = () => {
-    axios
-      .get(
-        `http://localhost:8080/api/shared/diaries/latest?cursorId=${cursorId}&size=3`,
-        config,
-      )
+    API.get(`/shared/diaries/latest?cursorId=${cursorId}&size=3`)
       .then(response => {
         if (response.data.diaries.length > 0) {
           setCursorId(response.data.diaries.at(-1).diaryId);
