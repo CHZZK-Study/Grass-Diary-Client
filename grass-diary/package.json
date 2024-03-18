@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@stylexjs/stylex": "^0.5.1",
+    "@yaireo/tagify": "^4.22.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
