@@ -85,7 +85,7 @@ const feed = stylex.create({
   },
 });
 
-const Feed = ({ likeCount, link, title, content, name }) => {
+const Feed = ({ likeCount, link, title, content, name, profile }) => {
   return (
     <Link to={link}>
       <article {...stylex.props(feed.box)}>
@@ -96,7 +96,7 @@ const Feed = ({ likeCount, link, title, content, name }) => {
           <span>{likeCount}</span>
         </div>
         <div {...stylex.props(feed.header)}>
-          <img {...stylex.props(feed.img)} src={testImg}></img>
+          <img {...stylex.props(feed.img)} src={profile}></img>
           <div {...stylex.props(feed.name)}>{name}</div>
         </div>
 
@@ -112,17 +112,6 @@ const Feed = ({ likeCount, link, title, content, name }) => {
 };
 const PauseOnHover = () => {
   const [top10Datas, setTop10Datas] = useState();
-
-  useEffect(() => {
-    API.get('/shared/diaries/popular')
-      .then(response => {
-        setTop10Datas(response.data);
-      })
-      .catch(error => {
-        console.log('Share Top10 Error', error);
-      });
-  }, []);
-
   const settings = {
     dots: true,
     infinite: true,
@@ -132,23 +121,54 @@ const PauseOnHover = () => {
     autoplaySpeed: 2000,
     pauseOnHover: true,
   };
+
+  const getProfileApi = async memberId => {
+    const profile = await API.get(`/member/profile/${memberId}`).then(
+      res => res.data.profileImageURL,
+    );
+    return profile;
+  };
+
+  const getDiaryApi = async () => {
+    const res = await API.get('/shared/diaries/popular').then(res => res.data);
+
+    const initData = await Promise.all(
+      res.map(async data => {
+        const profile = await getProfileApi(data.memberId);
+        const title =
+          `${data.createdAt.slice(2, 4)}년 ` +
+          `${data.createdAt.slice(5, 7)}월 ` +
+          `${data.createdAt.slice(8, 10)}일`;
+        return {
+          diaryId: data.diaryId,
+          title: title,
+          diaryContent: data.diaryContent,
+          diaryLikeCount: data.diaryLikeCount,
+          profile: profile,
+          nickname: data.nickname,
+        };
+      }),
+    );
+    setTop10Datas(initData);
+  };
+
+  useEffect(() => {
+    getDiaryApi();
+  }, []);
+
   return (
     <div className="slider-container">
       <Slider {...settings}>
         {top10Datas?.map(data => {
-          const date = data.createdAt;
-          const title =
-            `${date.slice(2, 4)}년 ` +
-            `${date.slice(5, 7)}월 ` +
-            `${date.slice(8, 10)}일`;
           return (
             <Feed
               key={data.diaryId}
               likeCount={data.diaryLikeCount}
               link={`/diary/${data.diaryId}`}
-              title={title}
+              title={data.title}
               content={data.diaryContent}
               name={data.nickname}
+              profile={data.profile}
             />
           );
         })}
