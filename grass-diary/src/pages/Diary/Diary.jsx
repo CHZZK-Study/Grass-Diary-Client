@@ -122,12 +122,6 @@ const contentStyle = stylex.create({
 });
 
 const Setting = id => {
-  // const token = localStorage.getItem('accessToken');
-  // const config = {
-  //   headers: {
-  //     Authorization: `Bearer ${token}`,
-  //   },
-  // };
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
@@ -160,11 +154,11 @@ const Setting = id => {
 
   const deleteDiary = async () => {
     await API.delete(`/diary/${id.id}`)
-      .then(res => {
-        console.log(res);
+      .then(() => {
+        console.log('삭제 완료');
         setCompleteDeleteModal(true);
       })
-      .catch(err => console.log('삭제 에러', err));
+      .catch(err => console.log('삭제 error', err));
   };
 
   return (
