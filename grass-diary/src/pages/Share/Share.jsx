@@ -5,8 +5,6 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import testImg from '../../assets/icon/profile.jpeg';
 import API from '../../services';
 
 const styles = stylex.create({
@@ -110,7 +108,7 @@ const Feed = ({ likeCount, link, title, content, name, profile }) => {
     </Link>
   );
 };
-const PauseOnHover = () => {
+const PauseOnHover = ({ getProfileApi }) => {
   const [top10Datas, setTop10Datas] = useState();
   const settings = {
     dots: true,
@@ -122,34 +120,33 @@ const PauseOnHover = () => {
     pauseOnHover: true,
   };
 
-  const getProfileApi = async memberId => {
-    const profile = await API.get(`/member/profile/${memberId}`).then(
-      res => res.data.profileImageURL,
-    );
-    return profile;
-  };
-
   const getDiaryApi = async () => {
-    const res = await API.get('/shared/diaries/popular').then(res => res.data);
+    try {
+      const res = await API.get('/shared/diaries/popular').then(
+        res => res.data,
+      );
 
-    const initData = await Promise.all(
-      res.map(async data => {
-        const profile = await getProfileApi(data.memberId);
-        const title =
-          `${data.createdAt.slice(2, 4)}년 ` +
-          `${data.createdAt.slice(5, 7)}월 ` +
-          `${data.createdAt.slice(8, 10)}일`;
-        return {
-          diaryId: data.diaryId,
-          title: title,
-          diaryContent: data.diaryContent,
-          diaryLikeCount: data.diaryLikeCount,
-          profile: profile,
-          nickname: data.nickname,
-        };
-      }),
-    );
-    setTop10Datas(initData);
+      const initData = await Promise.all(
+        res.map(async data => {
+          const profile = await getProfileApi(data.memberId);
+          const title =
+            `${data.createdAt.slice(2, 4)}년 ` +
+            `${data.createdAt.slice(5, 7)}월 ` +
+            `${data.createdAt.slice(8, 10)}일`;
+          return {
+            diaryId: data.diaryId,
+            title: title,
+            diaryContent: data.diaryContent,
+            diaryLikeCount: data.diaryLikeCount,
+            profile: profile,
+            nickname: data.nickname,
+          };
+        }),
+      );
+      setTop10Datas(initData);
+    } catch (err) {
+      console.log('top 10 error', err);
+    }
   };
 
   useEffect(() => {
@@ -179,22 +176,49 @@ const PauseOnHover = () => {
 
 const Share = () => {
   const [cursorId, setCursorId] = useState(922337203685477600);
-  const [LatestDatas, setLatestDatas] = useState([]);
+  const [latestDatas, setLatestDatas] = useState([]);
   const target = useRef();
 
-  const getApi = () => {
-    API.get(`/shared/diaries/latest?cursorId=${cursorId}&size=3`)
-      .then(response => {
-        if (response.data.diaries.length > 0) {
-          setCursorId(response.data.diaries.at(-1).diaryId);
-          setLatestDatas(prev => [...prev, ...response.data.diaries]);
-        } else {
-          console.log('불러올 데이터가 없습니다');
-        }
-      })
-      .catch(error => {
-        console.log('Share Latest Error', error);
-      });
+  const getProfileApi = async memberId => {
+    const profile = await API.get(`/member/profile/${memberId}`).then(
+      res => res.data.profileImageURL,
+    );
+    return profile;
+  };
+
+  const getApi = async () => {
+    try {
+      const res = await API.get(
+        `/shared/diaries/latest?cursorId=${cursorId}&size=3`,
+      ).then(res => res.data.diaries);
+
+      const initData = await Promise.all(
+        res.map(async data => {
+          const profile = await getProfileApi(data.memberId);
+          const title =
+            `${data.createdAt.slice(2, 4)}년 ` +
+            `${data.createdAt.slice(5, 7)}월 ` +
+            `${data.createdAt.slice(8, 10)}일`;
+          return {
+            diaryId: data.diaryId,
+            title: title,
+            diaryContent: data.content,
+            diaryLikeCount: data.diaryLikeCount,
+            profile: profile,
+            nickname: data.nickname,
+          };
+        }),
+      );
+
+      if (initData.length > 0) {
+        setCursorId(initData.at(-1).diaryId);
+        setLatestDatas(prev => [...prev, ...initData]);
+      } else {
+        console.log('불러올 데이터가 없습니다.');
+      }
+    } catch (err) {
+      console.log('latest error', err);
+    }
   };
 
   const callback = async ([entry]) => {
@@ -204,7 +228,7 @@ const Share = () => {
   };
 
   useEffect(() => {
-    if (LatestDatas.length === 0) {
+    if (latestDatas.length === 0) {
       window.scrollTo(0, 0);
     }
 
@@ -216,7 +240,7 @@ const Share = () => {
         observer.disconnect();
       }
     };
-  }, [LatestDatas]);
+  }, [latestDatas]);
 
   return (
     <>
@@ -224,7 +248,7 @@ const Share = () => {
       <div {...stylex.props(styles.container)}>
         <section>
           <div {...stylex.props(styles.top10Title)}>🏆 이번 주 TOP 10</div>
-          <PauseOnHover />
+          <PauseOnHover getProfileApi={getProfileApi} />
         </section>
 
         <div>
@@ -232,20 +256,16 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            {LatestDatas?.map(data => {
-              const date = data.createdAt;
-              const title =
-                `${date.slice(2, 4)}년 ` +
-                `${date.slice(5, 7)}월 ` +
-                `${date.slice(8, 10)}일`;
+            {latestDatas?.map(data => {
               return (
                 <Feed
                   key={data.diaryId}
                   likeCount={data.diaryLikeCount}
                   link={`/diary/${data.diaryId}`}
-                  title={title}
-                  content={data.content}
+                  title={data.title}
+                  content={data.diaryContent}
                   name={data.nickname}
+                  profile={data.profile}
                 />
               );
             })}
