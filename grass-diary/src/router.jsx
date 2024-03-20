@@ -26,11 +26,8 @@ const router = createBrowserRouter([
       { path: '/share', element: <Share /> },
       { path: '/setting', element: <Setting /> },
       { path: '/mypage', element: <MyPage /> },
+      { path: '/non-existent-page', element: <NonExistentDiary /> },
     ],
-  },
-  {
-    path: '/non-existent-page',
-    element: <NonExistentDiary />,
   },
 ]);
 
