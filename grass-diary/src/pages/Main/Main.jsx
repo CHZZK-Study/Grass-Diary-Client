@@ -394,11 +394,6 @@ const MiddleSection = () => {
   const currentMonth = currentDate.format('M');
   const temporaryPoint = grassCount * 10;
 
-  // console.log(currentDate.format('DD/MM/YYYY'));
-  // const currentDay = currentDate.format('DD');
-  // console.log(currentMonth);
-  // console.log(currentDay);
-
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
 
