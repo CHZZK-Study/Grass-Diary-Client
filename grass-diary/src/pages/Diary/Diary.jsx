@@ -187,6 +187,7 @@ const Diary = () => {
   const navigate = useNavigate();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
+  const [likeCount, setLikeCount] = useState();
 
   const fetchDiaryData = async () => {
     try {
@@ -196,6 +197,7 @@ const Diary = () => {
 
       setDiary(response.data);
       setProfile(responseMember.data);
+      setLikeCount(response.data.likeCount);
     } catch (err) {
       console.log('상세 페이지 Error >>', err);
       navigate('/non-existent-page');
@@ -248,7 +250,7 @@ const Diary = () => {
 
         {/* 일기 하단 */}
         <div {...stylex.props(styles.diaryFooter)}>
-          <Like likeCount={diary.likeCount !== 0 ? diary.likeCount : null} />
+          <Like likeCount={likeCount} setLikeCount={setLikeCount} />
           <div {...stylex.props(styles.feelBackground)}>
             <div {...stylex.props(styles.feel)}></div>
           </div>
