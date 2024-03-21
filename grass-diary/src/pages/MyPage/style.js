@@ -57,15 +57,6 @@ const styles = stylex.create({
     height: '100%',
   },
 
-  profileImage: {
-    width: '200px',
-    height: '200px',
-
-    objectFit: 'cover',
-
-    borderRadius: '100%',
-  },
-
   profileRight: {
     display: 'flex',
     flexDirection: 'column',
@@ -192,21 +183,6 @@ const styles = stylex.create({
 
   smallProfileSection: {
     display: 'flex',
-  },
-
-  smallProfile: {
-    width: '60px',
-    height: '60px',
-
-    borderRadius: '100%',
-    objectFit: 'cover',
-  },
-
-  emoji: {
-    fontSize: '22px',
-    zIndex: '1',
-    position: 'relative',
-    transform: 'translate(-19px, 33px)',
   },
 
   smallDetailes: {

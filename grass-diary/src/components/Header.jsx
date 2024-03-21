@@ -2,9 +2,9 @@ import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import useUser from '../hooks/useUser';
-import API from '../services';
+import Profile from './Profile';
 import { clearAuth } from '../utils/authUtils';
+import useUser from '../hooks/useUser';
 
 const header = stylex.create({
   container: {
@@ -30,17 +30,12 @@ const header = stylex.create({
     alignItems: 'center',
     cursor: 'pointer',
   },
-  profile: {
-    width: '44px',
-    height: '44px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    marginRight: '20px',
-  },
   arrowUp: {
+    paddingLeft: '15px',
     transition: '0.5s',
   },
   arrowDown: {
+    paddingLeft: '15px',
     transform: 'scaleY(-1)',
   },
 });
@@ -113,7 +108,6 @@ const MenuBar = ({ toggle, headerRef }) => {
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
-  const [profile, setProfile] = useState();
   const headerRef = useRef();
   const iconRef = useRef();
   const memberId = useUser();
@@ -121,18 +115,6 @@ const Header = () => {
   const dropDown = () => {
     setToggle(current => !current);
   };
-
-  useEffect(() => {
-    if (memberId) {
-      API.get(`/member/profile/${memberId}`)
-        .then(res => {
-          setProfile(res.data.profileImageURL);
-        })
-        .catch(err => {
-          console.log('Header Error', err);
-        });
-    }
-  }, [memberId]);
 
   useEffect(() => {
     const closeToggle = e => {
@@ -156,11 +138,7 @@ const Header = () => {
       </Link>
       {memberId ? (
         <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-          <img
-            {...stylex.props(header.profile)}
-            src={profile ? profile : testImg}
-            alt="profile"
-          />
+          <Profile width="44px" height="44px" />
           <div
             ref={iconRef}
             {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
