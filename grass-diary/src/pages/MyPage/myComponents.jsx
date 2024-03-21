@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import diaryImage from '../../assets/icon/diaryImage.png';
 import basicProfile from '../../assets/icon/basicProfile.png';
 import API from '../../services';
+import useUser from '../../hooks/useUser';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -62,16 +63,19 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 
 const Profile = () => {
   const [profile, setProfile] = useState([]);
+  const memberId = useUser();
 
   useEffect(() => {
-    API.get('/member/profile/1')
-      .then(response => {
-        setProfile(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  });
+    if (memberId) {
+      API.get(`/member/profile/${memberId}`)
+        .then(response => {
+          setProfile(response.data);
+        })
+        .catch(error => {
+          console.error(`사용자 프로필을 조회할 수 없습니다. ${error}`);
+        });
+    }
+  }, [memberId]);
 
   return (
     <div {...stylex.props(styles.profileDetails)}>
@@ -174,6 +178,7 @@ const SearchBar = () => {
 const Diary = () => {
   const [diaryList, setDiaryList] = useState([]);
   const [mood, setMood] = useState([]);
+  const memberId = useUser();
 
   const emoji = [
     ['🤯', '🤬', '😭'],
@@ -188,14 +193,16 @@ const Diary = () => {
   ];
 
   useEffect(() => {
-    API.get(`/diary/main/1`)
-      .then(response => {
-        setDiaryList(response.data.content);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
+    if (memberId) {
+      API.get(`/diary/main/${memberId}`)
+        .then(response => {
+          setDiaryList(response.data.content);
+        })
+        .catch(error => {
+          console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
+        });
+    }
+  }, [memberId]);
 
   useMemo(() => {
     const moods = [];
