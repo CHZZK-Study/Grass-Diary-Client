@@ -9,6 +9,7 @@ import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { checkAuth } from '../../utils/authUtils';
+import useUser from '../../hooks/useUser';
 
 const styles = stylex.create({
   title: {
@@ -390,6 +391,7 @@ const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState(null);
   const [grassCount, setGrassCount] = useState(null);
   const [grassColor, setGrassColor] = useState(null);
+
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const temporaryPoint = grassCount * 10;
@@ -421,15 +423,19 @@ const MiddleSection = () => {
     }
   });
 
+  const memberId = useUser();
+
   useEffect(() => {
-    API.get('/member/totalReward/1')
-      .then(response => {
-        setRewardPoint(response.data.rewardPoint);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
+    if (memberId) {
+      API.get(`/member/totalReward/${memberId}`)
+        .then(response => {
+          setRewardPoint(response.data.rewardPoint);
+        })
+        .catch(error => {
+          console.error('Error', error);
+        });
+    }
+  }, [memberId]);
 
   // useEffect(() => {
   //   API.get('/main/grass/1')
