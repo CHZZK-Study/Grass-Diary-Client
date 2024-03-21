@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import API from '../../services/index';
 
-import testImg from '../../assets/icon/profile.jpeg';
+import testImg from '../../assets/icon/basicProfile.png';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
@@ -121,38 +121,20 @@ const contentStyle = stylex.create({
   },
 });
 
-const Footer = () => {
-  return (
-    <div {...stylex.props(styles.diaryFooter)}>
-      <Like />
-      <div {...stylex.props(styles.feelBackground)}>
-        <div {...stylex.props(styles.feel)}></div>
-      </div>
-    </div>
-  );
-};
-
 const Setting = id => {
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  const createdDate = '24년 03월 12일'; // 임시 데이터
+  const createdDate = '24년 03월 14일'; // 임시 데이터
   const date = new Date();
   useEffect(() => {
     if (
+      // 당일 : 일기 수정 가능
       createdDate.slice(0, 2) === String(date.getFullYear()).slice(2, 4) &&
       createdDate.slice(5, 6) == date.getMonth() + 1 &&
       createdDate.slice(8, 10) == date.getDate()
     ) {
-      // 당일 : 일기 수정 가능
-      setModifiable(true);
-    } else if (
-      createdDate.slice(8, 10) == date.getDate() - 1 &&
-      date.getHours() < 6 &&
-      date.getMinutes() < 60
-    ) {
-      // 다음 날 새벽 5시 59분 전까지 : 일기 수정 가능
       setModifiable(true);
     } else {
       // 그 외 시간 : 수정 불가능
@@ -167,11 +149,16 @@ const Setting = id => {
       setUnmodifyModal(true);
       return;
     }
-    // 수정 가능할 때의 로직
+    // 일기 수정 가능 시,
   };
 
-  const deleteDiary = () => {
-    setCompleteDeleteModal(true);
+  const deleteDiary = async () => {
+    await API.delete(`/diary/${id.id}`)
+      .then(() => {
+        console.log('삭제 완료');
+        setCompleteDeleteModal(true);
+      })
+      .catch(err => console.log('삭제 error', err));
   };
 
   return (
@@ -197,17 +184,29 @@ const Setting = id => {
 
 const Diary = () => {
   const id = useParams().id;
+  const navigate = useNavigate();
   const [diary, setDiary] = useState({});
+  const [profile, setProfile] = useState();
+  const [likeCount, setLikeCount] = useState();
+
+  const fetchDiaryData = async () => {
+    try {
+      const response = await API.get(`/diary/${id}`);
+      const memberId = response.data.memberId;
+      const responseMember = await API.get(`/member/profile/${memberId}`);
+
+      setDiary(response.data);
+      setProfile(responseMember.data);
+      setLikeCount(response.data.likeCount);
+    } catch (err) {
+      console.log('상세 페이지 Error >>', err);
+      navigate('/non-existent-page');
+    }
+  };
 
   useEffect(() => {
-    API.get(`/${id}`)
-      .then(response => {
-        const diary = response.data;
-        setDiary(diary);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
+    window.scrollTo(0, 0);
+    fetchDiaryData();
   }, []);
 
   return (
@@ -215,16 +214,21 @@ const Diary = () => {
       <Header />
       <div {...stylex.props(styles.wrap)}>
         <BackButton />
-        {/* 일기 타이틀 */}
+        {/* 일기 타이틀  */}
         <div>
           <div {...stylex.props(titleStyle.progileBox)}>
-            <img {...stylex.props(titleStyle.profileImg)} src={testImg}></img>
+            <img
+              {...stylex.props(titleStyle.profileImg)}
+              src={profile ? profile.profileImageURL : testImg}
+            ></img>
             <div {...stylex.props(titleStyle.emoji)}>X</div>
-            <div {...stylex.props(titleStyle.name)}>name</div>
+            <div {...stylex.props(titleStyle.name)}>
+              {profile ? profile.nickName : null}
+            </div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
-            <span {...stylex.props(titleStyle.title)}>title</span>
-            <span {...stylex.props(titleStyle.time)}>time</span>
+            <span {...stylex.props(titleStyle.title)}>{diary.createdDate}</span>
+            <span {...stylex.props(titleStyle.time)}>{diary.createdAt}</span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
@@ -236,12 +240,21 @@ const Diary = () => {
 
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
-          <div {...stylex.props(contentStyle.hashTag)}>hashtag</div>
+          <div {...stylex.props(contentStyle.hashTag)}>
+            {diary.tags?.map(tag => {
+              return `#${tag.tag} `;
+            })}
+          </div>
           <p {...stylex.props(contentStyle.content)}>{diary.content}</p>
         </div>
 
         {/* 일기 하단 */}
-        <Footer />
+        <div {...stylex.props(styles.diaryFooter)}>
+          <Like likeCount={likeCount} setLikeCount={setLikeCount} />
+          <div {...stylex.props(styles.feelBackground)}>
+            <div {...stylex.props(styles.feel)}></div>
+          </div>
+        </div>
       </div>
     </>
   );
