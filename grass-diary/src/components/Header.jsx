@@ -2,6 +2,8 @@ import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import useUser from '../hooks/useUser';
+import API from '../services';
 
 const header = stylex.create({
   container: {
@@ -105,12 +107,26 @@ const MenuBar = ({ toggle, headerRef }) => {
 
 const Header = () => {
   const [toggle, setToggle] = useState(false);
+  const [profile, setProfile] = useState();
   const headerRef = useRef();
   const iconRef = useRef();
+  const memberId = useUser();
 
   const dropDown = () => {
     setToggle(current => !current);
   };
+
+  useEffect(() => {
+    if (memberId) {
+      API.get(`/member/profile/${memberId}`)
+        .then(res => {
+          setProfile(res.data.profileImageURL);
+        })
+        .catch(err => {
+          console.log('Header Error', err);
+        });
+    }
+  }, [memberId]);
 
   useEffect(() => {
     const closeToggle = e => {
@@ -132,17 +148,22 @@ const Header = () => {
       <Link to="/main">
         <span {...stylex.props(header.logo)}>잔디일기</span>
       </Link>
-
-      <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-        <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        <div
-          ref={iconRef}
-          {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
-        >
-          <i className="fa-solid fa-angle-down"></i>
+      {memberId ? (
+        <div {...stylex.props(header.userMenu)} onClick={dropDown}>
+          <img
+            {...stylex.props(header.profile)}
+            src={profile ? profile : testImg}
+            alt="profile"
+          />
+          <div
+            ref={iconRef}
+            {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+          >
+            <i className="fa-solid fa-angle-down"></i>
+          </div>
+          <MenuBar headerRef={headerRef} toggle={toggle} />
         </div>
-        <MenuBar headerRef={headerRef} toggle={toggle} />
-      </div>
+      ) : null}
     </div>
   );
 };
