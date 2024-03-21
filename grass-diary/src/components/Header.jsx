@@ -118,9 +118,13 @@ const Header = () => {
 
   useEffect(() => {
     if (memberId) {
-      API.get(`/member/profile/${memberId}`).then(res => {
-        setProfile(res.data.profileImageURL);
-      });
+      API.get(`/member/profile/${memberId}`)
+        .then(res => {
+          setProfile(res.data.profileImageURL);
+        })
+        .catch(err => {
+          console.log('Header Error', err);
+        });
     }
   }, [memberId]);
 
@@ -144,21 +148,22 @@ const Header = () => {
       <Link to="/main">
         <span {...stylex.props(header.logo)}>잔디일기</span>
       </Link>
-
-      <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-        <img
-          {...stylex.props(header.profile)}
-          src={profile ? profile : testImg}
-          alt="profile"
-        />
-        <div
-          ref={iconRef}
-          {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
-        >
-          <i className="fa-solid fa-angle-down"></i>
+      {memberId ? (
+        <div {...stylex.props(header.userMenu)} onClick={dropDown}>
+          <img
+            {...stylex.props(header.profile)}
+            src={profile ? profile : testImg}
+            alt="profile"
+          />
+          <div
+            ref={iconRef}
+            {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+          >
+            <i className="fa-solid fa-angle-down"></i>
+          </div>
+          <MenuBar headerRef={headerRef} toggle={toggle} />
         </div>
-        <MenuBar headerRef={headerRef} toggle={toggle} />
-      </div>
+      ) : null}
     </div>
   );
 };
