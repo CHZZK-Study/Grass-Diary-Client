@@ -1,9 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import useUser from '../hooks/useUser';
 import API from '../services';
+import { clearAuth } from '../utils/authUtils';
 
 const header = stylex.create({
   container: {
@@ -78,6 +79,13 @@ const menuBar = stylex.create({
 });
 
 const MenuBar = ({ toggle, headerRef }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearAuth();
+    navigate('/');
+  };
+
   return (
     <div
       ref={headerRef}
@@ -95,12 +103,10 @@ const MenuBar = ({ toggle, headerRef }) => {
           <span {...stylex.props(menuBar.span)}>설정</span>
         </div>
       </Link>
-      <Link to="/">
-        <div {...stylex.props(menuBar.box)}>
-          <i className="fa-solid fa-arrow-right-from-bracket"></i>
-          <span {...stylex.props(menuBar.span)}>로그아웃</span>
-        </div>
-      </Link>
+      <div {...stylex.props(menuBar.box)} onClick={handleLogout}>
+        <i className="fa-solid fa-arrow-right-from-bracket"></i>
+        <span {...stylex.props(menuBar.span)}>로그아웃</span>
+      </div>
     </div>
   );
 };
