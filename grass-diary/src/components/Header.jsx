@@ -110,6 +110,7 @@ const Header = () => {
   const [profile, setProfile] = useState();
   const headerRef = useRef();
   const iconRef = useRef();
+  const profileRef = useRef();
   const memberId = useUser();
 
   const dropDown = () => {
@@ -133,7 +134,8 @@ const Header = () => {
       if (
         toggle &&
         !headerRef.current.contains(e.target) &&
-        !iconRef.current.contains(e.target)
+        !iconRef.current.contains(e.target) &&
+        !profileRef.current.contains(e.target)
       )
         setToggle(false);
     };
@@ -152,12 +154,13 @@ const Header = () => {
         <div {...stylex.props(header.userMenu)} onClick={dropDown}>
           <img
             {...stylex.props(header.profile)}
+            ref={profileRef}
             src={profile ? profile : testImg}
             alt="profile"
           />
           <div
-            ref={iconRef}
             {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+            ref={iconRef}
           >
             <i className="fa-solid fa-angle-down"></i>
           </div>
