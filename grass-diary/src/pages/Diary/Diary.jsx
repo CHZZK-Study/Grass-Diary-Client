@@ -35,7 +35,7 @@ const styles = stylex.create({
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
   },
-  feel: {
+  feel: backgroundColor => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -43,8 +43,8 @@ const styles = stylex.create({
     width: '34px',
     height: '34px',
     borderRadius: '50%',
-    backgroundColor: '#D2FBBF',
-  },
+    backgroundColor,
+  }),
   diaryFooter: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -197,7 +197,7 @@ const Diary = () => {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
-
+      console.log(response.data);
       setDiary(response.data);
       setProfile(responseMember.data);
       setLikeCount(response.data.likeCount);
@@ -258,7 +258,11 @@ const Diary = () => {
         <div {...stylex.props(styles.diaryFooter)}>
           <Like likeCount={likeCount} setLikeCount={setLikeCount} />
           <div {...stylex.props(styles.feelBackground)}>
-            <div {...stylex.props(styles.feel)}></div>
+            <div
+              {...stylex.props(
+                styles.feel(`rgba(0, 255, 0, ${diary.transparency})`),
+              )}
+            ></div>
           </div>
         </div>
       </div>
