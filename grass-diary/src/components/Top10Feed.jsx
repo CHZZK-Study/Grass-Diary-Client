@@ -1,12 +1,23 @@
 import { useEffect, useState } from 'react';
+import * as stylex from '@stylexjs/stylex';
+
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 import API from '../services';
 import Feed from './Feed';
 
+const styles = stylex.create({
+  noFeed: {
+    height: '150px',
+    textAlign: 'center',
+    lineHeight: '150px',
+  },
+});
+
 const Top10Feed = () => {
   const [top10Datas, setTop10Datas] = useState();
+  const [noFeed, setNoFeed] = useState(true);
   const settings = {
     dots: true,
     infinite: true,
@@ -26,9 +37,10 @@ const Top10Feed = () => {
 
   const getDiaryApi = async () => {
     try {
-      const res = await API.get('/shared/diaries/popular').then(
-        res => res.data,
-      );
+      const res = await API.get('/shared/diaries/popular').then(res => {
+        if (res.data.length > 0) setNoFeed(false);
+        return res.data;
+      });
 
       const initData = await Promise.all(
         res.map(async data => {
@@ -74,6 +86,11 @@ const Top10Feed = () => {
           );
         })}
       </Slider>
+      {noFeed ? (
+        <div {...stylex.props(styles.noFeed)}>
+          이번 주에 쓴 일기가 아직 없어요
+        </div>
+      ) : null}
     </div>
   );
 };
