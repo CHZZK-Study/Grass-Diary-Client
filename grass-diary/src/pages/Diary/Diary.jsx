@@ -12,6 +12,7 @@ import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
+import useUser from '../../hooks/useUser';
 
 const styles = stylex.create({
   wrap: {
@@ -185,9 +186,11 @@ const Setting = id => {
 const Diary = () => {
   const id = useParams().id;
   const navigate = useNavigate();
+  const loginUserMemberId = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
   const [likeCount, setLikeCount] = useState();
+  const [writerMemberId, setWriterMemberId] = useState();
 
   const fetchDiaryData = async () => {
     try {
@@ -198,6 +201,7 @@ const Diary = () => {
       setDiary(response.data);
       setProfile(responseMember.data);
       setLikeCount(response.data.likeCount);
+      setWriterMemberId(memberId);
     } catch (err) {
       console.log('상세 페이지 Error >>', err);
       navigate('/non-existent-page');
@@ -233,7 +237,9 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Setting id={id} />
+              {loginUserMemberId === writerMemberId ? (
+                <Setting id={id} />
+              ) : null}
             </div>
           </div>
         </div>
