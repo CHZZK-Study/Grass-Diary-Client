@@ -73,10 +73,54 @@ const CreateDiaryStyle = stylex.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  hashtag: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '10px',
+    paddingTop: '20px',
+  },
+
+  hashtagBox: {
+    backgroundColor: {
+      default: 'white',
+      ':hover': 'black',
+    },
+    color: {
+      default: 'black',
+      ':hover': 'white',
+    },
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '10px',
+    // backgroundColor: 'white',
+    padding: '10px 15px',
+    border: 'solid 1px #bfbfbf',
+    borderRadius: '30px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+    transition: 'all 0.3s ease',
+  },
+
+  hashtagBtn: {
+    color: {
+      default: 'black',
+      ':hover': 'white',
+    },
+    background: 'none',
+    border: 'none',
+    fontSize: '12px',
+    cursor: 'pointer',
+  },
 });
 
 const CreateDiary = () => {
-  const [inputValue, setInputValue] = useState('');
+  const [hashtag, setHashtag] = useState('');
+  const [hashArr, setHashArr] = useState([]);
+
   const [isPrivate, setIsPrivate] = useState(true);
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
@@ -114,8 +158,27 @@ const CreateDiary = () => {
     setMoodValue(parseInt(e.target.value));
   };
 
-  const handleInputChange = e => {
-    setInputValue(e.target.value);
+  const onChangeHashtag = e => {
+    setHashtag(e.target.value);
+  };
+
+  const addHashtag = e => {
+    // Enter키 또는 Space키가 눌렸을 때
+    if (
+      (e.key === 'Enter' || e.key === ' ') &&
+      hashtag.trim() !== '' &&
+      hashArr.length < 15
+    ) {
+      // 새로운 해시태그를 배열에 추가
+      setHashArr(prev => [...prev, hashtag.trim()]);
+      // 입력 필드 초기화
+      setHashtag('');
+    }
+  };
+
+  // 해시태그를 배열에서 제거하는 함수
+  const removeHashtag = index => {
+    setHashArr(prev => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -177,12 +240,26 @@ const CreateDiary = () => {
             <input
               {...stylex.props(CreateDiaryStyle.inputStyle)}
               type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder={inputValue ? '' : '#해시태그'}
+              value={hashtag}
+              onChange={onChangeHashtag}
+              onKeyUp={addHashtag}
+              placeholder={hashtag ? '' : '#해시태그'}
             />
             <button {...stylex.props(CreateDiaryStyle.btnStyle)}>저장</button>
           </article>
+          <div {...stylex.props(CreateDiaryStyle.hashtag)}>
+            {hashArr.map((tag, index) => (
+              <span key={index} {...stylex.props(CreateDiaryStyle.hashtagBox)}>
+                {tag}
+                <button
+                  {...stylex.props(CreateDiaryStyle.hashtagBtn)}
+                  onClick={() => removeHashtag(index)}
+                >
+                  X
+                </button>
+              </span>
+            ))}
+          </div>
         </section>
       </main>
     </>
