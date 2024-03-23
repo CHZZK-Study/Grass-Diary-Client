@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import API from '../services';
 
 const pushLike = stylex.keyframes({
   '0%': { fontSize: '19px' },
@@ -38,12 +39,41 @@ const styles = stylex.create({
   },
 });
 
-const Like = ({ likeCount }) => {
-  const [like, setlike] = useState(false);
+const Like = ({ likeCount, setLikeCount }) => {
+  const [initLike, setInitLike] = useState(false); // true이면 이미 누른 견적 있음. delete 가능 false => 한번도 누르지 않음 post 가능
+  const [like, setlike] = useState(false); // ture=> 하트 눌려있는 상태. delete 가능 상태, false => 하트 안눌린 상태. post 가능 상태
 
-  const clickLike = e => {
-    setlike(current => !current);
+  const clickLike = () => {
+    if (like) {
+      API.delete(`/diary/like/22/1`)
+        .then(() => {
+          setlike(false);
+          setLikeCount(prev => (prev -= 1));
+          console.log('좋아요 취소');
+        })
+        .catch(err => {
+          console.log('like delete error', err);
+        });
+    } else {
+      API.post(`/diary/like/22/1`)
+        .then(() => {
+          setlike(true);
+          setLikeCount(prev => (prev += 1));
+          console.log('좋아요');
+        })
+        .catch(err => console.log('like post error', err));
+    }
   };
+
+  useEffect(() => {
+    if (initLike) {
+      // 첫 렌더링 시, ture 누른 견적 있음. delete 가능
+      setlike(true);
+    } else {
+      // 첫 렌더링 시, false 한번도 누르지 않음 post 가능
+      setlike(false);
+    }
+  }, []);
 
   return (
     <>

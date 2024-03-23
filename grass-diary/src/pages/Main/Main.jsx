@@ -9,6 +9,7 @@ import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { checkAuth } from '../../utils/authUtils';
+import useUser from '../../hooks/useUser';
 
 const styles = stylex.create({
   title: {
@@ -390,6 +391,7 @@ const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState(null);
   const [grassCount, setGrassCount] = useState(null);
   const [grassColor, setGrassColor] = useState(null);
+
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const temporaryPoint = grassCount * 10;
@@ -416,26 +418,30 @@ const MiddleSection = () => {
     }
   });
 
-  useEffect(() => {
-    API.get('/member/totalReward/1')
-      .then(response => {
-        setRewardPoint(response.data.rewardPoint);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
+  const memberId = useUser();
 
   useEffect(() => {
-    API.get('/main/grass/1')
-      .then(response => {
-        setGrassCount(response.data.count);
-        setGrassColor(response.data.grassInfoDTO.colorRGB);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
+    if (memberId) {
+      API.get(`/member/totalReward/${memberId}`)
+        .then(response => {
+          setRewardPoint(response.data.rewardPoint);
+        })
+        .catch(error => {
+          console.error('Error', error);
+        });
+    }
+  }, [memberId]);
+
+  // useEffect(() => {
+  //   API.get('/main/grass/1')
+  //     .then(response => {
+  //       setGrassCount(response.data.count);
+  //       setGrassColor(response.data.grassInfoDTO.colorRGB);
+  //     })
+  //     .catch(error => {
+  //       console.log('Error', error);
+  //     });
+  // }, []);
 
   const modal = () => {
     Swal.fire({
@@ -554,21 +560,25 @@ const BottomSection = () => {
 
 const Main = () => {
   const navigate = useNavigate();
-  const isAthenticated = checkAuth();
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const accessToken = params.get('accessToken');
+    const initLoad = async () => {
+      const params = new URLSearchParams(window.location.search);
+      const accessToken = params.get('accessToken');
 
-    if (accessToken) {
-      localStorage.setItem('accessToken', accessToken);
+      if (accessToken) {
+        localStorage.setItem('accessToken', accessToken);
 
-      const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-      window.history.pushState({ path: mainURL }, null, mainURL);
-    }
+        const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
+        window.history.pushState({ path: mainURL }, null, mainURL);
+      }
 
-    if (!isAthenticated) navigate('/');
-  }, []);
+      const isAuthenticated = await checkAuth();
+      if (!isAuthenticated) navigate('/');
+    };
+
+    initLoad();
+  }, [navigate]);
 
   return (
     <>

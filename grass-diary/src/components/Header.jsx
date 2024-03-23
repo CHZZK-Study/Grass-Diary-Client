@@ -1,7 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
 import testImg from '../assets/icon/profile.jpeg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+import Profile from './Profile';
+import { clearAuth } from '../utils/authUtils';
+import useUser from '../hooks/useUser';
 
 const header = stylex.create({
   container: {
@@ -27,17 +30,12 @@ const header = stylex.create({
     alignItems: 'center',
     cursor: 'pointer',
   },
-  profile: {
-    width: '44px',
-    height: '44px',
-    borderRadius: '50%',
-    objectFit: 'cover',
-    marginRight: '20px',
-  },
   arrowUp: {
+    paddingLeft: '15px',
     transition: '0.5s',
   },
   arrowDown: {
+    paddingLeft: '15px',
     transform: 'scaleY(-1)',
   },
 });
@@ -76,6 +74,13 @@ const menuBar = stylex.create({
 });
 
 const MenuBar = ({ toggle, headerRef }) => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearAuth();
+    navigate('/');
+  };
+
   return (
     <div
       ref={headerRef}
@@ -93,12 +98,10 @@ const MenuBar = ({ toggle, headerRef }) => {
           <span {...stylex.props(menuBar.span)}>설정</span>
         </div>
       </Link>
-      <Link to="/">
-        <div {...stylex.props(menuBar.box)}>
-          <i className="fa-solid fa-arrow-right-from-bracket"></i>
-          <span {...stylex.props(menuBar.span)}>로그아웃</span>
-        </div>
-      </Link>
+      <div {...stylex.props(menuBar.box)} onClick={handleLogout}>
+        <i className="fa-solid fa-arrow-right-from-bracket"></i>
+        <span {...stylex.props(menuBar.span)}>로그아웃</span>
+      </div>
     </div>
   );
 };
@@ -107,6 +110,7 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const headerRef = useRef();
   const iconRef = useRef();
+  const memberId = useUser();
 
   const dropDown = () => {
     setToggle(current => !current);
@@ -132,17 +136,18 @@ const Header = () => {
       <Link to="/main">
         <span {...stylex.props(header.logo)}>잔디일기</span>
       </Link>
-
-      <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-        <img {...stylex.props(header.profile)} src={testImg} alt="profile" />
-        <div
-          ref={iconRef}
-          {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
-        >
-          <i className="fa-solid fa-angle-down"></i>
+      {memberId ? (
+        <div {...stylex.props(header.userMenu)} onClick={dropDown}>
+          <Profile width="44px" height="44px" />
+          <div
+            ref={iconRef}
+            {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+          >
+            <i className="fa-solid fa-angle-down"></i>
+          </div>
+          <MenuBar headerRef={headerRef} toggle={toggle} />
         </div>
-        <MenuBar headerRef={headerRef} toggle={toggle} />
-      </div>
+      ) : null}
     </div>
   );
 };

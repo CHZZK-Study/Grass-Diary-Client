@@ -1,4 +1,12 @@
-export const checkAuth = () => {
+const checkAuth = async () => {
   const accessToken = localStorage.getItem('accessToken');
-  return !!accessToken;
+  if (accessToken) return true;
+
+  return false;
 };
+
+const clearAuth = () => {
+  localStorage.removeItem('accessToken');
+};
+
+export { checkAuth, clearAuth };

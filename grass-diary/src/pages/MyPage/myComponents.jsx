@@ -1,12 +1,15 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 
+import API from '../../services';
 import Like from '../../components/Like';
 import Button from '../../components/Button';
 import diaryImage from '../../assets/icon/diaryImage.png';
-import basicProfile from '../../assets/icon/basicProfile.png';
-import API from '../../services';
+import MoodProfile from '../../components/MoodProfile';
+import Profile from '../../components/Profile';
+import useUser from '../../hooks/useUser';
+import useProfile from '../../hooks/useProfile';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -22,7 +25,7 @@ const MainContainer = () => {
   return (
     <div {...stylex.props(styles.mainContainer)}>
       <div {...stylex.props(styles.profileSection)}>
-        <Profile />
+        <ProfileImage />
         <ToggleButton
           buttonLabel={toggleButton}
           handleToggleButton={handleToggleButton}
@@ -60,30 +63,13 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
   );
 };
 
-const Profile = () => {
-  const [profile, setProfile] = useState([]);
-
-  useEffect(() => {
-    API.get('/member/profile/1')
-      .then(response => {
-        setProfile(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  });
+const ProfileImage = () => {
+  const profile = useProfile();
 
   return (
     <div {...stylex.props(styles.profileDetails)}>
       <div {...stylex.props(styles.profileLeft)}>
-        <img
-          {...stylex.props(styles.profileImage)}
-          src={
-            profile.profileImageURL !== null
-              ? profile.profileImageURL
-              : basicProfile
-          }
-        ></img>
+        <Profile width="200px" height="200px" />
         <div>
           <Button
             text="교환 일기 신청"
@@ -173,52 +159,26 @@ const SearchBar = () => {
 
 const Diary = () => {
   const [diaryList, setDiaryList] = useState([]);
-  const [mood, setMood] = useState([]);
-
-  const emoji = [
-    ['🤯', '🤬', '😭'],
-    ['👿', '😡', '🤢'],
-    ['😵‍💫', '😱', '🤕'],
-    ['😰', '😢', '😤'],
-    ['😕', '🤔', '🙄'],
-    ['😌', '🙂', '😶'],
-    ['😊', '😀', '🫢'],
-    ['🤗', '😃', '😆'],
-    ['🤣', '😆', '😍'],
-  ];
+  const memberId = useUser();
 
   useEffect(() => {
-    API.get(`/diary/main/1`, config)
-      .then(response => {
-        setDiaryList(response.data.content);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, []);
-
-  useMemo(() => {
-    const moods = [];
-
-    for (let i = 0; i < diaryList.length; i++) {
-      let mood = diaryList[i].transparency.toString()[2] - 1;
-      let randomIndex = Math.floor(Math.random() * 3);
-      moods.push(emoji[mood][randomIndex]);
+    if (memberId) {
+      API.get(`/diary/main/${memberId}`)
+        .then(response => {
+          setDiaryList(response.data.content);
+        })
+        .catch(error => {
+          console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
+        });
     }
-
-    setMood(moods);
-  }, [diaryList]);
+  }, [memberId]);
 
   return (
     <div {...stylex.props(styles.diaryList)}>
       {diaryList.map((diary, index) => (
         <div {...stylex.props(styles.diary)} key={index}>
           <div {...stylex.props(styles.smallProfileSection)}>
-            <img
-              {...stylex.props(styles.smallProfile)}
-              src={basicProfile}
-            ></img>
-            <div {...stylex.props(styles.emoji)}>{mood[index]}</div>
+            <MoodProfile diary={diaryList} index={index} />
             <div {...stylex.props(styles.smallDetailes)}>
               <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
               <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
