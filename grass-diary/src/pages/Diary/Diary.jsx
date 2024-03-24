@@ -8,6 +8,7 @@ import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
 import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+import EMOJI from '../../constants/emoji';
 
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
@@ -189,6 +190,7 @@ const Diary = () => {
   const loginUserMemberId = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
+  const [mood, setMood] = useState();
   const [likeCount, setLikeCount] = useState();
   const [writerMemberId, setWriterMemberId] = useState();
 
@@ -197,7 +199,11 @@ const Diary = () => {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
-      console.log(response.data);
+      console.log(response.data.transparency);
+      const mood = response.data.transparency.toString()[2] - 1;
+      const randomIndex = Math.floor(Math.random() * 3);
+
+      setMood(EMOJI[mood][randomIndex]);
       setDiary(response.data);
       setProfile(responseMember.data);
       setLikeCount(response.data.likeCount);
@@ -225,7 +231,7 @@ const Diary = () => {
               {...stylex.props(titleStyle.profileImg)}
               src={profile ? profile.profileImageURL : testImg}
             ></img>
-            <div {...stylex.props(titleStyle.emoji)}>X</div>
+            <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
             <div {...stylex.props(titleStyle.name)}>
               {profile ? profile.nickName : null}
             </div>
