@@ -30,7 +30,6 @@ const styles = stylex.create({
     flexFlow: 'row wrap',
   },
   observer: {
-    backgroundColor: 'red',
     margin: 'auto',
     width: '50px',
     height: '50px',
