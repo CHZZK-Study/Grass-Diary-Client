@@ -2,45 +2,49 @@ import * as stylex from '@stylexjs/stylex';
 import { useEffect, useState } from 'react';
 import API from '../services';
 
-const pushLike = stylex.keyframes({
-  '0%': { fontSize: '19px' },
-  '50%': { fontSize: '24px' },
-  '80%': { fontSize: '18px' },
-  '100%': { fontSize: '20px' },
+const beat = stylex.keyframes({
+  '0%': { transform: 'scale(0.8)' },
+  '50%': { transform: 'scale(1.2)' },
+  '80%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1.0)' },
 });
 
-const pushDislike = stylex.keyframes({
-  '0%': { fontSize: '18px' },
-  '50%': { fontSize: '24px' },
-  '80%': { fontSize: '18px' },
-  '100%': { fontSize: '20px' },
+const beat2 = stylex.keyframes({
+  '0%': { transform: 'scale(0.9)' },
+  '50%': { transform: 'scale(1.2)' },
+  '80%': { transform: 'scale(0.9)' },
+  '100%': { transform: 'scale(1.0)' },
 });
 
 const styles = stylex.create({
   likeContainer: {
-    margin: 'auto 10px',
-    fontSize: '20px',
-
+    display: 'flex',
+    width: '35px',
+    justifyContent: 'space-between',
+    textAlign: 'center',
+    margin: '0px 10px',
     cursor: 'pointer',
   },
-  dislike: {
-    animationName: pushDislike,
+  heart: {
+    width: '20px',
+    height: '40px',
+    lineHeight: '40px',
+    animationName: beat,
     animationDuration: '0.5s',
   },
   like: {
+    animationName: beat2,
     color: 'red',
-    animationName: pushLike,
-    animationDuration: '0.5s',
   },
   count: {
-    margin: 'auto 10px auto 0 ',
     fontSize: '15px',
+    lineHeight: '40px',
     fontWeight: '600',
   },
 });
 
 const Like = ({ likeCount, setLikeCount }) => {
-  const [initLike, setInitLike] = useState(false); // true이면 이미 누른 견적 있음. delete 가능 false => 한번도 누르지 않음 post 가능
+  const [initLike, setInitLike] = useState(true); // true이면 이미 누른 견적 있음. delete 가능 false => 한번도 누르지 않음 post 가능
   const [like, setlike] = useState(false); // ture=> 하트 눌려있는 상태. delete 가능 상태, false => 하트 안눌린 상태. post 가능 상태
 
   const clickLike = () => {
@@ -79,16 +83,16 @@ const Like = ({ likeCount, setLikeCount }) => {
     <>
       <div {...stylex.props(styles.likeContainer)}>
         {like ? (
-          <span {...stylex.props(styles.like)}>
+          <div {...stylex.props(styles.heart, styles.like)}>
             <i onClick={clickLike} className="fa-solid fa-heart"></i>
-          </span>
+          </div>
         ) : (
-          <span {...stylex.props(styles.dislike)}>
+          <div {...stylex.props(styles.heart)}>
             <i onClick={clickLike} className="fa-regular fa-heart"></i>
-          </span>
+          </div>
         )}
+        <div {...stylex.props(styles.count)}>{likeCount}</div>
       </div>
-      <span {...stylex.props(styles.count)}>{likeCount}</span>
     </>
   );
 };
