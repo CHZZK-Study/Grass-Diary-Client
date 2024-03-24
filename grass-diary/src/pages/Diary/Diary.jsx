@@ -22,7 +22,7 @@ const styles = stylex.create({
       default: '1140px',
       '@media (max-width: 1139px)': '100vw',
     },
-    height: '100vh',
+    minHeight: '100vh',
     margin: '10px auto 0',
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
@@ -118,6 +118,8 @@ const contentStyle = stylex.create({
     margin: '36px 0',
   },
   content: {
+    minHeight: '200px',
+    wordBreak: 'break-all',
     fontSize: '13px',
     lineHeight: '25px',
   },
