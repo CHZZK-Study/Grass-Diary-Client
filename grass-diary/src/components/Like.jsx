@@ -2,7 +2,7 @@ import * as stylex from '@stylexjs/stylex';
 import { useEffect, useState } from 'react';
 import API from '../services';
 
-const beat = stylex.keyframes({
+const beat1 = stylex.keyframes({
   '0%': { transform: 'scale(0.8)' },
   '50%': { transform: 'scale(1.2)' },
   '80%': { transform: 'scale(0.9)' },
@@ -24,12 +24,13 @@ const styles = stylex.create({
     textAlign: 'center',
     margin: '0px 10px',
     cursor: 'pointer',
+    gap: '5px',
   },
   heart: {
     width: '20px',
     height: '40px',
     lineHeight: '40px',
-    animationName: beat,
+    animationName: beat1,
     animationDuration: '0.5s',
   },
   like: {
@@ -44,7 +45,7 @@ const styles = stylex.create({
 });
 
 const Like = ({ likeCount, setLikeCount }) => {
-  const [initLike, setInitLike] = useState(true); // true이면 이미 누른 견적 있음. delete 가능 false => 한번도 누르지 않음 post 가능
+  const [initLike, setInitLike] = useState(false); // true이면 이미 누른 견적 있음. delete 가능 false => 한번도 누르지 않음 post 가능
   const [like, setlike] = useState(false); // ture=> 하트 눌려있는 상태. delete 가능 상태, false => 하트 안눌린 상태. post 가능 상태
 
   const clickLike = () => {
