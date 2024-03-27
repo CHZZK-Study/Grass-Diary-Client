@@ -8,10 +8,12 @@ import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import Like from '../../components/Like';
 import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+import EMOJI from '../../constants/emoji';
 
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
+import useUser from '../../hooks/useUser';
 
 const styles = stylex.create({
   wrap: {
@@ -20,7 +22,7 @@ const styles = stylex.create({
       default: '1140px',
       '@media (max-width: 1139px)': '100vw',
     },
-    height: '100vh',
+    minHeight: '100vh',
     margin: '10px auto 0',
     border: '1px solid #BFBFBF',
     borderRadius: '50px 50px 0 0',
@@ -34,7 +36,7 @@ const styles = stylex.create({
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
   },
-  feel: {
+  feel: backgroundColor => ({
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -42,8 +44,8 @@ const styles = stylex.create({
     width: '34px',
     height: '34px',
     borderRadius: '50%',
-    backgroundColor: '#D2FBBF',
-  },
+    backgroundColor,
+  }),
   diaryFooter: {
     display: 'flex',
     justifyContent: 'flex-end',
@@ -116,6 +118,8 @@ const contentStyle = stylex.create({
     margin: '36px 0',
   },
   content: {
+    minHeight: '200px',
+    wordBreak: 'break-all',
     fontSize: '13px',
     lineHeight: '25px',
   },
@@ -185,19 +189,27 @@ const Setting = id => {
 const Diary = () => {
   const id = useParams().id;
   const navigate = useNavigate();
+  const loginUserMemberId = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
+  const [mood, setMood] = useState();
   const [likeCount, setLikeCount] = useState();
+  const [writerMemberId, setWriterMemberId] = useState();
 
   const fetchDiaryData = async () => {
     try {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
+      console.log(response.data.transparency);
+      const mood = response.data.transparency.toString()[2] - 1;
+      const randomIndex = Math.floor(Math.random() * 3);
 
+      setMood(EMOJI[mood][randomIndex]);
       setDiary(response.data);
       setProfile(responseMember.data);
       setLikeCount(response.data.likeCount);
+      setWriterMemberId(memberId);
     } catch (err) {
       console.log('상세 페이지 Error >>', err);
       navigate('/non-existent-page');
@@ -221,7 +233,7 @@ const Diary = () => {
               {...stylex.props(titleStyle.profileImg)}
               src={profile ? profile.profileImageURL : testImg}
             ></img>
-            <div {...stylex.props(titleStyle.emoji)}>X</div>
+            <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
             <div {...stylex.props(titleStyle.name)}>
               {profile ? profile.nickName : null}
             </div>
@@ -233,7 +245,9 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              <Setting id={id} />
+              {loginUserMemberId === writerMemberId ? (
+                <Setting id={id} />
+              ) : null}
             </div>
           </div>
         </div>
@@ -252,7 +266,11 @@ const Diary = () => {
         <div {...stylex.props(styles.diaryFooter)}>
           <Like likeCount={likeCount} setLikeCount={setLikeCount} />
           <div {...stylex.props(styles.feelBackground)}>
-            <div {...stylex.props(styles.feel)}></div>
+            <div
+              {...stylex.props(
+                styles.feel(`rgba(0, 255, 0, ${diary.transparency})`),
+              )}
+            ></div>
           </div>
         </div>
       </div>
