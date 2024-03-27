@@ -54,7 +54,7 @@ const menuBar = stylex.create({
     transition: '0.5s',
   },
   toggle: {
-    height: '180px',
+    height: '240px',
   },
   box: {
     height: '40px',
@@ -67,7 +67,7 @@ const menuBar = stylex.create({
     transition: '0.2s',
   },
   span: {
-    marginLeft: '10px',
+    marginLeft: '15px',
     fontSize: '14px',
   },
 });
@@ -89,6 +89,12 @@ const MenuBar = ({ toggle, headerRef }) => {
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-regular fa-user"></i>
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
+        </div>
+      </Link>
+      <Link to="/share">
+        <div {...stylex.props(menuBar.box)}>
+          <i className="fa-solid fa-users"></i>
+          <span {...stylex.props(menuBar.span)}>일기 피드</span>
         </div>
       </Link>
       <Link to="/setting">
