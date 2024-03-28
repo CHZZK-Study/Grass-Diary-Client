@@ -34,11 +34,18 @@ const styles = stylex.create({
     width: '50px',
     height: '50px',
   },
+  noFeed: {
+    width: '100vw',
+    height: '150px',
+    textAlign: 'center',
+    lineHeight: '250px',
+  },
 });
 
 const Share = () => {
   const [cursorId, setCursorId] = useState(922337203685477600);
   const [latestDatas, setLatestDatas] = useState([]);
+  const [noFeed, setNoFeed] = useState(true);
   const target = useRef();
 
   const getProfileApi = async memberId => {
@@ -75,6 +82,7 @@ const Share = () => {
       if (initData.length > 0) {
         setCursorId(initData.at(-1).diaryId);
         setLatestDatas(prev => [...prev, ...initData]);
+        setNoFeed(false);
       } else {
         console.log('불러올 데이터가 없습니다.');
       }
@@ -119,7 +127,7 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            {latestDatas?.map(data => {
+            {latestDatas.map(data => {
               return (
                 <Feed
                   key={data.diaryId}
@@ -132,6 +140,9 @@ const Share = () => {
                 />
               );
             })}
+            {noFeed ? (
+              <div {...stylex.props(styles.noFeed)}>일기가 아직 없어요</div>
+            ) : null}
           </div>
           <div ref={target} {...stylex.props(styles.observer)}></div>
         </div>

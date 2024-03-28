@@ -1,5 +1,4 @@
 import * as stylex from '@stylexjs/stylex';
-import testImg from '../assets/icon/profile.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Profile from './Profile';
@@ -55,7 +54,7 @@ const menuBar = stylex.create({
     transition: '0.5s',
   },
   toggle: {
-    height: '180px',
+    height: '240px',
   },
   box: {
     height: '40px',
@@ -68,7 +67,7 @@ const menuBar = stylex.create({
     transition: '0.2s',
   },
   span: {
-    marginLeft: '10px',
+    marginLeft: '15px',
     fontSize: '14px',
   },
 });
@@ -92,6 +91,12 @@ const MenuBar = ({ toggle, headerRef }) => {
           <span {...stylex.props(menuBar.span)}>마이페이지</span>
         </div>
       </Link>
+      <Link to="/share">
+        <div {...stylex.props(menuBar.box)}>
+          <i className="fa-solid fa-users"></i>
+          <span {...stylex.props(menuBar.span)}>일기 피드</span>
+        </div>
+      </Link>
       <Link to="/setting">
         <div {...stylex.props(menuBar.box)}>
           <i className="fa-solid fa-gear"></i>
@@ -110,6 +115,7 @@ const Header = () => {
   const [toggle, setToggle] = useState(false);
   const headerRef = useRef();
   const iconRef = useRef();
+  const profileRef = useRef();
   const memberId = useUser();
 
   const dropDown = () => {
@@ -121,7 +127,8 @@ const Header = () => {
       if (
         toggle &&
         !headerRef.current.contains(e.target) &&
-        !iconRef.current.contains(e.target)
+        !iconRef.current.contains(e.target) &&
+        !profileRef.current.contains(e.target)
       )
         setToggle(false);
     };
@@ -138,10 +145,12 @@ const Header = () => {
       </Link>
       {memberId ? (
         <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-          <Profile width="44px" height="44px" />
+          <div ref={profileRef}>
+            <Profile width="44px" height="44px" />
+          </div>
           <div
-            ref={iconRef}
             {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+            ref={iconRef}
           >
             <i className="fa-solid fa-angle-down"></i>
           </div>
