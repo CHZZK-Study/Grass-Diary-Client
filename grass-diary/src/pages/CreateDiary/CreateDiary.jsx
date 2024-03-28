@@ -1,9 +1,9 @@
 import * as stylex from '@stylexjs/stylex';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import QuillEditor from './QuillEditor';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
@@ -84,19 +84,19 @@ const CreateDiaryStyle = stylex.create({
   },
 
   hashtagBox: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
+    // backgroundColor: {
+    //   default: 'white',
+    //   ':hover': 'black',
+    // },
+    // color: {
+    //   default: 'black',
+    //   ':hover': 'white',
+    // },
+    backgroundColor: 'white',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     gap: '10px',
-    // backgroundColor: 'white',
     padding: '10px 15px',
     border: 'solid 1px #bfbfbf',
     borderRadius: '30px',
@@ -106,10 +106,10 @@ const CreateDiaryStyle = stylex.create({
   },
 
   hashtagBtn: {
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
+    // color: {
+    //   default: 'black',
+    //   ':hover': 'white',
+    // },
     background: 'none',
     border: 'none',
     fontSize: '12px',
@@ -121,7 +121,18 @@ const CreateDiary = () => {
   const [hashtag, setHashtag] = useState('');
   const [hashArr, setHashArr] = useState([]);
 
+  const navigate = useNavigate();
+  const [diaryInfo, setDiaryInfo] = useState({
+    hashArr: [],
+    moodValue: 5,
+    currentMonth: '',
+    currentDay: '',
+    currentDDay: '',
+    quillContent: '',
+  });
+
   const [isPrivate, setIsPrivate] = useState(true);
+
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
     '😠',
@@ -179,6 +190,10 @@ const CreateDiary = () => {
   // 해시태그를 배열에서 제거하는 함수
   const removeHashtag = index => {
     setHashArr(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleSave = () => {
+    navigate('/diary/1');
   };
 
   return (
@@ -245,7 +260,12 @@ const CreateDiary = () => {
               onKeyUp={addHashtag}
               placeholder={hashtag ? '' : '#해시태그'}
             />
-            <button {...stylex.props(CreateDiaryStyle.btnStyle)}>저장</button>
+            <button
+              onClick={handleSave}
+              {...stylex.props(CreateDiaryStyle.btnStyle)}
+            >
+              저장
+            </button>
           </article>
           <div {...stylex.props(CreateDiaryStyle.hashtag)}>
             {hashArr.map((tag, index) => (

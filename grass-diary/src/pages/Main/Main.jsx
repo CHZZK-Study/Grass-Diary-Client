@@ -5,11 +5,11 @@ import { useEffect, useState } from 'react';
 import API from '../../services/index';
 import mainCharacter from '../../assets/icon/mainCharacter.png';
 import Header from '../../components/Header';
-import SimpleSlider from './CardSlider';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { checkAuth } from '../../utils/authUtils';
 import useUser from '../../hooks/useUser';
+import Top10Feed from '../../components/Top10Feed';
 
 const styles = stylex.create({
   title: {
@@ -432,16 +432,16 @@ const MiddleSection = () => {
     }
   }, [memberId]);
 
-  // useEffect(() => {
-  //   API.get('/main/grass/1')
-  //     .then(response => {
-  //       setGrassCount(response.data.count);
-  //       setGrassColor(response.data.grassInfoDTO.colorRGB);
-  //     })
-  //     .catch(error => {
-  //       console.log('Error', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    API.get('/main/grass/1')
+      .then(response => {
+        setGrassCount(response.data.count);
+        setGrassColor(response.data.grassInfoDTO.colorRGB);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, []);
 
   const modal = () => {
     Swal.fire({
@@ -586,7 +586,8 @@ const Main = () => {
       <TopSection />
       <MiddleSection />
       <BottomSection />
-      <SimpleSlider />
+      <Top10Feed />
+      {/* <SimpleSlider /> */}
     </>
   );
 };

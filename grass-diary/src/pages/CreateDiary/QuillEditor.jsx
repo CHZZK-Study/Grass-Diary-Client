@@ -1,5 +1,5 @@
-import { useMemo, useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState, useEffect } from 'react';
+import API from '../../services';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -7,15 +7,8 @@ const QuillEditor = () => {
   const [values, setValues] = useState();
   const [todayQuestion, setTodayQuestion] = useState();
 
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
   useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/main/todayInfo', config)
+    API.get('/main/todayInfo')
       .then(response => {
         setTodayQuestion(response.data.todayQuestion);
       })
@@ -58,6 +51,8 @@ const QuillEditor = () => {
       container: toolbarOptions,
     },
   };
+
+  console.log(values);
 
   return (
     <>
