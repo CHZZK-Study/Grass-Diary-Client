@@ -128,7 +128,7 @@ const CreateDiary = () => {
   const [isPrivate, setIsPrivate] = useState(true);
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
-    '😠',
+    '',
     '😕',
     '😐',
     '🙂',
@@ -278,7 +278,7 @@ const CreateDiary = () => {
               <input
                 type="range"
                 name="todayMood"
-                min="0"
+                min="1"
                 max="10"
                 list="values"
                 value={moodValue}
