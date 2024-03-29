@@ -172,13 +172,14 @@ const styles = stylex.create({
 
     width: '100%',
 
+    gap: '30px',
+    padding: '40px 50px 40px 50px',
+
     border: '1px solid #B5B2B2',
     borderRadius: '20px',
 
     backgroundColor: '#FFF',
-
-    padding: '40px 50px 40px 50px',
-    gap: '30px',
+    cursor: 'pointer',
   },
 
   smallProfileSection: {
@@ -216,8 +217,6 @@ const styles = stylex.create({
   likeSection: {
     display: 'flex',
     alignItems: 'center',
-
-    gap: '3px',
   },
 });
 
