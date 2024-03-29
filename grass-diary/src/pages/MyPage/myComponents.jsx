@@ -182,7 +182,11 @@ const Diary = () => {
             </div>
           </div>
           <div {...stylex.props(styles.diaryContent)}>
-            <span {...stylex.props(styles.hashtag)}>{diary.tags}</span>
+            {diary.tags.map(tag => (
+              <span {...stylex.props(styles.hashtag)} key={tag.id}>
+                #{tag.tag}
+              </span>
+            ))}
             <span>{diary.content}</span>
           </div>
           <div {...stylex.props(styles.likeSection)}>
