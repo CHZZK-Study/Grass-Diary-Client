@@ -1,12 +1,12 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 import API from '../../services';
 import Like from '../../components/Like';
 import Button from '../../components/Button';
 import { EllipsisBox, EllipsisIcon } from '../../components/Ellipsis';
-import { Link } from 'react-router-dom';
 import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
 import useUser from '../../hooks/useUser';
@@ -17,8 +17,11 @@ const Container = ({ children }) => {
 };
 
 const MainContainer = () => {
+  const navigate = useNavigate();
+
   const [toggleButton, setToggleButton] = useState('나의 일기장');
   const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('latest');
 
   const handleToggleButton = buttonName => {
     setToggleButton(buttonName);
@@ -26,6 +29,18 @@ const MainContainer = () => {
 
   const handleSearchChange = event => {
     setSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const sortQuery = params.get('sort');
+
+    if (sortQuery) setSortOrder(sortQuery);
+  }, [window.location.search]);
+
+  const handleSortChange = order => {
+    setSortOrder(order);
+    navigate(`?sort=${order}`);
   };
 
   return (
@@ -39,9 +54,9 @@ const MainContainer = () => {
       </div>
       <div {...stylex.props(styles.mainSection)}>
         <SearchBar onSearchChange={handleSearchChange} />
-        <SortButton />
+        <SortButton onSortChange={handleSortChange} />
         {toggleButton === '나의 일기장' ? (
-          <Diary searchTerm={searchTerm} />
+          <Diary searchTerm={searchTerm} sortOrder={sortOrder} />
         ) : (
           <p>현재 교환 일기가 없습니다.</p>
         )}
@@ -162,24 +177,35 @@ const SearchBar = ({ onSearchChange }) => {
   );
 };
 
-const SortButton = () => {
+const SortButton = ({ onSortChange }) => {
   return (
     <div {...stylex.props(styles.sortContainer)}>
-      <EllipsisIcon width="160" translateValue="135px">
-        <EllipsisBox onClick="" text="최신 순으로 보기" />
-        <EllipsisBox onClick="" text="오래된 순으로 보기" />
+      <EllipsisIcon width="170" translateValue="145px">
+        <EllipsisBox
+          onClick={() => onSortChange('latest')}
+          text="최신 순으로 보기"
+        />
+        <EllipsisBox
+          onClick={() => onSortChange('oldest')}
+          text="오래된 순으로 보기"
+        />
       </EllipsisIcon>
     </div>
   );
 };
 
-const Diary = ({ searchTerm }) => {
+const Diary = ({ searchTerm, sortOrder }) => {
   const [diaryList, setDiaryList] = useState([]);
   const memberId = useUser();
 
   useEffect(() => {
+    let apiUrl = `/diary/main/${memberId}?page=0`;
+    if (sortOrder === 'oldest') {
+      apiUrl += `&sort=createdAt,ASC`;
+    }
+
     if (memberId) {
-      API.get(`/diary/main/${memberId}`)
+      API.get(apiUrl)
         .then(response => {
           setDiaryList(response.data.content);
         })
@@ -187,7 +213,7 @@ const Diary = ({ searchTerm }) => {
           console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
         });
     }
-  }, [memberId]);
+  }, [memberId, sortOrder]);
 
   const filterDiaryList = diaryList.filter(diary =>
     diary.content.includes(searchTerm),
