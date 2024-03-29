@@ -214,6 +214,9 @@ const CreateDiary = () => {
       isPrivate,
       conditionLevel: `LEVEL_${moodValue}`,
       hashtags: hashArr,
+      month: currentMonth,
+      date: currentDay,
+      day: currentDDay,
     };
 
     try {
