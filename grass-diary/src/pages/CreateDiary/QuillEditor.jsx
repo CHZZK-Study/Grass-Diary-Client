@@ -3,8 +3,7 @@ import API from '../../services';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = () => {
-  const [values, setValues] = useState();
+const QuillEditor = ({ onContentChange }) => {
   const [todayQuestion, setTodayQuestion] = useState();
 
   useEffect(() => {
@@ -52,8 +51,6 @@ const QuillEditor = () => {
     },
   };
 
-  console.log(values);
-
   return (
     <>
       <h3>{todayQuestion ? todayQuestion : 'Loading...'}</h3>
@@ -61,10 +58,10 @@ const QuillEditor = () => {
         <ReactQuill
           style={{ height: '75vh', background: 'white' }}
           theme="snow"
-          placeholder={todayQuestion ? todayQuestion : 'Loading...'}
+          placeholder={todayQuestion ? todayQuestion : '일기를 작성 해보세요!'}
           modules={modules}
           formats={formats}
-          onChange={setValues}
+          onChange={onContentChange}
         />
       </main>
     </>

@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from '../../services';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import QuillEditor from './QuillEditor';
@@ -118,21 +119,12 @@ const CreateDiaryStyle = stylex.create({
 });
 
 const CreateDiary = () => {
+  const navigate = useNavigate();
+
   const [hashtag, setHashtag] = useState('');
   const [hashArr, setHashArr] = useState([]);
-
-  const navigate = useNavigate();
-  const [diaryInfo, setDiaryInfo] = useState({
-    hashArr: [],
-    moodValue: 5,
-    currentMonth: '',
-    currentDay: '',
-    currentDDay: '',
-    quillContent: '',
-  });
-
+  const [quillContent, setQuillContent] = useState('');
   const [isPrivate, setIsPrivate] = useState(true);
-
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
     '😠',
@@ -147,9 +139,7 @@ const CreateDiary = () => {
     '🥳',
     '🎉',
   ];
-
   const selectedEmoticon = emoticons[moodValue];
-
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const currentDay = currentDate.format('DD');
@@ -192,9 +182,51 @@ const CreateDiary = () => {
     setHashArr(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSave = () => {
-    navigate('/diary/1');
+  const [diaryInfo, setDiaryInfo] = useState({
+    hashArr: [],
+    moodValue: 5,
+    currentMonth: '',
+    currentDay: '',
+    currentDDay: '',
+    quillContent: '',
+    isPrivate: true,
+  });
+
+  useEffect(() => {
+    setDiaryInfo(prevState => ({
+      ...prevState,
+      hashArr,
+      moodValue,
+      quillContent,
+      currentMonth: currentDate.format('M'),
+      currentDay: currentDate.format('DD'),
+      currentDDay: currentDate.format('ddd'),
+      isPrivate,
+    }));
+  }, [hashArr, moodValue, quillContent, isPrivate]);
+
+  const handleSave = async () => {
+    const memberId = 1; // 실제 멤버 ID로 대체
+    const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
+
+    const requestBody = {
+      content: quillContent,
+      isPrivate,
+      conditionLevel: `LEVEL_${moodValue}`,
+      hashtags: hashArr,
+    };
+
+    try {
+      const response = await API.post(`/diary/${memberId}`, requestBody);
+      console.log(response.data);
+      navigate('/diary/1');
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(requestBody);
   };
+
+  console.log(diaryInfo);
 
   return (
     <>
@@ -249,7 +281,7 @@ const CreateDiary = () => {
             </div>
           </article>
         </section>
-        <QuillEditor />
+        <QuillEditor onContentChange={setQuillContent} />
         <section>
           <article {...stylex.props(CreateDiaryStyle.borderFooter)}>
             <input
