@@ -22,7 +22,7 @@ const styles = stylex.create({
     width: '35px',
     justifyContent: 'space-between',
     textAlign: 'center',
-    margin: '0px 10px',
+    // margin: '0px 10px',
     cursor: 'pointer',
     gap: '5px',
   },

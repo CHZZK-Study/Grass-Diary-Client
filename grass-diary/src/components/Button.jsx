@@ -1,8 +1,7 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  startButton: (width, color, backgroundColor, border) => ({
-    marginTop: '25px',
+  startButton: (width, height, color, backgroundColor, border, marginTop) => ({
     padding: '12px 10px 12px 10px',
 
     borderRadius: '30px',
@@ -11,19 +10,37 @@ const styles = stylex.create({
     cursor: 'pointer',
 
     width,
+    height,
     color,
     border,
     backgroundColor,
+    marginTop,
   }),
 });
 
-const Button = ({ text, onClick, width, color, backgroundColor, border }) => {
+const Button = ({
+  text,
+  onClick,
+  width,
+  height,
+  color,
+  backgroundColor,
+  border,
+  marginTop,
+}) => {
   return (
     <>
       <button
         onClick={onClick}
         {...stylex.props(
-          styles.startButton(width, color, backgroundColor, border),
+          styles.startButton(
+            width,
+            height,
+            color,
+            backgroundColor,
+            border,
+            marginTop,
+          ),
         )}
       >
         {text}

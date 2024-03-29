@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import API from '../../services';
 import Like from '../../components/Like';
 import Button from '../../components/Button';
-import diaryImage from '../../assets/icon/diaryImage.png';
+import { Link } from 'react-router-dom';
 import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
 import useUser from '../../hooks/useUser';
@@ -17,9 +17,14 @@ const Container = ({ children }) => {
 
 const MainContainer = () => {
   const [toggleButton, setToggleButton] = useState('나의 일기장');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleToggleButton = buttonName => {
     setToggleButton(buttonName);
+  };
+
+  const handleSearchChange = event => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -32,9 +37,9 @@ const MainContainer = () => {
         />
       </div>
       <div {...stylex.props(styles.mainSection)}>
-        <SearchBar />
+        <SearchBar onSearchChange={handleSearchChange} />
         {toggleButton === '나의 일기장' ? (
-          <Diary />
+          <Diary searchTerm={searchTerm} />
         ) : (
           <p>현재 교환 일기가 없습니다.</p>
         )}
@@ -64,7 +69,7 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 };
 
 const ProfileImage = () => {
-  const profile = useProfile();
+  const { nickname, profileIntro } = useProfile();
 
   return (
     <div {...stylex.props(styles.profileDetails)}>
@@ -77,20 +82,17 @@ const ProfileImage = () => {
             color="#000"
             backgroundColor="#FFFFFF"
             border="2px solid #929292"
+            marginTop="25px"
           />
         </div>
       </div>
       <div {...stylex.props(styles.profileRight)}>
         <div {...stylex.props(styles.nameSection)}>
-          <span>{profile.nickName}</span>
+          <span>{nickname}</span>
         </div>
         <Grass />
         <div>
-          <span>
-            {profile.profileIntro !== null
-              ? profile.profileIntro
-              : '소개글입니다.'}
-          </span>
+          <span>{profileIntro !== null ? profileIntro : '소개글입니다.'}</span>
         </div>
       </div>
     </div>
@@ -143,7 +145,7 @@ const Grass = () => {
   );
 };
 
-const SearchBar = () => {
+const SearchBar = ({ onSearchChange }) => {
   return (
     <div {...stylex.props(styles.searchSection)}>
       <div {...stylex.props(styles.searchIcon)}>
@@ -152,12 +154,13 @@ const SearchBar = () => {
       <input
         {...stylex.props(styles.searchBar)}
         placeholder="일기 검색하기"
+        onChange={onSearchChange}
       ></input>
     </div>
   );
 };
 
-const Diary = () => {
+const Diary = ({ searchTerm }) => {
   const [diaryList, setDiaryList] = useState([]);
   const memberId = useUser();
 
@@ -173,27 +176,38 @@ const Diary = () => {
     }
   }, [memberId]);
 
+  const filterDiaryList = diaryList.filter(diary =>
+    diary.content.includes(searchTerm),
+  );
+
   return (
     <div {...stylex.props(styles.diaryList)}>
-      {diaryList.map((diary, index) => (
-        <div {...stylex.props(styles.diary)} key={index}>
-          <div {...stylex.props(styles.smallProfileSection)}>
-            <MoodProfile diary={diaryList} index={index} />
-            <div {...stylex.props(styles.smallDetailes)}>
-              <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
-              <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+      {filterDiaryList.map((diary, index) => (
+        <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
+          <div {...stylex.props(styles.diary)} key={diary.diaryId}>
+            <div {...stylex.props(styles.smallProfileSection)}>
+              <MoodProfile diary={diaryList} index={index} />
+              <div {...stylex.props(styles.smallDetailes)}>
+                <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
+                <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+              </div>
+            </div>
+            <div {...stylex.props(styles.diaryContent)}>
+              <div>
+                {diary.tags.map(tag => (
+                  <span {...stylex.props(styles.hashtag)} key={tag.id}>
+                    #{`${tag.tag} `}
+                  </span>
+                ))}
+              </div>
+              <span>{diary.content}</span>
+            </div>
+            <div {...stylex.props(styles.likeSection)}>
+              <Like />
+              <span>{diary.likeCount}</span>
             </div>
           </div>
-          <div {...stylex.props(styles.diaryContent)}>
-            <span {...stylex.props(styles.hashtag)}>{diary.tags}</span>
-            <span>{diary.content}</span>
-            <img src={diaryImage}></img>
-          </div>
-          <div {...stylex.props(styles.likeSection)}>
-            <Like />
-            <span>{diary.likeCount}</span>
-          </div>
-        </div>
+        </Link>
       ))}
     </div>
   );

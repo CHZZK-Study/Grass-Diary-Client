@@ -61,7 +61,7 @@ const styles = stylex.create({
     flexDirection: 'column',
     justifyContent: 'center',
 
-    width: '50%',
+    width: '55%',
     gap: '1.25rem',
   },
 
