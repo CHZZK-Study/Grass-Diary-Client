@@ -128,7 +128,8 @@ const Diary = () => {
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
   const [mood, setMood] = useState();
-  const [likeCount, setLikeCount] = useState();
+  const [liked, setliked] = useState(false);
+  const [likeCount, setLikeCount] = useState(0);
   const [writerMemberId, setWriterMemberId] = useState();
 
   const fetchDiaryData = async () => {
@@ -136,13 +137,13 @@ const Diary = () => {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
-      console.log(response.data.transparency);
       const mood = response.data.transparency.toString()[2] - 1;
       const randomIndex = Math.floor(Math.random() * 3);
 
       setMood(EMOJI[mood][randomIndex]);
       setDiary(response.data);
       setProfile(responseMember.data);
+      setliked(response.data.likedByLogInMember);
       setLikeCount(response.data.likeCount);
       setWriterMemberId(memberId);
     } catch (err) {
@@ -199,7 +200,12 @@ const Diary = () => {
 
         {/* 일기 하단 */}
         <div {...stylex.props(styles.diaryFooter)}>
-          <Like likeCount={likeCount} setLikeCount={setLikeCount} />
+          <Like
+            diaryId={id}
+            likeCount={likeCount}
+            setLikeCount={setLikeCount}
+            liked={liked}
+          />
           <div {...stylex.props(styles.feelBackground)}>
             <div
               {...stylex.props(
