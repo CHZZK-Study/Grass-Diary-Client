@@ -129,14 +129,13 @@ const styles = stylex.create({
     alignItems: 'center',
 
     width: '70%',
-    gap: '50px',
+    gap: '20px',
   },
 
   searchSection: {
     display: 'flex',
 
     width: '100%',
-
     padding: '15px 20px 15px 20px',
 
     borderRadius: '30px',
@@ -154,6 +153,13 @@ const styles = stylex.create({
 
     border: 'none',
     outline: 'none',
+  },
+
+  sortContainer: {
+    display: 'flex',
+    justifyContent: 'flex-end',
+
+    width: '95%',
   },
 
   diaryList: {

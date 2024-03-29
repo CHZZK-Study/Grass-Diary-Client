@@ -10,10 +10,10 @@ const ellipsis = stylex.create({
     position: 'relative',
     cursor: 'pointer',
   },
-  container: translateValue => ({
+  container: (width, translateValue) => ({
     position: 'absolute',
     top: '-8px',
-    width: '136px',
+    width: `${width}px`,
     border: '1px solid #BFBFBF',
     borderRadius: '20px',
     backgroundColor: '#ffffff',
@@ -28,6 +28,11 @@ const ellipsis = stylex.create({
       default: '1px solid #BFBFBF',
       ':last-child': 'none',
     },
+    cursor: 'pointer',
+    color: {
+      default: '#000',
+      ':hover': '#BFBFBF',
+    },
   },
 });
 
@@ -39,7 +44,7 @@ const EllipsisBox = ({ onClick, text }) => {
   );
 };
 
-const EllipsisIcon = ({ children, translateValue }) => {
+const EllipsisIcon = ({ children, width, translateValue }) => {
   const [open, setOpen] = useState(false);
   const ellisisRef = useRef(null);
   const iconRef = useRef(null);
@@ -72,7 +77,7 @@ const EllipsisIcon = ({ children, translateValue }) => {
       {open && (
         <div
           ref={ellisisRef}
-          {...stylex.props(ellipsis.container(translateValue))}
+          {...stylex.props(ellipsis.container(width, translateValue))}
         >
           <div {...stylex.props(ellipsis.box)}></div>
           {children}

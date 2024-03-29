@@ -7,6 +7,7 @@ import BackButton from '../../components/BackButton';
 import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
+import EMOJI from '../../constants/emoji';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
@@ -128,20 +129,8 @@ const CreateDiary = () => {
   const [quillContent, setQuillContent] = useState(null);
   const [isPrivate, setIsPrivate] = useState(true);
   const [moodValue, setMoodValue] = useState(5);
-  const emoticons = [
-    '',
-    '😕',
-    '😐',
-    '🙂',
-    '😀',
-    '😄',
-    '😊',
-    '🤗',
-    '😍',
-    '🥳',
-    '',
-  ];
-  const selectedEmoticon = emoticons[moodValue];
+
+  const selectedEmoticon = EMOJI[moodValue];
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const currentDay = currentDate.format('DD');

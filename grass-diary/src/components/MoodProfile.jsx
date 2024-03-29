@@ -19,10 +19,8 @@ const MoodProfile = ({ diary, index }) => {
     const moods = [];
 
     for (let i = 0; i < diary.length; i++) {
-      let mood = diary[i].transparency.toString()[2] - 1;
-      let randomIndex = Math.floor(Math.random() * 3);
-
-      moods.push(EMOJI[mood][randomIndex]);
+      let mood = diary[i].transparency.toString()[2];
+      moods.push(EMOJI[mood]);
     }
 
     setMood(moods);
