@@ -17,9 +17,14 @@ const Container = ({ children }) => {
 
 const MainContainer = () => {
   const [toggleButton, setToggleButton] = useState('나의 일기장');
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleToggleButton = buttonName => {
     setToggleButton(buttonName);
+  };
+
+  const handleSearchChange = event => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -32,9 +37,9 @@ const MainContainer = () => {
         />
       </div>
       <div {...stylex.props(styles.mainSection)}>
-        <SearchBar />
+        <SearchBar onSearchChange={handleSearchChange} />
         {toggleButton === '나의 일기장' ? (
-          <Diary />
+          <Diary searchTerm={searchTerm} />
         ) : (
           <p>현재 교환 일기가 없습니다.</p>
         )}
@@ -140,7 +145,7 @@ const Grass = () => {
   );
 };
 
-const SearchBar = () => {
+const SearchBar = ({ onSearchChange }) => {
   return (
     <div {...stylex.props(styles.searchSection)}>
       <div {...stylex.props(styles.searchIcon)}>
@@ -149,12 +154,13 @@ const SearchBar = () => {
       <input
         {...stylex.props(styles.searchBar)}
         placeholder="일기 검색하기"
+        onChange={onSearchChange}
       ></input>
     </div>
   );
 };
 
-const Diary = () => {
+const Diary = ({ searchTerm }) => {
   const [diaryList, setDiaryList] = useState([]);
   const memberId = useUser();
 
@@ -170,9 +176,13 @@ const Diary = () => {
     }
   }, [memberId]);
 
+  const filterDiaryList = diaryList.filter(diary =>
+    diary.content.includes(searchTerm),
+  );
+
   return (
     <div {...stylex.props(styles.diaryList)}>
-      {diaryList.map((diary, index) => (
+      {filterDiaryList.map((diary, index) => (
         <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
           <div {...stylex.props(styles.diary)} key={diary.diaryId}>
             <div {...stylex.props(styles.smallProfileSection)}>
