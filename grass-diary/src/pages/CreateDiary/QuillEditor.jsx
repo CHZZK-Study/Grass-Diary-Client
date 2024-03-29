@@ -3,7 +3,7 @@ import API from '../../services';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = ({ onContentChange }) => {
+const QuillEditor = ({ onContentChange, quillContent }) => {
   const handleChange = (content, delta, source, editor) => {
     onContentChange(editor.getHTML());
   };
@@ -66,6 +66,7 @@ const QuillEditor = ({ onContentChange }) => {
           modules={modules}
           formats={formats}
           onChange={handleChange}
+          value={quillContent}
         />
       </main>
     </>

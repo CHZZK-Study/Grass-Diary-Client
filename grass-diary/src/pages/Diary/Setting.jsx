@@ -5,13 +5,15 @@ import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
+import { useNavigate } from 'react-router-dom';
 
 const Setting = id => {
+  const navigate = useNavigate();
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  const createdDate = '24년 03월 14일'; // 임시 데이터
+  const createdDate = '24년 03월 29일'; // 임시 데이터
   const date = new Date();
   useEffect(() => {
     if (
@@ -34,10 +36,11 @@ const Setting = id => {
       setUnmodifyModal(true);
       return;
     }
-    // 일기 수정 가능 시,
+    navigate(`/editdiary/${id.id}`);
   };
 
   const deleteDiary = async () => {
+    console.log(id.id);
     await API.delete(`/diary/${id.id}`)
       .then(() => {
         console.log('삭제 완료');

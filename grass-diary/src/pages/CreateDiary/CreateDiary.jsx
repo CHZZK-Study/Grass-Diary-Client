@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import API from '../../services';
 import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
@@ -120,6 +120,7 @@ const CreateDiaryStyle = stylex.create({
 });
 
 const CreateDiary = () => {
+  const diaryid = useParams().id;
   const navigate = useNavigate();
 
   const [hashtag, setHashtag] = useState('');
@@ -232,15 +233,41 @@ const CreateDiary = () => {
     }
 
     try {
-      const response = await API.post(`/diary/${memberId}`, requestBody);
-      console.log(response.data);
-      navigate('/share');
+      if (diaryid) {
+        await API.patch(`/diary/${diaryid}`, requestBody);
+        navigate(`/diary/${diaryid}`);
+      } else {
+        const response = await API.post(`/diary/${memberId}`, requestBody);
+        console.log(response.data);
+        navigate('/share');
+      }
     } catch (error) {
       console.error(error);
     }
     console.log(requestBody);
   };
   console.log(diaryInfo);
+
+  // 수정 기능일 때의 코드
+  const fetchDiaryData = async () => {
+    try {
+      if (diaryid) {
+        const response = await API.get(`/diary/${diaryid}`);
+        const tags = response.data.tags.map(tag => tag.tag);
+
+        setHashArr(tags);
+        setIsPrivate(response.data.isPrivate);
+        setMoodValue(response.data.transparency * 10);
+        setQuillContent(response.data.content);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchDiaryData();
+  }, []);
 
   return (
     <>
@@ -295,7 +322,10 @@ const CreateDiary = () => {
             </div>
           </article>
         </section>
-        <QuillEditor onContentChange={setQuillContent} />
+        <QuillEditor
+          onContentChange={setQuillContent}
+          quillContent={quillContent}
+        />
         <section>
           <article {...stylex.props(CreateDiaryStyle.borderFooter)}>
             <input
