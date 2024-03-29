@@ -77,6 +77,7 @@ const ProfileImage = () => {
             color="#000"
             backgroundColor="#FFFFFF"
             border="2px solid #929292"
+            marginTop="25px"
           />
         </div>
       </div>

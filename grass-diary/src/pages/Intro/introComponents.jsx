@@ -47,6 +47,7 @@ const OpenModalButton = () => {
         color="#FFF"
         backgroundColor="#28CA3B"
         border="none"
+        marginTop="20px"
       />
       {!isLoggedIn && isModalOpen && (
         <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />

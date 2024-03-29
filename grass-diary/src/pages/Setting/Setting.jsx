@@ -28,8 +28,9 @@ const Setting = () => {
               text="프로필 사진 변경"
               width="9.4rem"
               color="#000"
-              backgroundColor="#FFFFFF"
+              backgroundColor="#FFF"
               border="2px solid #929292"
+              marginTop="25px"
             />
           </div>
           <div {...stylex.props(styles.profileRight)}>
@@ -38,12 +39,27 @@ const Setting = () => {
                 {...stylex.props(styles.textInput('0 0 0 1.25rem', '3.2rem'))}
                 placeholder="닉네임"
               ></input>
+              <Button
+                text="저장"
+                width="70px"
+                color="#000"
+                backgroundColor="#FFF"
+                border="2px solid #929292"
+              />
             </SettingSection>
             <SettingSection label="소개글">
               <textarea
                 {...stylex.props(styles.textInput('1rem 1.25rem', '6.25rem'))}
                 placeholder="소개글을 입력해 주세요."
               ></textarea>
+              <Button
+                text="저장"
+                width="70px"
+                height="51px"
+                color="#000"
+                backgroundColor="#FFF"
+                border="2px solid #929292"
+              />
             </SettingSection>
             <SettingSection label="잔디색">
               <div {...stylex.props(styles.colorWrapper)}>
