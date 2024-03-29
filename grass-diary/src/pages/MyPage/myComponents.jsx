@@ -64,7 +64,7 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 };
 
 const ProfileImage = () => {
-  const profile = useProfile();
+  const { nickname, profileIntro } = useProfile();
 
   return (
     <div {...stylex.props(styles.profileDetails)}>
@@ -83,15 +83,11 @@ const ProfileImage = () => {
       </div>
       <div {...stylex.props(styles.profileRight)}>
         <div {...stylex.props(styles.nameSection)}>
-          <span>{profile.nickName}</span>
+          <span>{nickname}</span>
         </div>
         <Grass />
         <div>
-          <span>
-            {profile.profileIntro !== null
-              ? profile.profileIntro
-              : '소개글입니다.'}
-          </span>
+          <span>{profileIntro !== null ? profileIntro : '소개글입니다.'}</span>
         </div>
       </div>
     </div>

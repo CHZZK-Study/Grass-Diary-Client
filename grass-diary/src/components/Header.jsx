@@ -1,5 +1,4 @@
 import * as stylex from '@stylexjs/stylex';
-import testImg from '../assets/icon/profile.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 import Profile from './Profile';

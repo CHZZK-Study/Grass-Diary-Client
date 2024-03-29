@@ -12,12 +12,12 @@ const styles = stylex.create({
 });
 
 const Profile = ({ width, height }) => {
-  const userProfile = useProfile().profileImageURL;
+  const { profileImage } = useProfile();
 
   return (
     <img
       {...stylex.props(styles.profileImage(width, height))}
-      src={userProfile}
+      src={profileImage}
       alt="사용자 프로필 사진"
     />
   );
