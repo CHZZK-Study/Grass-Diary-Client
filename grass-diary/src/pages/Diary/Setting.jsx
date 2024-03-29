@@ -48,9 +48,9 @@ const Setting = id => {
 
   return (
     <>
-      <EllipsisIcon translateValue={'115px'}>
-        <EllipsisBox onClick={linkToModify} text={'수정'} />
-        <EllipsisBox onClick={showConfirmModal} text={'삭제'} />
+      <EllipsisIcon width="136" translateValue="115px">
+        <EllipsisBox onClick={linkToModify} text="수정" />
+        <EllipsisBox onClick={showConfirmModal} text="삭제" />
       </EllipsisIcon>
 
       {unmodifyModal && <UnmodifyModal setter={setUnmodifyModal} />}

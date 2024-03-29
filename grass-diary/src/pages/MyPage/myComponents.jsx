@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import API from '../../services';
 import Like from '../../components/Like';
 import Button from '../../components/Button';
+import { EllipsisBox, EllipsisIcon } from '../../components/Ellipsis';
 import { Link } from 'react-router-dom';
 import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
@@ -38,6 +39,7 @@ const MainContainer = () => {
       </div>
       <div {...stylex.props(styles.mainSection)}>
         <SearchBar onSearchChange={handleSearchChange} />
+        <SortButton />
         {toggleButton === '나의 일기장' ? (
           <Diary searchTerm={searchTerm} />
         ) : (
@@ -156,6 +158,17 @@ const SearchBar = ({ onSearchChange }) => {
         placeholder="일기 검색하기"
         onChange={onSearchChange}
       ></input>
+    </div>
+  );
+};
+
+const SortButton = () => {
+  return (
+    <div {...stylex.props(styles.sortContainer)}>
+      <EllipsisIcon width="160" translateValue="135px">
+        <EllipsisBox onClick="" text="최신 순으로 보기" />
+        <EllipsisBox onClick="" text="오래된 순으로 보기" />
+      </EllipsisIcon>
     </div>
   );
 };
