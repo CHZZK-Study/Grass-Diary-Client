@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import API from '../../services/index';
 import useUser from '../../hooks/useUser';
@@ -28,6 +28,7 @@ const styles = stylex.create({
     position: 'relative',
     width: '40px',
     height: '40px',
+    marginLeft: '20px',
     backgroundColor: '#ffffff',
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
@@ -123,7 +124,6 @@ const contentStyle = stylex.create({
 
 const Diary = () => {
   const id = useParams().id;
-  const navigate = useNavigate();
   const loginUserMemberId = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
@@ -137,9 +137,8 @@ const Diary = () => {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
-      const mood = response.data.transparency.toString()[2] - 1;
-      const randomIndex = Math.floor(Math.random() * 3);
-      setMood(EMOJI[mood][randomIndex]);
+
+      setMood(EMOJI[response.data.transparency * 10]);
       setDiary(response.data);
       setProfile(responseMember.data);
       setliked(response.data.likedByLogInMember);
@@ -147,7 +146,6 @@ const Diary = () => {
       setWriterMemberId(memberId);
     } catch (err) {
       console.log('상세 페이지 Error >>', err);
-      navigate('/non-existent-page');
     }
   };
 

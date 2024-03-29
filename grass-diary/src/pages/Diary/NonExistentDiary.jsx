@@ -19,7 +19,7 @@ const NonExistentDiary = () => {
     <>
       <Header />
       <div {...stylex.props(styles.wrap)}>
-        <BackButton />
+        <BackButton goBackTo={'/main'} />
         <div {...stylex.props(styles.content)}>
           <p>존재 하지 않는 일기입니다❗</p>
         </div>

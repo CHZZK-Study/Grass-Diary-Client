@@ -21,10 +21,13 @@ const styles = stylex.create({
   },
 });
 
-const BackButton = () => {
+const BackButton = ({ goBackTo }) => {
   const navigate = useNavigate();
 
   const goBack = () => {
+    if (goBackTo) {
+      return navigate(goBackTo);
+    }
     navigate(-1);
   };
   return (
