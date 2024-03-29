@@ -8,6 +8,13 @@ import API from '../services';
 import Feed from './Feed';
 
 const styles = stylex.create({
+  slider: {
+    margin: 'auto',
+    width: {
+      default: '1140px',
+      '@media (max-width: 1139px)': '100vw',
+    },
+  },
   noFeed: {
     height: '150px',
     textAlign: 'center',
@@ -70,8 +77,39 @@ const Top10Feed = () => {
   }, []);
 
   return (
-    <div className="slider-container">
-      <Slider {...settings}>
+    <div className="slider-container" {...stylex.props(styles.slider)}>
+      {top10Datas?.length > 3 ? (
+        <Slider {...settings}>
+          {top10Datas?.map(data => {
+            return (
+              <Feed
+                key={data.diaryId}
+                likeCount={data.diaryLikeCount}
+                link={`/diary/${data.diaryId}`}
+                title={data.title}
+                content={data.diaryContent}
+                name={data.nickname}
+                profile={data.profile}
+              />
+            );
+          })}
+        </Slider>
+      ) : (
+        top10Datas?.map(data => {
+          return (
+            <Feed
+              key={data.diaryId}
+              likeCount={data.diaryLikeCount}
+              link={`/diary/${data.diaryId}`}
+              title={data.title}
+              content={data.diaryContent}
+              name={data.nickname}
+              profile={data.profile}
+            />
+          );
+        })
+      )}
+      {/* <Slider {...settings}>
         {top10Datas?.map(data => {
           return (
             <Feed
@@ -85,7 +123,7 @@ const Top10Feed = () => {
             />
           );
         })}
-      </Slider>
+      </Slider> */}
       {noFeed ? (
         <div {...stylex.props(styles.noFeed)}>
           이번 주에 쓴 일기가 아직 없어요
