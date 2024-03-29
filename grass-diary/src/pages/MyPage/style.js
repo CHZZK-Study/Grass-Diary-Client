@@ -167,7 +167,7 @@ const styles = stylex.create({
     flexDirection: 'column',
 
     width: '100%',
-    minHeight: '1000px',
+    minHeight: '1050px',
 
     paddingBottom: '50px',
     overflowY: 'auto',
@@ -225,6 +225,14 @@ const styles = stylex.create({
   likeSection: {
     display: 'flex',
     alignItems: 'center',
+  },
+
+  pageButtonWrap: {
+    display: 'flex',
+    justifyContent: 'center',
+
+    paddingBottom: '60px',
+    gap: '10px',
   },
 });
 

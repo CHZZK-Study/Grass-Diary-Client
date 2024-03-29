@@ -195,11 +195,13 @@ const SortButton = ({ onSortChange }) => {
 };
 
 const Diary = ({ searchTerm, sortOrder }) => {
-  const [diaryList, setDiaryList] = useState([]);
   const memberId = useUser();
+  const [diaryList, setDiaryList] = useState([]);
+  const [pageSize, setPageSize] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    let apiUrl = `/diary/main/${memberId}?page=0`;
+    let apiUrl = `/diary/main/${memberId}?page=${currentPage}`;
     if (sortOrder === 'oldest') {
       apiUrl += `&sort=createdAt,ASC`;
     }
@@ -207,48 +209,64 @@ const Diary = ({ searchTerm, sortOrder }) => {
     if (memberId) {
       API.get(apiUrl)
         .then(response => {
+          setPageSize(response.data.totalPages);
           setDiaryList(response.data.content);
         })
         .catch(error => {
           console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
         });
     }
-  }, [memberId, sortOrder]);
+  }, [memberId, sortOrder, currentPage]);
 
   const filterDiaryList = diaryList.filter(diary =>
     diary.content.includes(searchTerm),
   );
 
+  const handlePageChange = page => {
+    setCurrentPage(page);
+  };
+
   return (
-    <div {...stylex.props(styles.diaryList)}>
-      {filterDiaryList.map((diary, index) => (
-        <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
-          <div {...stylex.props(styles.diary)} key={diary.diaryId}>
-            <div {...stylex.props(styles.smallProfileSection)}>
-              <MoodProfile diary={diaryList} index={index} />
-              <div {...stylex.props(styles.smallDetailes)}>
-                <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
-                <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
-              </div>
-            </div>
-            <div {...stylex.props(styles.diaryContent)}>
-              <div>
-                {diary.tags.map(tag => (
-                  <span {...stylex.props(styles.hashtag)} key={tag.id}>
-                    #{`${tag.tag} `}
+    <>
+      <div {...stylex.props(styles.diaryList)}>
+        {filterDiaryList.map((diary, index) => (
+          <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
+            <div {...stylex.props(styles.diary)} key={diary.diaryId}>
+              <div {...stylex.props(styles.smallProfileSection)}>
+                <MoodProfile diary={diaryList} index={index} />
+                <div {...stylex.props(styles.smallDetailes)}>
+                  <span {...stylex.props(styles.name)}>
+                    {diary.createdDate}
                   </span>
-                ))}
+                  <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+                </div>
               </div>
-              <span>{diary.content}</span>
+              <div {...stylex.props(styles.diaryContent)}>
+                <div>
+                  {diary.tags.map(tag => (
+                    <span {...stylex.props(styles.hashtag)} key={tag.id}>
+                      #{`${tag.tag} `}
+                    </span>
+                  ))}
+                </div>
+                <span>{diary.content}</span>
+              </div>
+              <div {...stylex.props(styles.likeSection)}>
+                <Like />
+                <span>{diary.likeCount}</span>
+              </div>
             </div>
-            <div {...stylex.props(styles.likeSection)}>
-              <Like />
-              <span>{diary.likeCount}</span>
-            </div>
-          </div>
-        </Link>
-      ))}
-    </div>
+          </Link>
+        ))}
+      </div>
+      <div {...stylex.props(styles.pageButtonWrap)}>
+        {Array.from({ length: pageSize }, (_, index) => (
+          <button key={index} onClick={() => handlePageChange(index)}>
+            {index + 1}
+          </button>
+        ))}
+      </div>
+    </>
   );
 };
 
