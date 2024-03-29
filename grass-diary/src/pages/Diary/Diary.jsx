@@ -28,6 +28,7 @@ const styles = stylex.create({
     position: 'relative',
     width: '40px',
     height: '40px',
+    marginLeft: '20px',
     backgroundColor: '#ffffff',
     borderRadius: '50%',
     border: '1px solid #BFBFBF',
