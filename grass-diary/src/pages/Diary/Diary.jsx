@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import API from '../../services/index';
 import useUser from '../../hooks/useUser';
@@ -123,7 +123,6 @@ const contentStyle = stylex.create({
 
 const Diary = () => {
   const id = useParams().id;
-  const navigate = useNavigate();
   const loginUserMemberId = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
@@ -147,7 +146,6 @@ const Diary = () => {
       setWriterMemberId(memberId);
     } catch (err) {
       console.log('상세 페이지 Error >>', err);
-      navigate('/non-existent-page');
     }
   };
 
