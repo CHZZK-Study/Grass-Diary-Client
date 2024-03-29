@@ -139,7 +139,6 @@ const Diary = () => {
       const responseMember = await API.get(`/member/profile/${memberId}`);
       const mood = response.data.transparency.toString()[2] - 1;
       const randomIndex = Math.floor(Math.random() * 3);
-
       setMood(EMOJI[mood][randomIndex]);
       setDiary(response.data);
       setProfile(responseMember.data);
@@ -182,7 +181,7 @@ const Diary = () => {
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
               {loginUserMemberId === writerMemberId ? (
-                <Setting id={id} />
+                <Setting id={id} createdDate={diary.createdDate} />
               ) : null}
             </div>
           </div>
