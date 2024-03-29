@@ -137,9 +137,8 @@ const Diary = () => {
       const response = await API.get(`/diary/${id}`);
       const memberId = response.data.memberId;
       const responseMember = await API.get(`/member/profile/${memberId}`);
-      const mood = response.data.transparency.toString()[2] - 1;
-      const randomIndex = Math.floor(Math.random() * 3);
-      setMood(EMOJI[mood][randomIndex]);
+
+      setMood(EMOJI[response.data.transparency * 10]);
       setDiary(response.data);
       setProfile(responseMember.data);
       setliked(response.data.likedByLogInMember);
