@@ -1,9 +1,10 @@
 import * as stylex from '@stylexjs/stylex';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import API from '../../services';
 import Header from '../../components/Header';
-import Swal from 'sweetalert2';
 import BackButton from '../../components/BackButton';
-import axios from 'axios';
+import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
@@ -29,43 +30,14 @@ const CreateDiaryStyle = stylex.create({
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '30px',
-  },
-
-  border: {
-    backgroundColor: 'white',
-    border: 'solid 1px #BFBFBF',
-    borderRadius: '10px',
-    height: '1000px',
-  },
-
-  borderLine: {
-    display: 'flex',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    gap: '5px',
-    borderBottom: 'solid 1px #bfbfbf',
-    margin: 0,
-    padding: '20px',
-  },
-
-  borderContent: {
-    padding: '20px',
+    padding: '10px',
   },
 
   borderFooter: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingTop: '50px',
-  },
-
-  textAreaStyle: {
-    width: '950px',
-    height: '850px',
-    border: 'none',
-    outline: 'none',
-    resize: 'none',
+    paddingTop: '100px',
   },
 
   inputStyle: {
@@ -96,27 +68,63 @@ const CreateDiaryStyle = stylex.create({
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
-  imgBtn: {
-    border: 'none',
-    backgroundColor: 'white',
-    cursor: 'pointer',
-  },
-
   todayMood: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  hashtag: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '10px',
+    paddingTop: '20px',
+  },
+
+  hashtagBox: {
+    // backgroundColor: {
+    //   default: 'white',
+    //   ':hover': 'black',
+    // },
+    // color: {
+    //   default: 'black',
+    //   ':hover': 'white',
+    // },
+    backgroundColor: 'white',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '10px',
+    padding: '10px 15px',
+    border: 'solid 1px #bfbfbf',
+    borderRadius: '30px',
+    fontSize: '15px',
+    fontWeight: 'bold',
+    transition: 'all 0.3s ease',
+  },
+
+  hashtagBtn: {
+    // color: {
+    //   default: 'black',
+    //   ':hover': 'white',
+    // },
+    background: 'none',
+    border: 'none',
+    fontSize: '12px',
+    cursor: 'pointer',
+  },
 });
 
 const CreateDiary = () => {
-  const [textValue, setTextValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const navigate = useNavigate();
 
-  const [todayQuestion, setTodayQuestion] = useState();
+  const [hashtag, setHashtag] = useState('');
+  const [hashArr, setHashArr] = useState([]);
+  const [quillContent, setQuillContent] = useState('');
   const [isPrivate, setIsPrivate] = useState(true);
-
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
     '😠',
@@ -131,31 +139,11 @@ const CreateDiary = () => {
     '🥳',
     '🎉',
   ];
-
   const selectedEmoticon = emoticons[moodValue];
-
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
   const currentDay = currentDate.format('DD');
   const currentDDay = currentDate.format('ddd');
-
-  const token = localStorage.getItem('accessToken');
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  useEffect(() => {
-    axios
-      .get('http://localhost:8080/api/main/todayInfo', config)
-      .then(response => {
-        setTodayQuestion(response.data.todayQuestion);
-      })
-      .catch(error => {
-        console.log('오늘의 질문 에러', error);
-      });
-  }, []);
 
   const handlePrivateChange = () => {
     setIsPrivate(true);
@@ -171,38 +159,77 @@ const CreateDiary = () => {
     setMoodValue(parseInt(e.target.value));
   };
 
-  const handleInputChange = e => {
-    setInputValue(e.target.value);
+  const onChangeHashtag = e => {
+    setHashtag(e.target.value);
   };
 
-  const handleTextChange = e => {
-    setTextValue(e.target.value);
-  };
-
-  const imageUpload = async () => {
-    const { value: file } = await Swal.fire({
-      confirmButtonColor: '#28CA3B',
-      confirmButtonText: '확인',
-      title: '사진 선택',
-      input: 'file',
-      inputAttributes: {
-        accept: 'image/*',
-        'aria-label': 'Upload your profile picture',
-      },
-    });
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        Swal.fire({
-          confirmButtonColor: '#28CA3B',
-          confirmButtonText: '확인',
-          imageUrl: e.target.result,
-          imageAlt: 'The uploaded picture',
-        });
-      };
-      reader.readAsDataURL(file);
+  const addHashtag = e => {
+    // Enter키 또는 Space키가 눌렸을 때
+    if (
+      (e.key === 'Enter' || e.key === ' ') &&
+      hashtag.trim() !== '' &&
+      hashArr.length < 15
+    ) {
+      // 새로운 해시태그를 배열에 추가
+      setHashArr(prev => [...prev, hashtag.trim()]);
+      // 입력 필드 초기화
+      setHashtag('');
     }
   };
+
+  // 해시태그를 배열에서 제거하는 함수
+  const removeHashtag = index => {
+    setHashArr(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const [diaryInfo, setDiaryInfo] = useState({
+    hashArr: [],
+    moodValue: 5,
+    currentMonth: '',
+    currentDay: '',
+    currentDDay: '',
+    quillContent: '',
+    isPrivate: true,
+  });
+
+  useEffect(() => {
+    setDiaryInfo(prevState => ({
+      ...prevState,
+      hashArr,
+      moodValue,
+      quillContent,
+      currentMonth: currentDate.format('M'),
+      currentDay: currentDate.format('DD'),
+      currentDDay: currentDate.format('ddd'),
+      isPrivate,
+    }));
+  }, [hashArr, moodValue, quillContent, isPrivate]);
+
+  const handleSave = async () => {
+    const memberId = 1; // 실제 멤버 ID로 대체
+    const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
+
+    const requestBody = {
+      content: quillContent,
+      isPrivate,
+      conditionLevel: `LEVEL_${moodValue}`,
+      hashtags: hashArr,
+      month: currentMonth,
+      date: currentDay,
+      day: currentDDay,
+    };
+
+    try {
+      const response = await API.post(`/diary/${memberId}`, requestBody);
+      console.log(response.data);
+      navigate('/diary/1');
+    } catch (error) {
+      console.error(error);
+    }
+    console.log(requestBody);
+  };
+
+  console.log(diaryInfo);
 
   return (
     <>
@@ -257,38 +284,37 @@ const CreateDiary = () => {
             </div>
           </article>
         </section>
-        <section>
-          <article {...stylex.props(CreateDiaryStyle.border)}>
-            <p {...stylex.props(CreateDiaryStyle.borderLine)}>
-              <button
-                onClick={imageUpload}
-                {...stylex.props(CreateDiaryStyle.imgBtn)}
-              >
-                <i className="fa-regular fa-image"></i> 사진
-              </button>
-            </p>
-            <p {...stylex.props(CreateDiaryStyle.borderContent)}>
-              <textarea
-                {...stylex.props(CreateDiaryStyle.textAreaStyle)}
-                type="text"
-                value={textValue}
-                onChange={handleTextChange}
-                placeholder={textValue ? '' : todayQuestion}
-              />
-            </p>
-          </article>
-        </section>
+        <QuillEditor onContentChange={setQuillContent} />
         <section>
           <article {...stylex.props(CreateDiaryStyle.borderFooter)}>
             <input
               {...stylex.props(CreateDiaryStyle.inputStyle)}
               type="text"
-              value={inputValue}
-              onChange={handleInputChange}
-              placeholder={inputValue ? '' : '#해시태그'}
+              value={hashtag}
+              onChange={onChangeHashtag}
+              onKeyUp={addHashtag}
+              placeholder={hashtag ? '' : '#해시태그'}
             />
-            <button {...stylex.props(CreateDiaryStyle.btnStyle)}>저장</button>
+            <button
+              onClick={handleSave}
+              {...stylex.props(CreateDiaryStyle.btnStyle)}
+            >
+              저장
+            </button>
           </article>
+          <div {...stylex.props(CreateDiaryStyle.hashtag)}>
+            {hashArr.map((tag, index) => (
+              <span key={index} {...stylex.props(CreateDiaryStyle.hashtagBox)}>
+                {tag}
+                <button
+                  {...stylex.props(CreateDiaryStyle.hashtagBtn)}
+                  onClick={() => removeHashtag(index)}
+                >
+                  X
+                </button>
+              </span>
+            ))}
+          </div>
         </section>
       </main>
     </>
