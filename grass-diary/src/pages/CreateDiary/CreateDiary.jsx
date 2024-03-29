@@ -138,7 +138,7 @@ const CreateDiary = () => {
     '🤗',
     '😍',
     '🥳',
-    '🎉',
+    '',
   ];
   const selectedEmoticon = emoticons[moodValue];
   const currentDate = dayjs();
@@ -279,7 +279,7 @@ const CreateDiary = () => {
                 type="range"
                 name="todayMood"
                 min="1"
-                max="10"
+                max="9"
                 list="values"
                 value={moodValue}
                 onChange={handleMoodChange}
