@@ -28,6 +28,11 @@ const ellipsis = stylex.create({
       default: '1px solid #BFBFBF',
       ':last-child': 'none',
     },
+    cursor: 'pointer',
+    color: {
+      default: '#000',
+      ':hover': '#BFBFBF',
+    },
   },
 });
 
