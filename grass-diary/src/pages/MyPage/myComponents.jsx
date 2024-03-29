@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import API from '../../services';
 import Like from '../../components/Like';
 import Button from '../../components/Button';
-import diaryImage from '../../assets/icon/diaryImage.png';
+import { Link } from 'react-router-dom';
 import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
 import useUser from '../../hooks/useUser';
@@ -173,27 +173,31 @@ const Diary = () => {
   return (
     <div {...stylex.props(styles.diaryList)}>
       {diaryList.map((diary, index) => (
-        <div {...stylex.props(styles.diary)} key={index}>
-          <div {...stylex.props(styles.smallProfileSection)}>
-            <MoodProfile diary={diaryList} index={index} />
-            <div {...stylex.props(styles.smallDetailes)}>
-              <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
-              <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+        <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
+          <div {...stylex.props(styles.diary)} key={diary.diaryId}>
+            <div {...stylex.props(styles.smallProfileSection)}>
+              <MoodProfile diary={diaryList} index={index} />
+              <div {...stylex.props(styles.smallDetailes)}>
+                <span {...stylex.props(styles.name)}>{diary.createdDate}</span>
+                <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
+              </div>
+            </div>
+            <div {...stylex.props(styles.diaryContent)}>
+              <div>
+                {diary.tags.map(tag => (
+                  <span {...stylex.props(styles.hashtag)} key={tag.id}>
+                    #{`${tag.tag} `}
+                  </span>
+                ))}
+              </div>
+              <span>{diary.content}</span>
+            </div>
+            <div {...stylex.props(styles.likeSection)}>
+              <Like />
+              <span>{diary.likeCount}</span>
             </div>
           </div>
-          <div {...stylex.props(styles.diaryContent)}>
-            {diary.tags.map(tag => (
-              <span {...stylex.props(styles.hashtag)} key={tag.id}>
-                #{tag.tag}
-              </span>
-            ))}
-            <span>{diary.content}</span>
-          </div>
-          <div {...stylex.props(styles.likeSection)}>
-            <Like />
-            <span>{diary.likeCount}</span>
-          </div>
-        </div>
+        </Link>
       ))}
     </div>
   );
