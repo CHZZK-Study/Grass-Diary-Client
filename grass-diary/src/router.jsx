@@ -22,6 +22,7 @@ const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       { path: '/creatediary', element: <CreateDiary /> },
+      { path: '/editdiary/:id', element: <CreateDiary /> },
       { path: '/diary/:id', element: <Diary /> },
       { path: '/share', element: <Share /> },
       { path: '/setting', element: <Setting /> },

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 const feed = stylex.create({
   box: {
+    display: 'inline-block',
     backgroundColor: '#F9F9F9',
     boxShadow: `rgba(149, 157, 165, 0.2) 2px 2px 4px`,
     borderRadius: '20px',
