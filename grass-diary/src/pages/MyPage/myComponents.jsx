@@ -184,7 +184,6 @@ const Diary = () => {
           <div {...stylex.props(styles.diaryContent)}>
             <span {...stylex.props(styles.hashtag)}>{diary.tags}</span>
             <span>{diary.content}</span>
-            <img src={diaryImage}></img>
           </div>
           <div {...stylex.props(styles.likeSection)}>
             <Like />
