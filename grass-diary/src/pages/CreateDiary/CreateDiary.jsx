@@ -222,9 +222,10 @@ const CreateDiary = () => {
 
     if (!quillContent || !quillContent.trim()) {
       Swal.fire({
-        title: '내용을 입력하세요',
+        title: '일기를 작성해주세요!',
         icon: 'warning',
         showCancelButton: false,
+        confirmButtonColor: '#28CA3B',
         confirmButtonText: '확인',
       });
       return; // 저장 중단
