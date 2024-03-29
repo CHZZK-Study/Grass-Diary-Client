@@ -161,8 +161,10 @@ const styles = stylex.create({
     flexDirection: 'column',
 
     width: '100%',
-    paddingBottom: '50px',
+    minHeight: '1000px',
 
+    paddingBottom: '50px',
+    overflowY: 'auto',
     gap: '50px',
   },
 
