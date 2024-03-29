@@ -4,6 +4,10 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const QuillEditor = ({ onContentChange }) => {
+  const handleChange = (content, delta, source, editor) => {
+    onContentChange(editor.getHTML());
+  };
+
   const [todayQuestion, setTodayQuestion] = useState();
 
   useEffect(() => {
@@ -61,7 +65,7 @@ const QuillEditor = ({ onContentChange }) => {
           placeholder={todayQuestion ? todayQuestion : '일기를 작성 해보세요!'}
           modules={modules}
           formats={formats}
-          onChange={onContentChange}
+          onChange={handleChange}
         />
       </main>
     </>

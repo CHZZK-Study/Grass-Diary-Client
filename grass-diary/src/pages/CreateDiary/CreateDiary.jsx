@@ -6,6 +6,7 @@ import Header from '../../components/Header';
 import BackButton from '../../components/BackButton';
 import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
+import Swal from 'sweetalert2';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
@@ -123,7 +124,7 @@ const CreateDiary = () => {
 
   const [hashtag, setHashtag] = useState('');
   const [hashArr, setHashArr] = useState([]);
-  const [quillContent, setQuillContent] = useState('');
+  const [quillContent, setQuillContent] = useState(null);
   const [isPrivate, setIsPrivate] = useState(true);
   const [moodValue, setMoodValue] = useState(5);
   const emoticons = [
@@ -219,16 +220,26 @@ const CreateDiary = () => {
       day: currentDDay,
     };
 
+    if (!quillContent || !quillContent.trim()) {
+      Swal.fire({
+        title: '일기를 작성해주세요!',
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#28CA3B',
+        confirmButtonText: '확인',
+      });
+      return; // 저장 중단
+    }
+
     try {
       const response = await API.post(`/diary/${memberId}`, requestBody);
       console.log(response.data);
-      navigate('/diary/1');
+      navigate('/share');
     } catch (error) {
       console.error(error);
     }
     console.log(requestBody);
   };
-
   console.log(diaryInfo);
 
   return (
