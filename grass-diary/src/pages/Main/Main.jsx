@@ -404,9 +404,6 @@ const MiddleSection = () => {
     (_, i) => i + 1,
   );
 
-  // console.log(currentMonthLastDay.date());
-  // console.log(daysInMonth);
-
   const weeksInMonth = [];
   let week = [];
 
