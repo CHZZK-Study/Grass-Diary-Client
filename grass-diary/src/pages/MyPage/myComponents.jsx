@@ -91,6 +91,19 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
 const ProfileSection = ({ setSelectedDiary }) => {
   const { nickname, profileIntro } = useProfile();
 
+  const modal = () => {
+    Swal.fire({
+      title: '교환 일기장',
+      text: '교환 일기 서비스를 준비중이에요',
+      imageUrl: '/public/img/mainCharacter.png',
+      imageWidth: 300,
+      imageHeight: 300,
+      imageAlt: 'Custom image',
+      confirmButtonColor: '#28CA3B',
+      confirmButtonText: '확인',
+    });
+  };
+
   return (
     <div {...stylex.props(styles.profileDetails)}>
       <div {...stylex.props(styles.profileLeft)}>
@@ -103,6 +116,7 @@ const ProfileSection = ({ setSelectedDiary }) => {
             backgroundColor="#FFFFFF"
             border="2px solid #929292"
             marginTop="25px"
+            onClick={modal}
           />
         </div>
       </div>
