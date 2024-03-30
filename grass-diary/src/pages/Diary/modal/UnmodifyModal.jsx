@@ -56,7 +56,7 @@ const UnmodifyModal = ({ setter }) => {
           </span>
           <br />
           <span {...stylex.props(styles.ie)}>
-            일기는 당일 00:00부터 24:00전 까지 수정 가능합니다.
+            일기는 당일 00:00부터 24:00전까지 수정 가능합니다.
           </span>
         </div>
       </div>
