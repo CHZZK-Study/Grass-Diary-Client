@@ -1,9 +1,11 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatDate } from '../../utils/dateUtils';
 import { getDaysArray } from '../../utils/dateUtils';
 import useGrass from '../../hooks/ussGrass';
+import API from '../../services';
+import useUser from '../../hooks/useUser';
 
 const createGrass = () => {
   const year = new Date().getFullYear();
@@ -21,17 +23,32 @@ const createGrass = () => {
     grass[column][row] = day;
   });
 
-  return grass;
+  return { year, grass };
 };
 
-const Grass = () => {
+const Grass = ({ setSelectedDiary }) => {
   const [selectedGrass, setSelectedGrass] = useState(null);
+  const { year, grass } = createGrass();
+  const memberId = useUser();
   const grassColors = useGrass();
-  const grass = createGrass();
 
   const handleGrassClick = date => {
     setSelectedGrass(formatDate(date));
   };
+
+  useEffect(() => {
+    if (selectedGrass) {
+      const selectedDate = `${year}-${selectedGrass.split('/').join('-')}`;
+
+      API.get(`/search/date/${memberId}?date=${selectedDate}`)
+        .then(response => {
+          setSelectedDiary(response.data);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [selectedGrass, memberId, setSelectedDiary, year]);
 
   return (
     <div {...stylex.props(styles.grassContainer)}>
