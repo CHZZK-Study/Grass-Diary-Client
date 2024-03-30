@@ -1,5 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
+import NormalLike from './normalLike';
 import DOMPurify from 'dompurify';
 
 const feed = stylex.create({
@@ -17,11 +18,6 @@ const feed = stylex.create({
     },
     transition: '0.3s',
     overflow: 'hidden',
-  },
-  like: {
-    display: 'flex',
-    gap: '5px',
-    justifyContent: 'flex-end',
   },
   header: {
     display: 'flex',
@@ -60,12 +56,7 @@ const Feed = ({ likeCount, link, title, content, name, profile }) => {
   return (
     <Link to={link}>
       <article {...stylex.props(feed.box)}>
-        <div {...stylex.props(feed.like)}>
-          <span>
-            <i className="fa-solid fa-heart"></i>
-          </span>
-          <span>{likeCount}</span>
-        </div>
+        <NormalLike likeCount={likeCount} justifyContent={'flex-end'} />
         <div {...stylex.props(feed.header)}>
           <img {...stylex.props(feed.img)} src={profile}></img>
           <div {...stylex.props(feed.name)}>{name}</div>
