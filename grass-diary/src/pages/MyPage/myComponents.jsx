@@ -12,6 +12,7 @@ import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
 import useUser from '../../hooks/useUser';
 import useProfile from '../../hooks/useProfile';
+import Grass from './Grass';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -113,100 +114,6 @@ const ProfileImage = () => {
           <span>{profileIntro !== null ? profileIntro : '소개글입니다.'}</span>
         </div>
       </div>
-    </div>
-  );
-};
-
-const formatDate = selectedDate => {
-  const date = new Date(selectedDate);
-  const month = (date.getMonth() + 1).toString().padStart(2, '0');
-  const day = date.getDate().toString().padStart(2, '0');
-
-  return [month, day].join('/');
-};
-
-const Grass = () => {
-  const memberId = useUser();
-  const [selectedGrass, setSelectedGrass] = useState(null);
-  const [grassColors, setGrassColors] = useState({});
-
-  const year = new Date().getFullYear();
-  const isLeapYear = new Date(year, 1, 29).getMonth() === 1;
-  const daysInYear = isLeapYear ? 366 : 365;
-
-  const columns = Math.ceil(daysInYear / 7);
-  const days = Array.from(
-    { length: daysInYear },
-    (_, i) => new Date(year, 0, i + 1),
-  );
-
-  const grass = Array.from({ length: columns }, () => Array(7).fill(null));
-
-  days.forEach((day, index) => {
-    const column = Math.floor(index / 7);
-    const row = index % 7;
-
-    grass[column][row] = day;
-  });
-
-  const handleGrassClick = date => {
-    setSelectedGrass(formatDate(date));
-  };
-
-  useEffect(() => {
-    if (memberId) {
-      API.get(`/grass/${memberId}`)
-        .then(response => {
-          const { grassList } = response.data;
-          const grassColor = response.data.colorRGB;
-          const updatedGrassColors = {};
-
-          grassList.forEach(grass => {
-            const { createdAt, transparency } = grass;
-            const createdDate = formatDate(new Date(createdAt));
-
-            updatedGrassColors[createdDate] = `${grassColor},${transparency}`;
-          });
-
-          setGrassColors(updatedGrassColors);
-        })
-        .catch(error =>
-          console.error(`사용자 잔디 현황을 불러올 수 없습니다. ${error}`),
-        );
-    }
-  }, [memberId]);
-
-  return (
-    <div {...stylex.props(styles.grassContainer)}>
-      {grass.map((column, index) => (
-        <div key={index} {...stylex.props(styles.grass)}>
-          {column.map((day, index) => {
-            if (day === null) return null;
-            const writeDay = formatDate(day);
-
-            return (
-              <div key={index} {...stylex.props(styles.dayContainer)}>
-                <div
-                  onClick={() => handleGrassClick(day)}
-                  {...stylex.props(
-                    styles.grassDate(
-                      writeDay === selectedGrass ? '1px solid black' : 'none',
-                      grassColors[writeDay]
-                        ? `rgba(${grassColors[writeDay]})`
-                        : '#E0E0E0',
-                    ),
-                  )}
-                ></div>
-                {formatDate(day) === selectedGrass && (
-                  <div {...stylex.props(styles.dateBubble)}>
-                    <span>{selectedGrass}</span>
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      ))}
     </div>
   );
 };
