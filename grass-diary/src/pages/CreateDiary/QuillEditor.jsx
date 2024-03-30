@@ -58,17 +58,14 @@ const QuillEditor = ({ onContentChange, quillContent }) => {
   return (
     <>
       <h3>{todayQuestion ? todayQuestion : 'Loading...'}</h3>
-      <main>
-        <ReactQuill
-          style={{ height: '75vh', background: 'white' }}
-          theme="snow"
-          placeholder={todayQuestion ? todayQuestion : '일기를 작성 해보세요!'}
-          modules={modules}
-          formats={formats}
-          onChange={handleChange}
-          value={quillContent}
-        />
-      </main>
+      <ReactQuill
+        theme="snow"
+        placeholder={todayQuestion ? todayQuestion : '일기를 작성 해보세요!'}
+        modules={modules}
+        formats={formats}
+        onChange={handleChange}
+        value={quillContent}
+      />
     </>
   );
 };

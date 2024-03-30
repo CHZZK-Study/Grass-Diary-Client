@@ -117,9 +117,6 @@ const contentStyle = stylex.create({
   },
   content: {
     minHeight: '200px',
-    wordBreak: 'break-all',
-    fontSize: '13px',
-    lineHeight: '25px',
   },
 });
 

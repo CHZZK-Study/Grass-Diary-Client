@@ -37,6 +37,7 @@ h2,
 h3,
 h4 {
   text-wrap: balance;
+  white-space: pre-wrap;
 }
 
 a:not([class]) {
@@ -68,4 +69,32 @@ textarea:not([rows]) {
 
 li:hover {
   background-color: #e2e2e2;
+}
+
+p {
+  white-space: pre-wrap;
+}
+
+.ql-align-center {
+  text-align: center;
+}
+
+.ql-align-right {
+  text-align: right;
+}
+
+.ql-align-justify {
+  text-align: justify;
+}
+
+blockquote {
+  border-left: 4px solid #ccc;
+  margin-bottom: 5px;
+  margin-top: 5px;
+  padding-left: 16px;
+}
+
+.ql-editor {
+  background-color: white;
+  height: 70vh;
 }
