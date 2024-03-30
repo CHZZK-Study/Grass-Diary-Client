@@ -126,6 +126,8 @@ const formatDate = selectedDate => {
 };
 
 const Grass = () => {
+  const [selectedGrass, setSelectedGrass] = useState(null);
+
   const year = new Date().getFullYear();
   const isLeapYear = new Date(year, 1, 29).getMonth() === 1;
   const daysInYear = isLeapYear ? 366 : 365;
@@ -145,6 +147,10 @@ const Grass = () => {
     grass[column][row] = day;
   });
 
+  const handleGrassClick = date => {
+    setSelectedGrass(formatDate(date));
+  };
+
   return (
     <div {...stylex.props(styles.grassContainer)}>
       {grass.map((column, index) => (
@@ -154,8 +160,21 @@ const Grass = () => {
             return (
               <div key={index} {...stylex.props(styles.dayContainer)}>
                 <div
-                  {...stylex.props(styles.grassDate('none', '#E0E0E0'))}
+                  onClick={() => handleGrassClick(day)}
+                  {...stylex.props(
+                    styles.grassDate(
+                      formatDate(day) === selectedGrass
+                        ? '1px solid black'
+                        : 'none',
+                      '#E0E0E0',
+                    ),
+                  )}
                 ></div>
+                {formatDate(day) === selectedGrass && (
+                  <div {...stylex.props(styles.dateBubble)}>
+                    <span>{selectedGrass}</span>
+                  </div>
+                )}
               </div>
             );
           })}
