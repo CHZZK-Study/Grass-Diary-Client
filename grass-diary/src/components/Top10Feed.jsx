@@ -109,24 +109,9 @@ const Top10Feed = () => {
           );
         })
       )}
-      {/* <Slider {...settings}>
-        {top10Datas?.map(data => {
-          return (
-            <Feed
-              key={data.diaryId}
-              likeCount={data.diaryLikeCount}
-              link={`/diary/${data.diaryId}`}
-              title={data.title}
-              content={data.diaryContent}
-              name={data.nickname}
-              profile={data.profile}
-            />
-          );
-        })}
-      </Slider> */}
       {noFeed ? (
         <div {...stylex.props(styles.noFeed)}>
-          이번 주에 쓴 일기가 아직 없어요
+          이번 주는 공개된 일기가 아직 없어요
         </div>
       ) : null}
     </div>

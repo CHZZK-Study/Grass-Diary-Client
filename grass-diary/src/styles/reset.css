@@ -38,6 +38,8 @@ h3,
 h4 {
   text-wrap: balance;
   white-space: pre-wrap;
+  word-wrap: break-word; /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
 }
 
 a:not([class]) {
@@ -73,6 +75,8 @@ li:hover {
 
 p {
   white-space: pre-wrap;
+  word-wrap: break-word; /* IE 5.5-7 */
+  white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
 }
 
 .ql-align-center {

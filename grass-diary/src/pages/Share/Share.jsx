@@ -141,7 +141,9 @@ const Share = () => {
               );
             })}
             {noFeed ? (
-              <div {...stylex.props(styles.noFeed)}>일기가 아직 없어요</div>
+              <div {...stylex.props(styles.noFeed)}>
+                공개된 일기가 아직 없어요
+              </div>
             ) : null}
           </div>
           <div ref={target} {...stylex.props(styles.observer)}></div>
