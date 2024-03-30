@@ -1,6 +1,7 @@
 import * as stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
 import NormalLike from './normalLike';
+import DOMPurify from 'dompurify';
 
 const feed = stylex.create({
   box: {
@@ -45,6 +46,13 @@ const feed = stylex.create({
 });
 
 const Feed = ({ likeCount, link, title, content, name, profile }) => {
+  const createMarkup = htmlContent => {
+    return { __html: DOMPurify.sanitize(htmlContent) };
+  };
+
+  const processedContent =
+    content && content.length > 350 ? `${content.slice(0, 350)}...` : content;
+
   return (
     <Link to={link}>
       <article {...stylex.props(feed.box)}>
@@ -55,11 +63,10 @@ const Feed = ({ likeCount, link, title, content, name, profile }) => {
         </div>
 
         <div {...stylex.props(feed.title)}>{title}</div>
-        <div {...stylex.props(feed.content)}>
-          {content && content.length > 350
-            ? `${content.slice(0, 350)}...`
-            : content}
-        </div>
+        <div
+          {...stylex.props(feed.content)}
+          dangerouslySetInnerHTML={createMarkup(processedContent)}
+        />
       </article>
     </Link>
   );

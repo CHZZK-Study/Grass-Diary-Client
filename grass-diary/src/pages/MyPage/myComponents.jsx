@@ -2,6 +2,7 @@ import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import DOMPurify from 'dompurify';
 
 import API from '../../services';
 import NormalLike from '../../components/normalLike';
@@ -226,6 +227,10 @@ const Diary = ({ searchTerm, sortOrder }) => {
     setCurrentPage(page);
   };
 
+  const createMarkup = htmlContent => {
+    return { __html: DOMPurify.sanitize(htmlContent) };
+  };
+
   return (
     <>
       <div {...stylex.props(styles.diaryList)}>
@@ -249,7 +254,9 @@ const Diary = ({ searchTerm, sortOrder }) => {
                     </span>
                   ))}
                 </div>
-                <span>{diary.content}</span>
+                <div
+                  dangerouslySetInnerHTML={createMarkup(diary.content)}
+                ></div>
               </div>
               <NormalLike likeCount={diary.likeCount} />
             </div>

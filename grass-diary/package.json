@@ -12,6 +12,7 @@
     "@stylexjs/stylex": "^0.5.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
+    "dompurify": "^3.0.11",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-intersection-observer": "^9.8.1",

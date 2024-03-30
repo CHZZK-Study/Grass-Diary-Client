@@ -91,7 +91,7 @@ const Like = ({ diaryId, likeCount, setLikeCount, liked }) => {
             <i onClick={clickLike} className="fa-regular fa-heart"></i>
           </div>
         )}
-        <div {...stylex.props(styles.count)}>500</div>
+        <div {...stylex.props(styles.count)}>{likeCount}</div>
       </div>
     </>
   );
