@@ -433,7 +433,7 @@ const MiddleSection = () => {
   }, [memberId]);
 
   useEffect(() => {
-    API.get('/main/grass/1')
+    API.get(`/main/grass/${memberId}`)
       .then(response => {
         setGrassCount(response.data.count);
         setGrassColor(response.data.grassInfoDTO.colorRGB);
@@ -441,7 +441,7 @@ const MiddleSection = () => {
       .catch(error => {
         console.log('Error', error);
       });
-  }, []);
+  }, [memberId]);
 
   const modal = () => {
     Swal.fire({
