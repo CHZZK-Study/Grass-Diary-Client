@@ -37,6 +37,7 @@ h2,
 h3,
 h4 {
   text-wrap: balance;
+  white-space: pre-wrap;
 }
 
 a:not([class]) {
@@ -91,4 +92,9 @@ blockquote {
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
+}
+
+.ql-editor {
+  background-color: white;
+  height: 70vh;
 }
