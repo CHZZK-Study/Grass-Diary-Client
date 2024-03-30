@@ -41,11 +41,9 @@ const Setting = ({ id, createdDate }) => {
   };
 
   const deleteDiary = async () => {
-    console.log(id);
     localStorage.removeItem('lastWritingDate');
     await API.delete(`/diary/${id}`)
       .then(() => {
-        console.log('삭제 완료');
         setCompleteDeleteModal(true);
       })
       .catch(err => console.log('삭제 error', err));
