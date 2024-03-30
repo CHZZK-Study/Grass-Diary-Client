@@ -23,9 +23,9 @@ const styles = stylex.create({
     width: '35px',
     justifyContent: 'space-between',
     textAlign: 'center',
-    // margin: '0px 10px',
+    margin: '0px 15px',
     cursor: 'pointer',
-    gap: '5px',
+    gap: '10px',
   },
   heart: {
     width: '20px',

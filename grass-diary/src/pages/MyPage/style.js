@@ -221,12 +221,6 @@ const styles = stylex.create({
     color: '#474747',
     gap: '20px',
   },
-
-  likeSection: {
-    display: 'flex',
-    alignItems: 'center',
-  },
-
   pageButtonWrap: {
     display: 'flex',
     justifyContent: 'center',
