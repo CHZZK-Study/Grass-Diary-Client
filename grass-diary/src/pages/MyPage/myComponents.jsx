@@ -126,7 +126,9 @@ const formatDate = selectedDate => {
 };
 
 const Grass = () => {
+  const memberId = useUser();
   const [selectedGrass, setSelectedGrass] = useState(null);
+  const [grassColors, setGrassColors] = useState({});
 
   const year = new Date().getFullYear();
   const isLeapYear = new Date(year, 1, 29).getMonth() === 1;
@@ -151,22 +153,47 @@ const Grass = () => {
     setSelectedGrass(formatDate(date));
   };
 
+  useEffect(() => {
+    if (memberId) {
+      API.get(`/grass/${memberId}`)
+        .then(response => {
+          const { grassList } = response.data;
+          const grassColor = response.data.colorRGB;
+          const updatedGrassColors = {};
+
+          grassList.forEach(grass => {
+            const { createdAt, transparency } = grass;
+            const createdDate = formatDate(new Date(createdAt));
+
+            updatedGrassColors[createdDate] = `${grassColor},${transparency}`;
+          });
+
+          setGrassColors(updatedGrassColors);
+        })
+        .catch(error =>
+          console.error(`사용자 잔디 현황을 불러올 수 없습니다. ${error}`),
+        );
+    }
+  }, [memberId]);
+
   return (
     <div {...stylex.props(styles.grassContainer)}>
       {grass.map((column, index) => (
         <div key={index} {...stylex.props(styles.grass)}>
           {column.map((day, index) => {
             if (day === null) return null;
+            const writeDay = formatDate(day);
+
             return (
               <div key={index} {...stylex.props(styles.dayContainer)}>
                 <div
                   onClick={() => handleGrassClick(day)}
                   {...stylex.props(
                     styles.grassDate(
-                      formatDate(day) === selectedGrass
-                        ? '1px solid black'
-                        : 'none',
-                      '#E0E0E0',
+                      writeDay === selectedGrass ? '1px solid black' : 'none',
+                      grassColors[writeDay]
+                        ? `rgba(${grassColors[writeDay]})`
+                        : '#E0E0E0',
                     ),
                   )}
                 ></div>
