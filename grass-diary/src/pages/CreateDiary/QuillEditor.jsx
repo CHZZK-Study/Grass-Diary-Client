@@ -16,7 +16,7 @@ const QuillEditor = ({ onContentChange, quillContent }) => {
         setTodayQuestion(response.data.todayQuestion);
       })
       .catch(error => {
-        console.log('오늘의 질문 에러', error);
+        console.error(`오늘의 질문을 불러올 수 없습니다. ${error}`);
       });
   }, []);
 

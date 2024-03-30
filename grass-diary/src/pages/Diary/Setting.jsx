@@ -46,7 +46,9 @@ const Setting = ({ id, createdDate }) => {
       .then(() => {
         setCompleteDeleteModal(true);
       })
-      .catch(err => console.log('삭제 error', err));
+      .catch(error =>
+        console.error(`사용자의 일기를 삭제할 수 없습니다. ${error}`),
+      );
   };
 
   return (

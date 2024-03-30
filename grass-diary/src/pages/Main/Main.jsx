@@ -277,7 +277,7 @@ const TopSection = () => {
         setTodayQuestion(response.data.todayQuestion);
       })
       .catch(error => {
-        console.log('Error', error);
+        console.error(`오늘의 정보를 불러올 수 없습니다. ${error}`);
       });
   }, []);
 
@@ -436,7 +436,9 @@ const MiddleSection = () => {
         setGrassColor(response.data.grassInfoDTO.colorRGB);
       })
       .catch(error => {
-        console.log('Error', error);
+        console.error(
+          `사용자의 한 달 잔디 정보를 불러올 수 없습니다. ${error}`,
+        );
       });
   }, []);
 

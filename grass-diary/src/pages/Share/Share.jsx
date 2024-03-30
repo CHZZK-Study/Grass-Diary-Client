@@ -83,11 +83,9 @@ const Share = () => {
         setCursorId(initData.at(-1).diaryId);
         setLatestDatas(prev => [...prev, ...initData]);
         setNoFeed(false);
-      } else {
-        console.log('불러올 데이터가 없습니다.');
       }
-    } catch (err) {
-      console.log('latest error', err);
+    } catch (error) {
+      console.error(`최신 일기 목록을 불러올 수 없습니다. ${error}`);
     }
   };
 

@@ -67,8 +67,8 @@ const Top10Feed = () => {
         }),
       );
       setTop10Datas(initData);
-    } catch (err) {
-      console.log('top 10 error', err);
+    } catch (error) {
+      console.error(`TOP 10 정보를 불러올 수 없습니다. ${error}`);
     }
   };
 
