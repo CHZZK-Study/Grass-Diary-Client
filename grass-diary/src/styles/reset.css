@@ -37,6 +37,7 @@ h2,
 h3,
 h4 {
   text-wrap: balance;
+  white-space: pre-wrap;
 }
 
 a:not([class]) {
