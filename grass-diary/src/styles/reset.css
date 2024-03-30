@@ -70,7 +70,10 @@ li:hover {
   background-color: #e2e2e2;
 }
 
-p {
+p,
+h1,
+h2,
+h3 {
   white-space: pre-wrap;
 }
 
