@@ -103,6 +103,26 @@ const styles = stylex.create({
     backgroundColor,
   }),
 
+  dateBubble: {
+    position: 'absolute',
+
+    width: '50px',
+    padding: '8px',
+
+    top: '20px',
+    left: '50%',
+    transform: 'translateX(-50%)',
+
+    fontSize: '11px',
+    textAlign: 'center',
+
+    border: '1px solid #BFBFBF',
+    borderRadius: '20px',
+    backgroundColor: '#FFF',
+
+    zIndex: '3',
+  },
+
   profileToggle: {
     display: 'flex',
   },
