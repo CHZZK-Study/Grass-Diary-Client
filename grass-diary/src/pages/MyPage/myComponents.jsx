@@ -1,17 +1,14 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import DOMPurify from 'dompurify';
+import { useNavigate } from 'react-router-dom';
 
-import API from '../../services';
-import NormalLike from '../../components/normalLike';
 import Button from '../../components/Button';
 import { EllipsisBox, EllipsisIcon } from '../../components/Ellipsis';
-import MoodProfile from '../../components/MoodProfile';
 import Profile from '../../components/Profile';
-import useUser from '../../hooks/useUser';
 import useProfile from '../../hooks/useProfile';
+import Grass from './Grass';
+import Diary from './Diary';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -23,6 +20,7 @@ const MainContainer = () => {
   const [toggleButton, setToggleButton] = useState('나의 일기장');
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('latest');
+  const [selectedDiary, setSelectedDiary] = useState([]);
 
   const handleToggleButton = buttonName => {
     setToggleButton(buttonName);
@@ -47,7 +45,7 @@ const MainContainer = () => {
   return (
     <div {...stylex.props(styles.mainContainer)}>
       <div {...stylex.props(styles.profileSection)}>
-        <ProfileImage />
+        <ProfileSection setSelectedDiary={setSelectedDiary} />
         <ToggleButton
           buttonLabel={toggleButton}
           handleToggleButton={handleToggleButton}
@@ -57,7 +55,11 @@ const MainContainer = () => {
         <SearchBar onSearchChange={handleSearchChange} />
         <SortButton onSortChange={handleSortChange} />
         {toggleButton === '나의 일기장' ? (
-          <Diary searchTerm={searchTerm} sortOrder={sortOrder} />
+          <Diary
+            searchTerm={searchTerm}
+            sortOrder={sortOrder}
+            selectedDiary={selectedDiary}
+          />
         ) : (
           <p>현재 교환 일기가 없습니다.</p>
         )}
@@ -86,7 +88,7 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
   );
 };
 
-const ProfileImage = () => {
+const ProfileSection = ({ setSelectedDiary }) => {
   const { nickname, profileIntro } = useProfile();
 
   return (
@@ -108,57 +110,11 @@ const ProfileImage = () => {
         <div {...stylex.props(styles.nameSection)}>
           <span>{nickname}</span>
         </div>
-        <Grass />
+        <Grass setSelectedDiary={setSelectedDiary} />
         <div>
           <span>{profileIntro !== null ? profileIntro : '소개글입니다.'}</span>
         </div>
       </div>
-    </div>
-  );
-};
-
-const Grass = () => {
-  const [selectedCell, setSelectedCell] = useState(null);
-
-  const startDate = new Date(2024, 0, 1);
-  const endDate = new Date(2024, 11, 31);
-  const oneDay = 24 * 60 * 60 * 1000;
-  const length = Math.round(Math.abs((endDate - startDate) / oneDay)) + 1;
-
-  const data = Array.from({ length }, (_, i) => {
-    const date = new Date(startDate.getTime() + i * oneDay);
-
-    return {
-      date: `${date.getMonth() + 1}/${date.getDate()}`,
-    };
-  });
-
-  const handleClick = date => {
-    setSelectedCell(date);
-  };
-
-  return (
-    <div {...stylex.props(styles.grassContainer)}>
-      <table {...stylex.props(styles.grass)}>
-        <tbody>
-          {Array.from({ length: 7 }, (_, i) => (
-            <tr key={i}>
-              {data.slice(i * 52, (i + 1) * 52).map((item, j) => (
-                <td
-                  onClick={() => handleClick(item.date)}
-                  key={j}
-                  {...stylex.props(
-                    styles.grassDate(
-                      item.date === selectedCell ? '1px solid black' : 'none',
-                    ),
-                  )}
-                ></td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <span>2024</span>
     </div>
   );
 };
@@ -192,85 +148,6 @@ const SortButton = ({ onSortChange }) => {
         />
       </EllipsisIcon>
     </div>
-  );
-};
-
-const Diary = ({ searchTerm, sortOrder }) => {
-  const memberId = useUser();
-  const [diaryList, setDiaryList] = useState([]);
-  const [pageSize, setPageSize] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
-
-  useEffect(() => {
-    let apiUrl = `/diary/main/${memberId}?page=${currentPage}`;
-    if (sortOrder === 'oldest') {
-      apiUrl += `&sort=createdAt,ASC`;
-    }
-
-    if (memberId) {
-      API.get(apiUrl)
-        .then(response => {
-          setPageSize(response.data.totalPages);
-          setDiaryList(response.data.content);
-        })
-        .catch(error => {
-          console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
-        });
-    }
-  }, [memberId, sortOrder, currentPage]);
-
-  const filterDiaryList = diaryList.filter(diary =>
-    diary.content.includes(searchTerm),
-  );
-
-  const handlePageChange = page => {
-    setCurrentPage(page);
-  };
-
-  const createMarkup = htmlContent => {
-    return { __html: DOMPurify.sanitize(htmlContent) };
-  };
-
-  return (
-    <>
-      <div {...stylex.props(styles.diaryList)}>
-        {filterDiaryList.map((diary, index) => (
-          <Link key={diary.diaryId} to={`/diary/${diary.diaryId}`}>
-            <div {...stylex.props(styles.diary)} key={diary.diaryId}>
-              <div {...stylex.props(styles.smallProfileSection)}>
-                <MoodProfile diary={diaryList} index={index} />
-                <div {...stylex.props(styles.smallDetailes)}>
-                  <span {...stylex.props(styles.name)}>
-                    {diary.createdDate}
-                  </span>
-                  <span {...stylex.props(styles.time)}>{diary.createdAt}</span>
-                </div>
-              </div>
-              <div {...stylex.props(styles.diaryContent)}>
-                <div>
-                  {diary.tags.map(tag => (
-                    <span {...stylex.props(styles.hashtag)} key={tag.id}>
-                      #{`${tag.tag} `}
-                    </span>
-                  ))}
-                </div>
-                <div
-                  dangerouslySetInnerHTML={createMarkup(diary.content)}
-                ></div>
-              </div>
-              <NormalLike likeCount={diary.likeCount} />
-            </div>
-          </Link>
-        ))}
-      </div>
-      <div {...stylex.props(styles.pageButtonWrap)}>
-        {Array.from({ length: pageSize }, (_, index) => (
-          <button key={index} onClick={() => handlePageChange(index)}>
-            {index + 1}
-          </button>
-        ))}
-      </div>
-    </>
   );
 };
 

@@ -32,6 +32,7 @@ const Setting = ({ id, createdDate }) => {
   const showConfirmModal = () => setConfirmDeleteModal(true);
 
   const linkToModify = () => {
+    localStorage.removeItem('lastWritingDate');
     if (!modifiable && !unmodifyModal) {
       setUnmodifyModal(true);
       return;
@@ -41,6 +42,7 @@ const Setting = ({ id, createdDate }) => {
 
   const deleteDiary = async () => {
     console.log(id);
+    localStorage.removeItem('lastWritingDate');
     await API.delete(`/diary/${id}`)
       .then(() => {
         console.log('삭제 완료');
