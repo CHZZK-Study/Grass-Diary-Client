@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import API from '../../services';
-import Like from '../../components/Like';
+import NormalLike from '../../components/normalLike';
 import Button from '../../components/Button';
 import { EllipsisBox, EllipsisIcon } from '../../components/Ellipsis';
 import MoodProfile from '../../components/MoodProfile';
@@ -241,10 +241,7 @@ const Diary = ({ searchTerm, sortOrder }) => {
               </div>
               <span>{diary.content}</span>
             </div>
-            <div {...stylex.props(styles.likeSection)}>
-              <Like />
-              <span>{diary.likeCount}</span>
-            </div>
+            <NormalLike likeCount={diary.likeCount} />
           </div>
         </Link>
       ))}
