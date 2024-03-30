@@ -87,14 +87,6 @@ const CreateDiaryStyle = stylex.create({
   },
 
   hashtagBox: {
-    // backgroundColor: {
-    //   default: 'white',
-    //   ':hover': 'black',
-    // },
-    // color: {
-    //   default: 'black',
-    //   ':hover': 'white',
-    // },
     backgroundColor: 'white',
     display: 'flex',
     justifyContent: 'center',
@@ -109,10 +101,6 @@ const CreateDiaryStyle = stylex.create({
   },
 
   hashtagBtn: {
-    // color: {
-    //   default: 'black',
-    //   ':hover': 'white',
-    // },
     background: 'none',
     border: 'none',
     fontSize: '12px',
@@ -196,7 +184,28 @@ const CreateDiary = () => {
     }));
   }, [hashArr, moodValue, quillContent, isPrivate]);
 
+  const checkWritingPermission = () => {
+    const lastWritingDate = localStorage.getItem('lastWritingDate');
+    const currentDate = dayjs().format('DD/MM/YYYY');
+
+    if (lastWritingDate === currentDate) {
+      return false;
+    }
+    return true;
+  };
+
   const handleSave = async () => {
+    if (!checkWritingPermission()) {
+      Swal.fire({
+        title: '하루에 한 번만 쓸 수 있어요!',
+        icon: 'warning',
+        showCancelButton: false,
+        confirmButtonColor: '#28CA3B',
+        confirmButtonText: '확인',
+      });
+      return;
+    }
+
     const memberId = 1; // 실제 멤버 ID로 대체
     const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
 
@@ -233,6 +242,8 @@ const CreateDiary = () => {
     } catch (error) {
       console.error(error);
     }
+    const currentDate = dayjs().format('DD/MM/YYYY');
+    localStorage.setItem('lastWritingDate', currentDate);
     console.log(requestBody);
   };
   console.log(diaryInfo);
