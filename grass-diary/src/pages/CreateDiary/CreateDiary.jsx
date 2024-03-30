@@ -255,8 +255,8 @@ const CreateDiary = () => {
         setMoodValue(response.data.transparency * 10);
         setQuillContent(response.data.content);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error(`사용자의 일기 정보를 불러올 수 없습니다. ${error}`);
     }
   };
 

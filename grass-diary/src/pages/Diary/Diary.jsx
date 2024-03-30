@@ -142,8 +142,8 @@ const Diary = () => {
       setliked(response.data.likedByLogInMember);
       setLikeCount(response.data.likeCount);
       setWriterMemberId(memberId);
-    } catch (err) {
-      console.log('상세 페이지 Error >>', err);
+    } catch (error) {
+      console.error(`일기 상세 정보를 불러올 수 없습니다. ${error}`);
     }
   };
 
