@@ -71,7 +71,7 @@ li:hover {
 }
 
 p {
-  white-space: pre;
+  white-space: pre-wrap;
 }
 
 .ql-align-center {
@@ -91,4 +91,9 @@ blockquote {
   margin-bottom: 5px;
   margin-top: 5px;
   padding-left: 16px;
+}
+
+.ql-editor {
+  background-color: white;
+  height: 600px;
 }
