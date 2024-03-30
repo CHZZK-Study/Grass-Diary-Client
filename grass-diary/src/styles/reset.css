@@ -93,3 +93,8 @@ blockquote {
   margin-top: 5px;
   padding-left: 16px;
 }
+
+.ql-editor {
+  background-color: white;
+  height: 70vh;
+}
