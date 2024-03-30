@@ -8,6 +8,7 @@ import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
 import EMOJI from '../../constants/emoji';
+import useUser from '../../hooks/useUser';
 import 'dayjs/locale/ko';
 dayjs.locale('ko');
 
@@ -192,6 +193,8 @@ const CreateDiary = () => {
     return true;
   };
 
+  const useMemberId = useUser();
+
   const handleSave = async () => {
     if (!checkWritingPermission()) {
       Swal.fire({
@@ -204,7 +207,7 @@ const CreateDiary = () => {
       return;
     }
 
-    const memberId = 1; // 실제 멤버 ID로 대체
+    const memberId = useMemberId;
     const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
 
     const requestBody = {

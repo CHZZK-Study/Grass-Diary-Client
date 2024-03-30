@@ -430,19 +430,15 @@ const MiddleSection = () => {
   }, [memberId]);
 
   useEffect(() => {
-    if (memberId) {
-      API.get(`/main/grass/${memberId}`)
-        .then(response => {
-          setGrassCount(response.data.count);
-          setGrassColor(response.data.grassInfoDTO.colorRGB);
-        })
-        .catch(error => {
-          console.error(
-            `사용자의 한 달 잔디 정보를 불러올 수 없습니다. ${error}`,
-          );
-        });
-    }
-  });
+    API.get(`/main/grass/${memberId}`)
+      .then(response => {
+        setGrassCount(response.data.count);
+        setGrassColor(response.data.grassInfoDTO.colorRGB);
+      })
+      .catch(error => {
+        console.log('Error', error);
+      });
+  }, [memberId]);
 
   const modal = () => {
     Swal.fire({
