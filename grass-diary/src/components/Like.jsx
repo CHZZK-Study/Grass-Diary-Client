@@ -39,7 +39,6 @@ const styles = stylex.create({
     color: 'red',
   },
   count: {
-    fontSize: '15px',
     lineHeight: '40px',
     fontWeight: '600',
   },
