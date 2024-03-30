@@ -37,6 +37,7 @@ h2,
 h3,
 h4 {
   text-wrap: balance;
+  white-space: pre-wrap;
 }
 
 a:not([class]) {
@@ -70,10 +71,7 @@ li:hover {
   background-color: #e2e2e2;
 }
 
-p,
-h1,
-h2,
-h3 {
+p {
   white-space: pre-wrap;
 }
 
