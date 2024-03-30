@@ -126,47 +126,41 @@ const formatDate = selectedDate => {
 };
 
 const Grass = () => {
-  const [selectedCell, setSelectedCell] = useState(null);
+  const year = new Date().getFullYear();
+  const isLeapYear = new Date(year, 1, 29).getMonth() === 1;
+  const daysInYear = isLeapYear ? 366 : 365;
 
-  const startDate = new Date(2024, 0, 1);
-  const endDate = new Date(2024, 11, 31);
-  const oneDay = 24 * 60 * 60 * 1000;
-  const length = Math.round(Math.abs((endDate - startDate) / oneDay)) + 1;
+  const columns = Math.ceil(daysInYear / 7);
+  const days = Array.from(
+    { length: daysInYear },
+    (_, i) => new Date(year, 0, i + 1),
+  );
 
-  const data = Array.from({ length }, (_, i) => {
-    const date = new Date(startDate.getTime() + i * oneDay);
+  const grass = Array.from({ length: columns }, () => Array(7).fill(null));
 
-    return {
-      date: `${date.getMonth() + 1}/${date.getDate()}`,
-    };
+  days.forEach((day, index) => {
+    const column = Math.floor(index / 7);
+    const row = index % 7;
+
+    grass[column][row] = day;
   });
-
-  const handleClick = date => {
-    setSelectedCell(date);
-  };
 
   return (
     <div {...stylex.props(styles.grassContainer)}>
-      <table {...stylex.props(styles.grass)}>
-        <tbody>
-          {Array.from({ length: 7 }, (_, i) => (
-            <tr key={i}>
-              {data.slice(i * 52, (i + 1) * 52).map((item, j) => (
-                <td
-                  onClick={() => handleClick(item.date)}
-                  key={j}
-                  {...stylex.props(
-                    styles.grassDate(
-                      item.date === selectedCell ? '1px solid black' : 'none',
-                    ),
-                  )}
-                ></td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <span>2024</span>
+      {grass.map((column, index) => (
+        <div key={index} {...stylex.props(styles.grass)}>
+          {column.map((day, index) => {
+            if (day === null) return null;
+            return (
+              <div key={index} {...stylex.props(styles.dayContainer)}>
+                <div
+                  {...stylex.props(styles.grassDate('none', '#E0E0E0'))}
+                ></div>
+              </div>
+            );
+          })}
+        </div>
+      ))}
     </div>
   );
 };

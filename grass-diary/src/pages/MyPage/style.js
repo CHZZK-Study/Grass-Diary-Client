@@ -76,22 +76,31 @@ const styles = stylex.create({
   grassContainer: {
     display: 'flex',
     flexDirection: 'row',
-    alignItems: 'flex-end',
+  },
 
-    gap: '10px',
+  dayContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+
+    position: 'relative',
   },
 
   grass: {
     width: '100%',
+    position: 'relative',
   },
 
-  grassDate: border => ({
-    borderRadius: '10px',
-    backgroundColor: '#B6F69D',
-    width: '10px',
+  grassDate: (border, backgroundColor) => ({
+    position: 'relative',
+
+    width: '13px',
     height: '13px',
 
+    borderRadius: '100%',
+
     border,
+    backgroundColor,
   }),
 
   profileToggle: {
@@ -221,6 +230,7 @@ const styles = stylex.create({
     color: '#474747',
     gap: '20px',
   },
+
   pageButtonWrap: {
     display: 'flex',
     justifyContent: 'center',
