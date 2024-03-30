@@ -424,23 +424,25 @@ const MiddleSection = () => {
           setRewardPoint(response.data.rewardPoint);
         })
         .catch(error => {
-          console.error('Error', error);
+          console.error(`사용자의 리워드 정보를 불러올 수 없습니다. ${error}`);
         });
     }
   }, [memberId]);
 
   useEffect(() => {
-    API.get('/main/grass/1')
-      .then(response => {
-        setGrassCount(response.data.count);
-        setGrassColor(response.data.grassInfoDTO.colorRGB);
-      })
-      .catch(error => {
-        console.error(
-          `사용자의 한 달 잔디 정보를 불러올 수 없습니다. ${error}`,
-        );
-      });
-  }, []);
+    if (memberId) {
+      API.get(`/main/grass/${memberId}`)
+        .then(response => {
+          setGrassCount(response.data.count);
+          setGrassColor(response.data.grassInfoDTO.colorRGB);
+        })
+        .catch(error => {
+          console.error(
+            `사용자의 한 달 잔디 정보를 불러올 수 없습니다. ${error}`,
+          );
+        });
+    }
+  });
 
   const modal = () => {
     Swal.fire({
