@@ -277,7 +277,7 @@ const TopSection = () => {
         setTodayQuestion(response.data.todayQuestion);
       })
       .catch(error => {
-        console.log('Error', error);
+        console.error(`오늘의 정보를 불러올 수 없습니다. ${error}`);
       });
   }, []);
 
@@ -404,9 +404,6 @@ const MiddleSection = () => {
     (_, i) => i + 1,
   );
 
-  // console.log(currentMonthLastDay.date());
-  // console.log(daysInMonth);
-
   const weeksInMonth = [];
   let week = [];
 
@@ -427,7 +424,7 @@ const MiddleSection = () => {
           setRewardPoint(response.data.rewardPoint);
         })
         .catch(error => {
-          console.error('Error', error);
+          console.error(`사용자의 리워드 정보를 불러올 수 없습니다. ${error}`);
         });
     }
   }, [memberId]);

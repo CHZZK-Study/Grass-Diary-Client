@@ -55,15 +55,17 @@ const Like = ({ diaryId, likeCount, setLikeCount, liked }) => {
           setCanLike(false);
           setLikeCount(prev => (prev += 1));
         })
-        .catch(err => console.log('like post error', err));
+        .catch(error =>
+          console.error(`사용자 좋아요 정보를 불러올 수 없습니다. ${error}`),
+        );
     } else {
       API.delete(`/diary/like/${diaryId}/${memberId}`)
         .then(() => {
           setCanLike(true);
           setLikeCount(prev => (prev -= 1));
         })
-        .catch(err => {
-          console.log('like delete error', err);
+        .catch(error => {
+          console.error(`사용자의 좋아요 정보를 삭제할 수 없습니다. ${error}`);
         });
     }
   };

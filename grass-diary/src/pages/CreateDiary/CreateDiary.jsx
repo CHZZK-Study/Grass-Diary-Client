@@ -127,12 +127,10 @@ const CreateDiary = () => {
 
   const handlePrivateChange = () => {
     setIsPrivate(true);
-    console.log('비공개');
   };
 
   const handlePublicChange = () => {
     setIsPrivate(false);
-    console.log('공개');
   };
 
   const handleMoodChange = e => {
@@ -239,7 +237,6 @@ const CreateDiary = () => {
         navigate(`/diary/${diaryid}`);
       } else {
         const response = await API.post(`/diary/${memberId}`, requestBody);
-        console.log(response.data);
         navigate('/share');
       }
     } catch (error) {
@@ -247,9 +244,7 @@ const CreateDiary = () => {
     }
     const currentDate = dayjs().format('DD/MM/YYYY');
     localStorage.setItem('lastWritingDate', currentDate);
-    console.log(requestBody);
   };
-  console.log(diaryInfo);
 
   // 수정 기능일 때의 코드
   const fetchDiaryData = async () => {
@@ -263,8 +258,8 @@ const CreateDiary = () => {
         setMoodValue(response.data.transparency * 10);
         setQuillContent(response.data.content);
       }
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.error(`사용자의 일기 정보를 불러올 수 없습니다. ${error}`);
     }
   };
 

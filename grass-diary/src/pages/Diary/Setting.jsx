@@ -41,14 +41,14 @@ const Setting = ({ id, createdDate }) => {
   };
 
   const deleteDiary = async () => {
-    console.log(id);
     localStorage.removeItem('lastWritingDate');
     await API.delete(`/diary/${id}`)
       .then(() => {
-        console.log('삭제 완료');
         setCompleteDeleteModal(true);
       })
-      .catch(err => console.log('삭제 error', err));
+      .catch(error =>
+        console.error(`사용자의 일기를 삭제할 수 없습니다. ${error}`),
+      );
   };
 
   return (

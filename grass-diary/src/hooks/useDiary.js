@@ -18,7 +18,7 @@ const useDiary = (memberId, currentPage, sortOrder) => {
           setDiaryList(response.data.content);
         })
         .catch(error => {
-          console.log(`사용자의 일기를 조회할 수 없습니다. ${error}`);
+          console.error(`사용자의 일기를 조회할 수 없습니다. ${error}`);
         });
     }
   }, [memberId, sortOrder, currentPage]);
