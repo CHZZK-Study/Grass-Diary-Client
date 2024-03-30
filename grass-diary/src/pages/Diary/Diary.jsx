@@ -10,6 +10,7 @@ import Like from '../../components/Like';
 import EMOJI from '../../constants/emoji';
 import testImg from '../../assets/icon/basicProfile.png';
 import Setting from './Setting';
+import DOMPurify from 'dompurify';
 
 const styles = stylex.create({
   wrap: {
@@ -154,6 +155,10 @@ const Diary = () => {
     fetchDiaryData();
   }, []);
 
+  const createMarkup = htmlContent => {
+    return { __html: DOMPurify.sanitize(htmlContent) };
+  };
+
   return (
     <>
       <Header />
@@ -192,7 +197,10 @@ const Diary = () => {
               return `#${tag.tag} `;
             })}
           </div>
-          <p {...stylex.props(contentStyle.content)}>{diary.content}</p>
+          <div
+            {...stylex.props(contentStyle.content)}
+            dangerouslySetInnerHTML={createMarkup(diary.content)}
+          />
         </div>
 
         {/* 일기 하단 */}
