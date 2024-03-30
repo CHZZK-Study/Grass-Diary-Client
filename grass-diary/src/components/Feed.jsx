@@ -36,10 +36,10 @@ const feed = stylex.create({
   title: {
     fontSize: '22px',
     fontWeight: '600',
-    margin: '20px 0',
+    margin: '18px 0',
   },
   content: {
-    height: '300px',
+    height: '260px',
     lineHeight: '27px',
     overflow: 'hidden',
   },
