@@ -2,7 +2,7 @@ import axios from 'axios';
 import { clearAuth } from '../utils/authUtils';
 
 const API = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://grassdiary-server.shop/api',
 });
 
 API.interceptors.request.use(

@@ -95,7 +95,7 @@ const LoginModal = ({ isOpen, isClose }) => {
   }
 
   const handleGoogleLogin = () => {
-    window.open('http://localhost:8080/api/auth/google', '_self');
+    window.open('https://grassdiary-server.shop/api/auth/google', '_self');
   };
 
   return (
