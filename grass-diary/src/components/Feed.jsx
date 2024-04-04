@@ -1,6 +1,6 @@
 import * as stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
-import NormalLike from './normalLike';
+import NormalLike from './NormalLike';
 import DOMPurify from 'dompurify';
 
 const feed = stylex.create({

@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import useUser from '../../hooks/useUser';
 import useDiary from '../../hooks/useDiary';
-import NormalLike from '../../components/normalLike';
+import NormalLike from '../../components/NormalLike';
 import MoodProfile from '../../components/MoodProfile';
 
 const Pagination = ({ pageSize, onPageChange }) => {
