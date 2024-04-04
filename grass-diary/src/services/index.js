@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { clearAuth } from '../utils/authUtils';
 
+const API_URI = import.meta.env.VITE_API_URI;
+
 const API = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: `${API_URI}/api`,
 });
 
 API.interceptors.request.use(

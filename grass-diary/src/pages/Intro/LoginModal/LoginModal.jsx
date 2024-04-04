@@ -95,7 +95,9 @@ const LoginModal = ({ isOpen, isClose }) => {
   }
 
   const handleGoogleLogin = () => {
-    window.open('http://localhost:8080/api/auth/google', '_self');
+    const API_URI = import.meta.env.VITE_API_URI;
+
+    window.open(`${API_URI}/api/auth/google`, '_self');
   };
 
   return (
