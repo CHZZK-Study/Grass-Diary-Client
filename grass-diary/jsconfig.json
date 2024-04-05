@@ -1,0 +1,8 @@
+{
+  "extends": "./jsconfig.paths.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ES6"
+  },
+  "include": ["src/**/*"]
+}
