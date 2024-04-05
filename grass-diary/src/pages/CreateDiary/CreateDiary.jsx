@@ -7,8 +7,7 @@ import QuillEditor from './QuillEditor';
 
 import API from '@services';
 import useUser from '@hooks/useUser';
-import Header from '@components/Header';
-import BackButton from '@components/BackButton';
+import { Header, BackButton } from '@components';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 

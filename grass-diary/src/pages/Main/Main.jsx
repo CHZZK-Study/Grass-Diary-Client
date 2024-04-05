@@ -1,16 +1,15 @@
 import stylex from '@stylexjs/stylex';
-import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
+import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 import API from '@services';
 import mainCharacter from '@assets/icon/mainCharacter.png';
-import { checkAuth } from '@utils/authUtils';
 import useUser from '@hooks/useUser';
-import Top10Feed from '@components/Top10Feed';
-import Header from '@components/Header';
 import AnimateReward from './AnimateReward';
+import { checkAuth } from '@utils/authUtils';
+import { Top10Feed, Header } from '@components';
 
 const styles = stylex.create({
   title: {

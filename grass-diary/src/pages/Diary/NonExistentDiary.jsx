@@ -1,6 +1,5 @@
-import * as stylex from '@stylexjs/stylex';
-import Header from '@components/Header';
-import BackButton from '@components/BackButton';
+import stylex from '@stylexjs/stylex';
+import { Header, BackButton } from '@components';
 
 const styles = stylex.create({
   wrap: {

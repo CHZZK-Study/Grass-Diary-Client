@@ -1,7 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
 import DOMPurify from 'dompurify';
-import NormalLike from './NormalLike';
+import { NormalLike } from '@components';
 
 const feed = stylex.create({
   box: {

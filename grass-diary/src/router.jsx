@@ -7,7 +7,7 @@ import Share from './pages/Share/Share';
 import Setting from './pages/Setting/Setting';
 import MyPage from './pages/MyPage/MyPage';
 import NonExistentDiary from './pages/Diary/NonExistentDiary';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ProtectedRoute } from './components';
 
 const router = createBrowserRouter([
   {

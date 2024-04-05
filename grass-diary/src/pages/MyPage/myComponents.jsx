@@ -5,10 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 import Grass from './Grass';
 import Diary from './Diary';
-import Button from '@components/Button';
-import { EllipsisBox, EllipsisIcon } from '@components/Ellipsis';
-import Profile from '@components/Profile';
 import useProfile from '@hooks/useProfile';
+import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
