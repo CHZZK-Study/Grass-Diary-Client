@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
