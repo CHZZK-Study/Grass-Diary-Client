@@ -1,7 +1,7 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { useEffect, useState } from 'react';
-import API from '../services';
-import useUser from '../hooks/useUser';
+import API from '@services';
+import useUser from '@hooks/useUser';
 
 const beat1 = stylex.keyframes({
   '0%': { transform: 'scale(0.8)' },

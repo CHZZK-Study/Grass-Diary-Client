@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { clearAuth } from '../utils/authUtils';
+import { clearAuth } from '@utils/authUtils';
 
 const API_URI = import.meta.env.VITE_API_URI;
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import API from '../../services/index';
-import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+import API from '@services';
+import { EllipsisIcon, EllipsisBox } from '@components/Ellipsis';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';

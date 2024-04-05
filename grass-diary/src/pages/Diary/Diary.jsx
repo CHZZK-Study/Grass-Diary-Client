@@ -1,16 +1,16 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-import API from '../../services/index';
-import useUser from '../../hooks/useUser';
-import Header from '../../components/Header';
-import BackButton from '../../components/BackButton';
-import Like from '../../components/Like';
-import EMOJI from '../../constants/emoji';
-import testImg from '../../assets/icon/basicProfile.png';
-import Setting from './Setting';
 import DOMPurify from 'dompurify';
+
+import testImg from '@assets/icon/basicProfile.png';
+import API from '@services';
+import useUser from '@hooks/useUser';
+import Header from '@components/Header';
+import BackButton from '@components/BackButton';
+import Like from '@components/Like';
+import EMOJI from '@constants/emoji';
+import Setting from './Setting';
 
 const styles = stylex.create({
   wrap: {

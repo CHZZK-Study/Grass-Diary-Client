@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from './useAuth';
-import API from '../services/index';
+import API from '@services';
 
 const useUser = () => {
   const [memberId, setMemberId] = useState(null);

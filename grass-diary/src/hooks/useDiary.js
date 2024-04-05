@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import API from '../services';
+import API from '@services';
 
 const useDiary = (memberId, currentPage, sortOrder) => {
   const [diaryList, setDiaryList] = useState([]);

@@ -1,11 +1,11 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useEffect, useState } from 'react';
-import { formatDate } from '../../utils/dateUtils';
-import { getDaysArray } from '../../utils/dateUtils';
-import useGrass from '../../hooks/ussGrass';
-import API from '../../services';
-import useUser from '../../hooks/useUser';
+
+import { formatDate, getDaysArray } from '@utils/dateUtils';
+import useGrass from '@hooks/ussGrass';
+import useUser from '@hooks/useUser';
+import API from '@services';
 
 const createGrass = () => {
   const year = new Date().getFullYear();

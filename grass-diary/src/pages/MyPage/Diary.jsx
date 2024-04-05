@@ -4,10 +4,10 @@ import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
-import useUser from '../../hooks/useUser';
-import useDiary from '../../hooks/useDiary';
-import NormalLike from '../../components/NormalLike';
-import MoodProfile from '../../components/MoodProfile';
+import useUser from '@hooks/useUser';
+import useDiary from '@hooks/useDiary';
+import NormalLike from '@components/NormalLike';
+import MoodProfile from '@components/MoodProfile';
 
 const Pagination = ({ pageSize, onPageChange }) => {
   return (

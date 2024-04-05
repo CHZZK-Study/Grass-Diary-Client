@@ -1,15 +1,17 @@
 import * as stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import API from '../../services';
-import Header from '../../components/Header';
-import BackButton from '../../components/BackButton';
-import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
-import EMOJI from '../../constants/emoji';
-import useUser from '../../hooks/useUser';
+import QuillEditor from './QuillEditor';
+
+import API from '@services';
+import useUser from '@hooks/useUser';
+import Header from '@components/Header';
+import BackButton from '@components/BackButton';
+import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
+
 dayjs.locale('ko');
 
 const CreateDiaryStyle = stylex.create({

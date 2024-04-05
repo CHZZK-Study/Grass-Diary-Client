@@ -1,4 +1,4 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { useNavigate } from 'react-router-dom';
 
 const styles = stylex.create({
