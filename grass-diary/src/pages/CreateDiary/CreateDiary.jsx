@@ -1,4 +1,4 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import dayjs from 'dayjs';
