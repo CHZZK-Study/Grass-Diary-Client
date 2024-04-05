@@ -1,7 +1,7 @@
+import stylex from '@stylexjs/stylex';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import * as stylex from '@stylexjs/stylex';
 
 const SlideStyle = stylex.create({
   container: {

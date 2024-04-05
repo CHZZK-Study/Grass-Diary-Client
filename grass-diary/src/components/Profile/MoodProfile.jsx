@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import { useState, useMemo } from 'react';
-import Profile from './Profile';
+import { Profile } from '@components';
 import EMOJI from '@constants/emoji';
 
 const styles = stylex.create({

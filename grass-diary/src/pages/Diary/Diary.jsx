@@ -3,12 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
+import { Header, BackButton, Like } from '@components';
 import testImg from '@assets/icon/basicProfile.png';
 import API from '@services';
 import useUser from '@hooks/useUser';
-import Header from '@components/Header';
-import BackButton from '@components/BackButton';
-import Like from '@components/Like';
 import EMOJI from '@constants/emoji';
 import Setting from './Setting';
 

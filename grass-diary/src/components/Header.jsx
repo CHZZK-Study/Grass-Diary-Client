@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
 import { clearAuth } from '@utils/authUtils';
-import Profile from './Profile';
+import { Profile } from '@components';
 import useUser from '@hooks/useUser';
 
 const header = stylex.create({

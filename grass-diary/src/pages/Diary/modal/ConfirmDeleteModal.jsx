@@ -1,5 +1,5 @@
-import * as stylex from '@stylexjs/stylex';
-import Button from '@components/Button';
+import stylex from '@stylexjs/stylex';
+import { Button } from '@components';
 
 const styles = stylex.create({
   background: {
@@ -50,7 +50,9 @@ const ConfirmDeleteModal = ({ setter, setDelete }) => {
     <div {...stylex.props(styles.background)}>
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.text)}>
-          <span {...stylex.props(styles.bold)}>⚠ 일기를 삭제하시겠습니까?</span>
+          <span {...stylex.props(styles.bold)}>
+            ⚠ 일기를 삭제하시겠습니까?
+          </span>
           <br />
           <div {...stylex.props(styles.ie)}>
             <Button

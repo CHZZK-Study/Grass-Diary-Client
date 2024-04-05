@@ -1,13 +1,13 @@
 import stylex from '@stylexjs/stylex';
 import styles from './styles';
-import grassDiary from '@assets/icon/grassDiary.png';
-import Button from '@components/Button';
-import LoginModal from './LoginModal/LoginModal';
-import useModal from '@hooks/useModal';
-
-import { checkAuth } from '@utils/authUtils';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import LoginModal from './LoginModal/LoginModal';
+import grassDiary from '@assets/icon/grassDiary.png';
+import useModal from '@hooks/useModal';
+import { Button } from '@components';
+import { checkAuth } from '@utils/authUtils';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;

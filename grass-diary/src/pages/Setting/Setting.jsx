@@ -3,10 +3,8 @@ import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 
 import API from '@services';
-import Header from '@components/Header';
-import Profile from '@components/Profile';
-import Button from '@components/Button';
 import useProfile from '@hooks/useProfile';
+import { Header, Profile, Button } from '@components';
 
 const SettingSection = ({ children, label }) => {
   return (
