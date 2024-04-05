@@ -1,11 +1,11 @@
 import stylex from '@stylexjs/stylex';
 import styles from './styles';
-import grassDiary from '../../assets/icon/grassDiary.png';
-import Button from '../../components/Button';
+import grassDiary from '@assets/icon/grassDiary.png';
+import Button from '@components/Button';
 import LoginModal from './LoginModal/LoginModal';
-import useModal from '../../hooks/useModal';
+import useModal from '@hooks/useModal';
 
-import { checkAuth } from '../../utils/authUtils';
+import { checkAuth } from '@utils/authUtils';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 

@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import useProfile from '../hooks/useProfile';
+import useProfile from '@hooks/useProfile';
 
 const styles = stylex.create({
   profileImage: (width, height) => ({

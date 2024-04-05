@@ -1,4 +1,4 @@
-import Header from '../../components/Header';
+import Header from '@components/Header';
 import { Container, MainContainer } from './myComponents';
 
 const MyPage = () => {

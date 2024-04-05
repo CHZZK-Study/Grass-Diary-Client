@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import useUser from './useUser';
-import API from '../services';
+import API from '@services';
 
 const useProfile = () => {
   const memberId = useUser();

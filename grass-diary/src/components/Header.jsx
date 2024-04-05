@@ -1,9 +1,10 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
+
+import { clearAuth } from '@utils/authUtils';
 import Profile from './Profile';
-import { clearAuth } from '../utils/authUtils';
-import useUser from '../hooks/useUser';
+import useUser from '@hooks/useUser';
 
 const header = stylex.create({
   container: {

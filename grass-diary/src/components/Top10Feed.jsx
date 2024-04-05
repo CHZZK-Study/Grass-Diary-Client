@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import * as stylex from '@stylexjs/stylex';
-
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
-import API from '../services';
+
+import API from '@services';
 import Feed from './Feed';
 
 const styles = stylex.create({
