@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const styles = stylex.create({
   button: {
@@ -23,10 +23,13 @@ const styles = stylex.create({
 
 const BackButton = ({ goBackTo }) => {
   const navigate = useNavigate();
-
+  const location = useLocation();
   const goBack = () => {
     if (goBackTo) {
       return navigate(goBackTo);
+    }
+    if (location.state === 'editcomplete') {
+      return navigate(-2);
     }
     navigate(-1);
   };

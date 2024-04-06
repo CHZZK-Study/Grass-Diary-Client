@@ -235,7 +235,7 @@ const CreateDiary = () => {
     try {
       if (diaryid) {
         await API.patch(`/diary/${diaryid}`, requestBody);
-        navigate(`/diary/${diaryid}`);
+        navigate(`/diary/${diaryid}`, { replace: true, state: 'editcomplete' });
       } else {
         const response = await API.post(`/diary/${memberId}`, requestBody);
         navigate('/share');
