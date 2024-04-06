@@ -5,7 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import API from '@services';
-import mainCharacter from '@assets/icon/mainCharacter.png';
+import mainCharacter from '@icon/mainCharacter.png';
+import subCharacter from '@icon/subCharacter.png';
 import useUser from '@hooks/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
@@ -285,7 +286,7 @@ const TopSection = () => {
     Swal.fire({
       title: '교환 일기장',
       text: '교환 일기 서비스를 준비중이에요',
-      imageUrl: '/public/img/mainCharacter.png',
+      imageUrl: mainCharacter,
       imageWidth: 300,
       imageHeight: 300,
       imageAlt: 'Custom image',
@@ -444,7 +445,7 @@ const MiddleSection = () => {
     Swal.fire({
       title: '테마 상점',
       text: '테마 상점 준비중이에요',
-      imageUrl: '/public/img/subCharacter.png',
+      imageUrl: subCharacter,
       imageWidth: 300,
       imageHeight: 300,
       imageAlt: 'Custom image',

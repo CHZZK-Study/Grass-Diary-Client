@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import LoginModal from './LoginModal/LoginModal';
-import grassDiary from '@assets/icon/grassDiary.png';
+import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
 import { Button } from '@components';
 import { checkAuth } from '@utils/authUtils';
