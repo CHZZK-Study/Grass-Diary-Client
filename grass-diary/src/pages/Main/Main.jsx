@@ -431,14 +431,16 @@ const MiddleSection = () => {
   }, [memberId]);
 
   useEffect(() => {
-    API.get(`/main/grass/${memberId}`)
-      .then(response => {
-        setGrassCount(response.data.count);
-        setGrassColor(response.data.grassInfoDTO.colorRGB);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
+    if (memberId) {
+      API.get(`/main/grass/${memberId}`)
+        .then(response => {
+          setGrassCount(response.data.count);
+          setGrassColor(response.data.grassInfoDTO.colorRGB);
+        })
+        .catch(error => {
+          console.log('Error', error);
+        });
+    }
   }, [memberId]);
 
   const modal = () => {
