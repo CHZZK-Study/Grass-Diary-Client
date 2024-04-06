@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Grass from './Grass';
 import Diary from './Diary';
 import useProfile from '@hooks/useProfile';
+import mainCharacter from '@icon/mainCharacter.png';
 import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components';
 
 const Container = ({ children }) => {
@@ -93,7 +94,7 @@ const ProfileSection = ({ setSelectedDiary }) => {
     Swal.fire({
       title: '교환 일기장',
       text: '교환 일기 서비스를 준비중이에요',
-      imageUrl: '/public/img/mainCharacter.png',
+      imageUrl: mainCharacter,
       imageWidth: 300,
       imageHeight: 300,
       imageAlt: 'Custom image',

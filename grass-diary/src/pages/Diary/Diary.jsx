@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 import { Header, BackButton, Like } from '@components';
-import testImg from '@assets/icon/basicProfile.png';
 import API from '@services';
 import useUser from '@hooks/useUser';
 import EMOJI from '@constants/emoji';
@@ -164,7 +163,7 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={profile ? profile.profileImageURL : testImg}
+              src={profile ? profile.profileImageURL : null}
             ></img>
             <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
             <div {...stylex.props(titleStyle.name)}>
