@@ -3,12 +3,11 @@ import styles from './style';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import Button from '../../components/Button';
-import { EllipsisBox, EllipsisIcon } from '../../components/Ellipsis';
-import Profile from '../../components/Profile';
-import useProfile from '../../hooks/useProfile';
 import Grass from './Grass';
 import Diary from './Diary';
+import useProfile from '@hooks/useProfile';
+import mainCharacter from '@icon/mainCharacter.png';
+import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -95,7 +94,7 @@ const ProfileSection = ({ setSelectedDiary }) => {
     Swal.fire({
       title: '교환 일기장',
       text: '교환 일기 서비스를 준비중이에요',
-      imageUrl: '/public/img/mainCharacter.png',
+      imageUrl: mainCharacter,
       imageWidth: 300,
       imageHeight: 300,
       imageAlt: 'Custom image',

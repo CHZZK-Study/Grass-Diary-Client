@@ -1,13 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Intro from './pages/Intro/Intro';
-import Main from './pages/Main/Main';
-import CreateDiary from './pages/CreateDiary/CreateDiary';
-import Diary from './pages/Diary/Diary';
-import Share from './pages/Share/Share';
-import Setting from './pages/Setting/Setting';
-import MyPage from './pages/MyPage/MyPage';
-import NonExistentDiary from './pages/Diary/NonExistentDiary';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ProtectedRoute } from '@components';
+import {
+  Intro,
+  Main,
+  CreateDiary,
+  Diary,
+  Share,
+  Setting,
+  MyPage,
+  NonExistentDiary,
+} from '@pages';
 
 const router = createBrowserRouter([
   {

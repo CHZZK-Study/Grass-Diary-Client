@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import API from '../../services/index';
-import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+import API from '@services';
+import { EllipsisIcon, EllipsisBox } from '@components';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
-import { useNavigate } from 'react-router-dom';
 
 const Setting = ({ id, createdDate }) => {
   const navigate = useNavigate();

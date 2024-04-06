@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import googleButton from '../../../assets/loginButton/googleButton.png';
+import googleButton from '@icon/googleButton.png';
 
 const styles = stylex.create({
   container: {
@@ -95,7 +95,9 @@ const LoginModal = ({ isOpen, isClose }) => {
   }
 
   const handleGoogleLogin = () => {
-    window.open('https://grassdiary-server.shop/api/auth/google', '_self');
+    const API_URI = import.meta.env.VITE_API_URI;
+
+    window.open(`${API_URI}/api/auth/google`, '_self');
   };
 
   return (
