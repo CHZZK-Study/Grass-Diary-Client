@@ -9,7 +9,7 @@ import { isAuthenticatedAtom, isLodingAtom } from '@recoil/auth/authState';
 import API from '@services';
 import mainCharacter from '@icon/mainCharacter.png';
 import subCharacter from '@icon/subCharacter.png';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
 import { Top10Feed, Header } from '@components';
@@ -404,7 +404,7 @@ const MiddleSection = () => {
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
 
-  const memberId = useUser();
+  const { memberId } = useUser();
 
   useEffect(() => {
     if (memberId) {

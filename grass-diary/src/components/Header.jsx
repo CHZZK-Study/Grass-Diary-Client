@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
 import { Profile } from '@components';
-import useUser from '@hooks/useUser';
 import useLogout from '@hooks/useLogout';
+import useUser from '@recoil/user/useUser';
 
 const header = stylex.create({
   container: {
@@ -116,7 +116,7 @@ const Header = () => {
   const headerRef = useRef();
   const iconRef = useRef();
   const profileRef = useRef();
-  const memberId = useUser();
+  const { memberId } = useUser();
 
   const dropDown = () => {
     setToggle(current => !current);
@@ -136,7 +136,7 @@ const Header = () => {
     document.addEventListener('click', closeToggle);
 
     return () => document.removeEventListener('click', closeToggle);
-  }, [toggle]);
+  }, [memberId, toggle]);
 
   return (
     <div {...stylex.props(header.container)}>

@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import useUser from './useUser';
+import useUser from '@recoil/user/useUser';
 import API from '@services';
 
 const useProfile = () => {
-  const memberId = useUser();
+  const { memberId } = useUser();
   const [profileImage, setProfileImage] = useState('');
   const [nickname, setNickname] = useState('');
   const [profileIntro, setProfileIntro] = useState('');
