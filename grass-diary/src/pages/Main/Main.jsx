@@ -3,6 +3,8 @@ import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isAuthenticatedAtom, isLodingAtom } from '@recoil/auth/authState';
 
 import API from '@services';
 import mainCharacter from '@icon/mainCharacter.png';
@@ -558,9 +560,12 @@ const BottomSection = () => {
 
 const Main = () => {
   const navigate = useNavigate();
+  const setIsAuthenticated = useSetRecoilState(isAuthenticatedAtom);
+  const setIsLoading = useSetRecoilState(isLodingAtom);
 
   useEffect(() => {
     const initLoad = async () => {
+      setIsLoading(true);
       const params = new URLSearchParams(window.location.search);
       const accessToken = params.get('accessToken');
 
@@ -568,11 +573,19 @@ const Main = () => {
         localStorage.setItem('accessToken', accessToken);
 
         const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-        window.history.pushState({ path: mainURL }, null, mainURL);
+        window.history.pushState({ path: mainURL }, '', mainURL);
+
+        setIsAuthenticated(true);
       }
 
-      const isAuthenticated = await checkAuth();
-      if (!isAuthenticated) navigate('/');
+      if (!accessToken) {
+        const isAuthenticated = await checkAuth();
+        setIsAuthenticated(isAuthenticated);
+
+        if (!isAuthenticated) navigate('/');
+      }
+
+      setIsLoading(false);
     };
 
     initLoad();
