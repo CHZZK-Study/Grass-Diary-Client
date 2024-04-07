@@ -2,12 +2,14 @@ import stylex from '@stylexjs/stylex';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
+import { useSetRecoilState } from 'recoil';
+import { isAuthenticatedAtom, isLodingAtom } from '@recoil/auth/authState';
 
 import API from '@services';
 import mainCharacter from '@icon/mainCharacter.png';
 import subCharacter from '@icon/subCharacter.png';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
 import { Top10Feed, Header } from '@components';
@@ -177,6 +179,7 @@ const MiddleSectionStyle = stylex.create({
     alignItems: 'center',
     gap: '900px',
     paddingTop: '50px',
+    paddingBottom: '50px',
   },
 
   container: {
@@ -282,7 +285,7 @@ const TopSection = () => {
       });
   }, []);
 
-  const modal = () => {
+  const modal = useCallback(() => {
     Swal.fire({
       title: '교환 일기장',
       text: '교환 일기 서비스를 준비중이에요',
@@ -293,7 +296,7 @@ const TopSection = () => {
       confirmButtonColor: '#28CA3B',
       confirmButtonText: '확인',
     });
-  };
+  }, []);
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -392,6 +395,7 @@ const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState(null);
   const [grassCount, setGrassCount] = useState(null);
   const [grassColor, setGrassColor] = useState(null);
+  const [grassList, setGrassList] = useState([]);
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
@@ -399,6 +403,34 @@ const MiddleSection = () => {
 
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
+
+  const { memberId } = useUser();
+
+  useEffect(() => {
+    if (memberId) {
+      API.get(`/member/totalReward/${memberId}`)
+        .then(response => {
+          setRewardPoint(response.data.rewardPoint);
+        })
+        .catch(error => {
+          console.error(`사용자의 리워드 정보를 불러올 수 없습니다. ${error}`);
+        });
+    }
+  }, [memberId]);
+
+  useEffect(() => {
+    if (memberId) {
+      API.get(`/main/grass/${memberId}`)
+        .then(response => {
+          setGrassCount(response.data.count);
+          setGrassColor(response.data.grassInfoDTO.colorRGB);
+          setGrassList(response.data.grassInfoDTO.grassList);
+        })
+        .catch(error => {
+          console.log('Error', error);
+        });
+    }
+  }, [memberId]);
 
   const daysInMonth = Array.from(
     { length: currentMonthLastDay.date() },
@@ -416,30 +448,19 @@ const MiddleSection = () => {
     }
   });
 
-  const memberId = useUser();
-
-  useEffect(() => {
-    if (memberId) {
-      API.get(`/member/totalReward/${memberId}`)
-        .then(response => {
-          setRewardPoint(response.data.rewardPoint);
-        })
-        .catch(error => {
-          console.error(`사용자의 리워드 정보를 불러올 수 없습니다. ${error}`);
-        });
-    }
-  }, [memberId]);
-
-  useEffect(() => {
-    API.get(`/main/grass/${memberId}`)
-      .then(response => {
-        setGrassCount(response.data.count);
-        setGrassColor(response.data.grassInfoDTO.colorRGB);
-      })
-      .catch(error => {
-        console.log('Error', error);
-      });
-  }, [memberId]);
+  const getGrassStyle = useCallback(
+    day => {
+      const grass = grassList.find(g => dayjs(g.createdAt).format('D') == day);
+      if (grass) {
+        return {
+          backgroundColor: `rgb(${grassColor})`,
+          opacity: grass.transparency,
+        };
+      }
+      return {};
+    },
+    [grassList, grassColor],
+  );
 
   const modal = () => {
     Swal.fire({
@@ -478,15 +499,11 @@ const MiddleSection = () => {
           />
           <section>
             <div {...stylex.props(MiddleSectionStyle.calendar)}>
-              {daysInMonth.map((day, index) => (
+              {daysInMonth.map(day => (
                 <div
                   {...stylex.props(MiddleSectionStyle.day)}
                   key={day}
-                  style={
-                    index < grassCount
-                      ? { backgroundColor: `rgb(${grassColor})` }
-                      : {}
-                  }
+                  style={getGrassStyle(day)}
                 >
                   {/* {day} */}
                 </div>
@@ -503,7 +520,6 @@ const MiddleSection = () => {
           ) : (
             <span>일기를 쓰고 잔디를 심어보세요!</span>
           )}
-          {/* <span>리워드를 확인 해보세요!</span> */}
         </div>
         <div
           className="cardSectionR"
@@ -515,8 +531,6 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          {/* <h1>{rewardPoint}</h1> */}
-          {/* <h1>{temporaryPoint}</h1> */}
           <AnimateReward n={temporaryPoint} />
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
@@ -558,9 +572,12 @@ const BottomSection = () => {
 
 const Main = () => {
   const navigate = useNavigate();
+  const setIsAuthenticated = useSetRecoilState(isAuthenticatedAtom);
+  const setIsLoading = useSetRecoilState(isLodingAtom);
 
   useEffect(() => {
     const initLoad = async () => {
+      setIsLoading(true);
       const params = new URLSearchParams(window.location.search);
       const accessToken = params.get('accessToken');
 
@@ -568,11 +585,19 @@ const Main = () => {
         localStorage.setItem('accessToken', accessToken);
 
         const mainURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}`;
-        window.history.pushState({ path: mainURL }, null, mainURL);
+        window.history.pushState({ path: mainURL }, '', mainURL);
+
+        setIsAuthenticated(true);
       }
 
-      const isAuthenticated = await checkAuth();
-      if (!isAuthenticated) navigate('/');
+      if (!accessToken) {
+        const isAuthenticated = await checkAuth();
+        setIsAuthenticated(isAuthenticated);
+
+        if (!isAuthenticated) navigate('/');
+      }
+
+      setIsLoading(false);
     };
 
     initLoad();
@@ -585,7 +610,6 @@ const Main = () => {
       <MiddleSection />
       <BottomSection />
       <Top10Feed />
-      {/* <SimpleSlider /> */}
     </>
   );
 };

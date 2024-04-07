@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import QuillEditor from './QuillEditor';
 
 import API from '@services';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import { Header, BackButton } from '@components';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
@@ -142,17 +142,19 @@ const CreateDiary = () => {
     setHashtag(e.target.value);
   };
 
+  // 해시태그 로직 함수
   const addHashtag = e => {
-    // Enter키 또는 Space키가 눌렸을 때
-    if (
-      (e.key === 'Enter' || e.key === ' ') &&
-      hashtag.trim() !== '' &&
-      hashArr.length < 15
-    ) {
-      // 새로운 해시태그를 배열에 추가
-      setHashArr(prev => [...prev, hashtag.trim()]);
-      // 입력 필드 초기화
-      setHashtag('');
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const inputText = e.target.value.trim();
+      const validCharsPattern = /[가-힣A-Za-z0-9]+/g;
+
+      const matches = inputText.match(validCharsPattern);
+      if (matches && matches.length > 0 && hashArr.length < 15) {
+        const hashtagText = matches.join('');
+        setHashArr(prev => [...prev, hashtagText]);
+        setHashtag('');
+      }
     }
   };
 
@@ -194,7 +196,7 @@ const CreateDiary = () => {
     return true;
   };
 
-  const useMemberId = useUser();
+  const { memberId } = useUser();
 
   const handleSave = async () => {
     if (!checkWritingPermission()) {
@@ -208,7 +210,6 @@ const CreateDiary = () => {
       return;
     }
 
-    const memberId = useMemberId;
     const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
 
     const requestBody = {

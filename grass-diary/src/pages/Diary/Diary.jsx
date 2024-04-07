@@ -5,7 +5,7 @@ import DOMPurify from 'dompurify';
 
 import { Header, BackButton, Like } from '@components';
 import API from '@services';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import EMOJI from '@constants/emoji';
 import Setting from './Setting';
 
@@ -119,7 +119,7 @@ const contentStyle = stylex.create({
 
 const Diary = () => {
   const id = useParams().id;
-  const loginUserMemberId = useUser();
+  const { memberId } = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
   const [mood, setMood] = useState();
@@ -177,7 +177,7 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              {loginUserMemberId === writerMemberId ? (
+              {memberId === writerMemberId ? (
                 <Setting id={id} createdDate={diary.createdDate} />
               ) : null}
             </div>
