@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { clearAuth } from '@utils/authUtils';
+import useLogout from '@hooks/useLogout';
 
 const API_URI = import.meta.env.VITE_API_URI;
 
@@ -21,6 +21,8 @@ API.interceptors.request.use(
 API.interceptors.response.use(
   response => response,
   error => {
+    const clearAuth = useLogout();
+
     if (error.response && error.response.status === 500) {
       clearAuth();
     }

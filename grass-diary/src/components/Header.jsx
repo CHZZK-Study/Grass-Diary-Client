@@ -1,10 +1,10 @@
 import stylex from '@stylexjs/stylex';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-import { clearAuth } from '@utils/authUtils';
 import { Profile } from '@components';
 import useUser from '@hooks/useUser';
+import useLogout from '@hooks/useLogout';
 
 const header = stylex.create({
   container: {
@@ -74,11 +74,10 @@ const menuBar = stylex.create({
 });
 
 const MenuBar = ({ toggle, headerRef }) => {
-  const navigate = useNavigate();
+  const clearAuth = useLogout();
 
   const handleLogout = () => {
     clearAuth();
-    navigate('/');
   };
 
   return (
