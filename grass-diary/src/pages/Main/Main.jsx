@@ -2,7 +2,7 @@ import stylex from '@stylexjs/stylex';
 import Swal from 'sweetalert2';
 import dayjs from 'dayjs';
 import { Link, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import API from '@services';
 import mainCharacter from '@icon/mainCharacter.png';
@@ -177,6 +177,7 @@ const MiddleSectionStyle = stylex.create({
     alignItems: 'center',
     gap: '900px',
     paddingTop: '50px',
+    paddingBottom: '50px',
   },
 
   container: {
@@ -282,7 +283,7 @@ const TopSection = () => {
       });
   }, []);
 
-  const modal = () => {
+  const modal = useCallback(() => {
     Swal.fire({
       title: '교환 일기장',
       text: '교환 일기 서비스를 준비중이에요',
@@ -293,7 +294,7 @@ const TopSection = () => {
       confirmButtonColor: '#28CA3B',
       confirmButtonText: '확인',
     });
-  };
+  }, []);
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -392,6 +393,7 @@ const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState(null);
   const [grassCount, setGrassCount] = useState(null);
   const [grassColor, setGrassColor] = useState(null);
+  const [grassList, setGrassList] = useState([]);
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
@@ -399,22 +401,6 @@ const MiddleSection = () => {
 
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
-
-  const daysInMonth = Array.from(
-    { length: currentMonthLastDay.date() },
-    (_, i) => i + 1,
-  );
-
-  const weeksInMonth = [];
-  let week = [];
-
-  daysInMonth.forEach((day, index) => {
-    week.push(day);
-    if ((index + 1) % 7 === 0 || index === daysInMonth.length - 1) {
-      weeksInMonth.push(week);
-      week = [];
-    }
-  });
 
   const memberId = useUser();
 
@@ -436,12 +422,43 @@ const MiddleSection = () => {
         .then(response => {
           setGrassCount(response.data.count);
           setGrassColor(response.data.grassInfoDTO.colorRGB);
+          setGrassList(response.data.grassInfoDTO.grassList);
         })
         .catch(error => {
           console.log('Error', error);
         });
     }
   }, [memberId]);
+
+  const daysInMonth = Array.from(
+    { length: currentMonthLastDay.date() },
+    (_, i) => i + 1,
+  );
+
+  const weeksInMonth = [];
+  let week = [];
+
+  daysInMonth.forEach((day, index) => {
+    week.push(day);
+    if ((index + 1) % 7 === 0 || index === daysInMonth.length - 1) {
+      weeksInMonth.push(week);
+      week = [];
+    }
+  });
+
+  const getGrassStyle = useCallback(
+    day => {
+      const grass = grassList.find(g => dayjs(g.createdAt).format('D') == day);
+      if (grass) {
+        return {
+          backgroundColor: `rgb(${grassColor})`,
+          opacity: grass.transparency,
+        };
+      }
+      return {};
+    },
+    [grassList, grassColor],
+  );
 
   const modal = () => {
     Swal.fire({
@@ -480,15 +497,11 @@ const MiddleSection = () => {
           />
           <section>
             <div {...stylex.props(MiddleSectionStyle.calendar)}>
-              {daysInMonth.map((day, index) => (
+              {daysInMonth.map(day => (
                 <div
                   {...stylex.props(MiddleSectionStyle.day)}
                   key={day}
-                  style={
-                    index < grassCount
-                      ? { backgroundColor: `rgb(${grassColor})` }
-                      : {}
-                  }
+                  style={getGrassStyle(day)}
                 >
                   {/* {day} */}
                 </div>
@@ -505,7 +518,6 @@ const MiddleSection = () => {
           ) : (
             <span>일기를 쓰고 잔디를 심어보세요!</span>
           )}
-          {/* <span>리워드를 확인 해보세요!</span> */}
         </div>
         <div
           className="cardSectionR"
@@ -517,8 +529,6 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          {/* <h1>{rewardPoint}</h1> */}
-          {/* <h1>{temporaryPoint}</h1> */}
           <AnimateReward n={temporaryPoint} />
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
@@ -587,7 +597,6 @@ const Main = () => {
       <MiddleSection />
       <BottomSection />
       <Top10Feed />
-      {/* <SimpleSlider /> */}
     </>
   );
 };
