@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { formatDate } from '@utils/dateUtils';
-import useUser from './useUser';
+import useUser from '@recoil/user/useUser';
 import API from '@services';
 
 const useGrass = () => {
-  const memberId = useUser();
+  const { memberId } = useUser();
   const [grassColors, setGrassColors] = useState({});
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import { useEffect, useState } from 'react';
 import API from '@services';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 
 const beat1 = stylex.keyframes({
   '0%': { transform: 'scale(0.8)' },
@@ -46,7 +46,7 @@ const styles = stylex.create({
 
 const Like = ({ diaryId, likeCount, setLikeCount, liked }) => {
   const [canLike, setCanLike] = useState(false); // ture=> 하트 눌려있는 상태. delete 가능 상태, false => 하트 안눌린 상태. post 가능 상태
-  const memberId = useUser();
+  const { memberId } = useUser();
 
   const clickLike = () => {
     if (canLike) {

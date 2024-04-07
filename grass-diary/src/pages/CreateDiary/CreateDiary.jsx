@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 import QuillEditor from './QuillEditor';
 
 import API from '@services';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import { Header, BackButton } from '@components';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
@@ -196,7 +196,7 @@ const CreateDiary = () => {
     return true;
   };
 
-  const useMemberId = useUser();
+  const { memberId } = useUser();
 
   const handleSave = async () => {
     if (!checkWritingPermission()) {
@@ -210,7 +210,6 @@ const CreateDiary = () => {
       return;
     }
 
-    const memberId = useMemberId;
     const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
 
     const requestBody = {

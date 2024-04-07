@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 import { formatDate, getDaysArray } from '@utils/dateUtils';
 import useGrass from '@hooks/ussGrass';
-import useUser from '@hooks/useUser';
+import useUser from '@recoil/user/useUser';
 import API from '@services';
 
 const createGrass = () => {
@@ -29,7 +29,7 @@ const createGrass = () => {
 const Grass = ({ setSelectedDiary }) => {
   const [selectedGrass, setSelectedGrass] = useState(null);
   const { year, grass } = createGrass();
-  const memberId = useUser();
+  const { memberId } = useUser();
   const grassColors = useGrass();
 
   const handleGrassClick = date => {
