@@ -65,6 +65,7 @@ const QuillEditor = ({ onContentChange, quillContent }) => {
         formats={formats}
         onChange={handleChange}
         value={quillContent}
+        style={{ height: '70vh' }}
       />
     </>
   );
