@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useAuth } from './useAuth';
+import { useAuth } from '@recoil/auth/useAuth';
 import API from '@services';
 
 const useUser = () => {
