@@ -14,13 +14,13 @@ const styles = stylex.create({
 const Profile = ({ width, height }) => {
   const { profileImage } = useProfile();
 
-  return (
+  return profileImage ? (
     <img
       {...stylex.props(styles.profileImage(width, height))}
       src={profileImage}
       alt="사용자 프로필 사진"
     />
-  );
+  ) : null;
 };
 
 export default Profile;
