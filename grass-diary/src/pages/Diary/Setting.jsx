@@ -13,8 +13,8 @@ const Setting = ({ id, createdDate }) => {
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  // const createdDate = '24년 03월 29일'; // 임시 데이터
   const date = new Date();
+
   useEffect(() => {
     if (
       // 당일 : 일기 수정 가능

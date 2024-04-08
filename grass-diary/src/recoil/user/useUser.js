@@ -18,7 +18,6 @@ const useUser = () => {
         })
         .catch(error => {
           console.error(`사용자 정보 조회가 불가능합니다. ${error}`);
-          throw Error;
         });
     }
 
