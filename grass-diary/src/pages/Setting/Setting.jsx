@@ -21,8 +21,7 @@ const Setting = () => {
   const { nickName, profileIntro } = useProfile();
 
   const [profile, setProfile] = useRecoilState(profileAtom);
-  const [clickedNameSave, setClickedNameSave] = useState(false);
-  const [clickedIntroSave, setClickedIntroSave] = useState(false);
+  const [clickedProfileSave, setClickedProfileSave] = useState(false);
 
   const handleChangeNickname = event => {
     setProfile({ ...profile, nickname: event.target.value });
@@ -36,29 +35,22 @@ const Setting = () => {
     setter(true);
   };
 
-  useEffect(() => {
-    if (clickedNameSave) {
-      API.patch('/members/me', { nickname: profile.nickname })
-        .then(() => {
-          setClickedNameSave(false);
-        })
-        .catch(error => {
-          console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
-        });
-    }
-  }, [clickedNameSave, profile.nickname]);
+  const profileInfo = {
+    nickname: profile.nickname,
+    profileIntro: profile.profileIntro,
+  };
 
   useEffect(() => {
-    if (clickedIntroSave) {
-      API.patch('/members/me', { profileIntro: profile.profileIntro })
+    if (clickedProfileSave) {
+      API.patch('/members/me', profileInfo)
         .then(() => {
-          setClickedIntroSave(false);
+          setClickedProfileSave(false);
         })
         .catch(error => {
           console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
         });
     }
-  }, [clickedIntroSave, profile.profileIntro]);
+  }, [clickedProfileSave, profile.nickname, profile.profileIntro]);
 
   return (
     <div {...stylex.props(styles.container)}>
@@ -86,14 +78,6 @@ const Setting = () => {
                 placeholder={nickName}
                 onChange={handleChangeNickname}
               ></input>
-              <Button
-                text="저장"
-                width="70px"
-                color="#000"
-                backgroundColor="#FFF"
-                border="2px solid #929292"
-                onClick={handleClick(setClickedNameSave)}
-              />
             </SettingSection>
             <SettingSection label="소개글">
               <textarea
@@ -101,19 +85,20 @@ const Setting = () => {
                 placeholder={profileIntro}
                 onChange={handleChangeProfileIntro}
               ></textarea>
-              <Button
-                text="저장"
-                width="70px"
-                height="51px"
-                color="#000"
-                backgroundColor="#FFF"
-                border="2px solid #929292"
-                onClick={handleClick(setClickedIntroSave)}
-              />
             </SettingSection>
             <SettingSection label="잔디색">
-              <div {...stylex.props(styles.colorWrapper)}>
-                <div {...stylex.props(styles.grassColor)}></div>
+              <div {...stylex.props(styles.saveSection)}>
+                <div {...stylex.props(styles.colorWrapper)}>
+                  <div {...stylex.props(styles.grassColor)}></div>
+                </div>
+                <Button
+                  text="저장"
+                  width="70px"
+                  color="#000"
+                  backgroundColor="#FFF"
+                  border="1px solid #BFBFBF"
+                  onClick={handleClick(setClickedProfileSave)}
+                />
               </div>
             </SettingSection>
           </div>
