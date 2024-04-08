@@ -1,9 +1,11 @@
 import styles from './styles';
 import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
 import API from '@services';
-import useProfile from '@hooks/useProfile';
+import useProfile from '@recoil/profile/useProfile';
+import { profileAtom } from '@recoil/profile/profileState';
 import { Header, Profile, Button } from '@components';
 
 const SettingSection = ({ children, label }) => {
@@ -16,12 +18,18 @@ const SettingSection = ({ children, label }) => {
 };
 
 const Setting = () => {
-  const { nickname, setNickname, profileIntro, setProfileIntro } = useProfile();
+  const { nickName, profileIntro } = useProfile();
+
+  const [profile, setProfile] = useRecoilState(profileAtom);
   const [clickedNameSave, setClickedNameSave] = useState(false);
   const [clickedIntroSave, setClickedIntroSave] = useState(false);
 
-  const handleChange = setter => event => {
-    setter(event.target.value);
+  const handleChangeNickname = event => {
+    setProfile({ ...profile, nickname: event.target.value });
+  };
+
+  const handleChangeProfileIntro = event => {
+    setProfile({ ...profile, profileIntro: event.target.value });
   };
 
   const handleClick = setter => () => {
@@ -30,7 +38,7 @@ const Setting = () => {
 
   useEffect(() => {
     if (clickedNameSave) {
-      API.patch('/members/me', { nickname: nickname })
+      API.patch('/members/me', { nickname: profile.nickname })
         .then(() => {
           setClickedNameSave(false);
         })
@@ -38,11 +46,11 @@ const Setting = () => {
           console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
         });
     }
-  }, [clickedNameSave, nickname]);
+  }, [clickedNameSave, profile.nickname]);
 
   useEffect(() => {
     if (clickedIntroSave) {
-      API.patch('/members/me', { profileIntro: profileIntro })
+      API.patch('/members/me', { profileIntro: profile.profileIntro })
         .then(() => {
           setClickedIntroSave(false);
         })
@@ -50,7 +58,7 @@ const Setting = () => {
           console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
         });
     }
-  }, [clickedIntroSave, profileIntro]);
+  }, [clickedIntroSave, profile.profileIntro]);
 
   return (
     <div {...stylex.props(styles.container)}>
@@ -75,8 +83,8 @@ const Setting = () => {
             <SettingSection label="닉네임">
               <input
                 {...stylex.props(styles.textInput('0 0 0 1.25rem', '3.2rem'))}
-                placeholder={nickname}
-                onChange={handleChange(setNickname)}
+                placeholder={nickName}
+                onChange={handleChangeNickname}
               ></input>
               <Button
                 text="저장"
@@ -91,7 +99,7 @@ const Setting = () => {
               <textarea
                 {...stylex.props(styles.textInput('1rem 1.25rem', '6.25rem'))}
                 placeholder={profileIntro}
-                onChange={handleChange(setProfileIntro)}
+                onChange={handleChangeProfileIntro}
               ></textarea>
               <Button
                 text="저장"

@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import useProfile from '@hooks/useProfile';
+import useProfile from '@recoil/profile/useProfile';
 
 const styles = stylex.create({
   profileImage: (width, height) => ({
@@ -12,12 +12,12 @@ const styles = stylex.create({
 });
 
 const Profile = ({ width, height }) => {
-  const { profileImage } = useProfile();
+  const { profileImageURL } = useProfile();
 
-  return profileImage ? (
+  return profileImageURL ? (
     <img
       {...stylex.props(styles.profileImage(width, height))}
-      src={profileImage}
+      src={profileImageURL}
       alt="사용자 프로필 사진"
     />
   ) : null;
