@@ -65,9 +65,11 @@ const Setting = () => {
             <Button
               text="프로필 사진 변경"
               width="9.4rem"
-              color="#000"
-              backgroundColor="#FFF"
-              border="2px solid #929292"
+              defaultColor="#2d2d2d"
+              hoverColor="#FFF"
+              defaultBgColor="#FFFFFF"
+              hoverBgColor="#111111"
+              border="1px solid #929292"
               marginTop="25px"
             />
           </div>
@@ -94,9 +96,11 @@ const Setting = () => {
                 <Button
                   text="저장"
                   width="70px"
-                  color="#000"
-                  backgroundColor="#FFF"
-                  border="1px solid #BFBFBF"
+                  defaultColor="#2d2d2d"
+                  hoverColor="#FFF"
+                  defaultBgColor="#FFFFFF"
+                  hoverBgColor="#111111"
+                  border="1px solid #929292"
                   onClick={handleClick(setClickedProfileSave)}
                 />
               </div>

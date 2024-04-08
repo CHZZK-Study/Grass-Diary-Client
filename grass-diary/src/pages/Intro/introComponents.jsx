@@ -46,8 +46,10 @@ const OpenModalButton = () => {
         text="일기 시작하기"
         onClick={handleStartButton}
         width="150px"
-        color="#FFF"
-        backgroundColor="#28CA3B"
+        defaultColor="#FFF"
+        hoverColor="#FFF"
+        defaultBgColor="#28CA3B"
+        hoverBgColor="#13b81b"
         border="none"
         marginTop="20px"
       />
