@@ -12,7 +12,7 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-import { Top10Feed, Header } from '@components';
+import { Top10Feed, Header, Button } from '@components';
 
 const styles = stylex.create({
   title: {
@@ -106,25 +106,6 @@ const TopSectionStyles = stylex.create({
     fontSize: 25,
   },
 
-  writeButton: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    padding: '10px 20px',
-    margin: 0,
-    cursor: 'pointer',
-    border: 'solid outset 1px #E0E0E0',
-    borderRadius: '20px',
-    boxShadow: '1px 1px 1px 1px #E0E0E0',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-  },
-
   character: {
     width: 300,
     height: 300,
@@ -200,25 +181,6 @@ const MiddleSectionStyle = stylex.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-
-  button: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    marginTop: '30px',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    border: 'solid outset 1px #E0E0E0',
-    borderRadius: '20px',
-    boxShadow: '1px 1px 1px 1px #E0E0E0',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
   grassBox: {
@@ -313,9 +275,15 @@ const TopSection = () => {
             <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
           </div>
           <Link to="/creatediary">
-            <button {...stylex.props(TopSectionStyles.writeButton)}>
-              오늘의 일기 쓰러가기
-            </button>
+            <Button
+              text="오늘의 일기 쓰러 가기"
+              width="180px"
+              defaultColor="#2d2d2d"
+              hoverColor="#FFF"
+              defaultBgColor="#FFFFFF"
+              hoverBgColor="#111111"
+              border="1px solid #929292"
+            />
           </Link>
         </div>
         <div>
@@ -535,9 +503,17 @@ const MiddleSection = () => {
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
-          <button onClick={modal} {...stylex.props(MiddleSectionStyle.button)}>
-            테마 상점
-          </button>
+          <Button
+            text="테마 상점"
+            width="130px"
+            defaultColor="#2d2d2d"
+            hoverColor="#FFF"
+            defaultBgColor="#FFFFFF"
+            hoverBgColor="#111111"
+            border="1px solid #929292"
+            marginTop="25px"
+            onClick={modal}
+          />
         </div>
       </div>
     </>

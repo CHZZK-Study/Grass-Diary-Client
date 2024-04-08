@@ -7,7 +7,7 @@ import QuillEditor from './QuillEditor';
 
 import API from '@services';
 import useUser from '@recoil/user/useUser';
-import { Header, BackButton } from '@components';
+import { Header, BackButton, Button } from '@components';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 
@@ -53,23 +53,6 @@ const CreateDiaryStyle = stylex.create({
     height: '50px',
     outline: 'none',
     resize: 'none',
-  },
-
-  btnStyle: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    padding: '10px 50px',
-    border: 'solid 1px #bfbfbf',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
   todayMood: {
@@ -336,12 +319,16 @@ const CreateDiary = () => {
               onKeyUp={addHashtag}
               placeholder={hashtag ? '' : '#해시태그'}
             />
-            <button
+            <Button
+              text="저장"
+              width="120px"
+              defaultColor="#2d2d2d"
+              hoverColor="#FFF"
+              defaultBgColor="#FFFFFF"
+              hoverBgColor="#111111"
+              border="1px solid #bfbfbf"
               onClick={handleSave}
-              {...stylex.props(CreateDiaryStyle.btnStyle)}
-            >
-              저장
-            </button>
+            />
           </article>
           <div {...stylex.props(CreateDiaryStyle.hashtag)}>
             {hashArr.map((tag, index) => (
