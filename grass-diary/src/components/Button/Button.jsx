@@ -1,20 +1,36 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  startButton: (width, height, color, backgroundColor, border, marginTop) => ({
+  startButton: (
+    width,
+    height,
+    defaultColor,
+    hoverColor,
+    defaultBgColor,
+    hoverBgColor,
+    border,
+    marginTop,
+  ) => ({
     padding: '12px 10px 12px 10px',
-
     borderRadius: '30px',
-
     fontWeight: '500',
     cursor: 'pointer',
+    transition: '0.5s',
 
     width,
     height,
-    color,
     border,
-    backgroundColor,
     marginTop,
+
+    color: {
+      default: defaultColor,
+      ':hover': hoverColor,
+    },
+
+    backgroundColor: {
+      default: defaultBgColor,
+      ':hover': hoverBgColor,
+    },
   }),
 });
 
@@ -23,8 +39,10 @@ const Button = ({
   onClick,
   width,
   height,
-  color,
-  backgroundColor,
+  defaultColor,
+  hoverColor,
+  defaultBgColor,
+  hoverBgColor,
   border,
   marginTop,
 }) => {
@@ -36,8 +54,10 @@ const Button = ({
           styles.startButton(
             width,
             height,
-            color,
-            backgroundColor,
+            defaultColor,
+            hoverColor,
+            defaultBgColor,
+            hoverBgColor,
             border,
             marginTop,
           ),
