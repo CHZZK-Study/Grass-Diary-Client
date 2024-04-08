@@ -4,10 +4,9 @@ import DOMPurify from 'dompurify';
 import { Link } from 'react-router-dom';
 import { useState } from 'react';
 
-import useUser from '../../hooks/useUser';
-import useDiary from '../../hooks/useDiary';
-import NormalLike from '../../components/NormalLike';
-import MoodProfile from '../../components/MoodProfile';
+import useUser from '@recoil/user/useUser';
+import useDiary from '@hooks/useDiary';
+import { NormalLike, MoodProfile } from '@components';
 
 const Pagination = ({ pageSize, onPageChange }) => {
   return (
@@ -53,7 +52,7 @@ const DiaryItem = ({ diary, diaryList, index }) => {
 };
 
 const Diary = ({ searchTerm, sortOrder, selectedDiary }) => {
-  const memberId = useUser();
+  const { memberId } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
   const { diaryList, pageSize } = useDiary(memberId, currentPage, sortOrder);
 

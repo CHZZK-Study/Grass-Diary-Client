@@ -1,15 +1,16 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import API from '../../services';
-import Header from '../../components/Header';
-import BackButton from '../../components/BackButton';
-import QuillEditor from './QuillEditor';
 import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
-import EMOJI from '../../constants/emoji';
-import useUser from '../../hooks/useUser';
+import QuillEditor from './QuillEditor';
+
+import API from '@services';
+import useUser from '@recoil/user/useUser';
+import { Header, BackButton, Button } from '@components';
+import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
+
 dayjs.locale('ko');
 
 const CreateDiaryStyle = stylex.create({
@@ -52,23 +53,6 @@ const CreateDiaryStyle = stylex.create({
     height: '50px',
     outline: 'none',
     resize: 'none',
-  },
-
-  btnStyle: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    padding: '10px 50px',
-    border: 'solid 1px #bfbfbf',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
   todayMood: {
@@ -141,17 +125,19 @@ const CreateDiary = () => {
     setHashtag(e.target.value);
   };
 
+  // 해시태그 로직 함수
   const addHashtag = e => {
-    // Enter키 또는 Space키가 눌렸을 때
-    if (
-      (e.key === 'Enter' || e.key === ' ') &&
-      hashtag.trim() !== '' &&
-      hashArr.length < 15
-    ) {
-      // 새로운 해시태그를 배열에 추가
-      setHashArr(prev => [...prev, hashtag.trim()]);
-      // 입력 필드 초기화
-      setHashtag('');
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const inputText = e.target.value.trim();
+      const validCharsPattern = /[가-힣A-Za-z0-9]+/g;
+
+      const matches = inputText.match(validCharsPattern);
+      if (matches && matches.length > 0 && hashArr.length < 15) {
+        const hashtagText = matches.join('');
+        setHashArr(prev => [...prev, hashtagText]);
+        setHashtag('');
+      }
     }
   };
 
@@ -193,7 +179,7 @@ const CreateDiary = () => {
     return true;
   };
 
-  const useMemberId = useUser();
+  const { memberId } = useUser();
 
   const handleSave = async () => {
     if (!checkWritingPermission()) {
@@ -207,7 +193,6 @@ const CreateDiary = () => {
       return;
     }
 
-    const memberId = useMemberId;
     const { quillContent, isPrivate, hashArr, moodValue } = diaryInfo;
 
     const requestBody = {
@@ -234,7 +219,7 @@ const CreateDiary = () => {
     try {
       if (diaryid) {
         await API.patch(`/diary/${diaryid}`, requestBody);
-        navigate(`/diary/${diaryid}`);
+        navigate(`/diary/${diaryid}`, { replace: true, state: 'editcomplete' });
       } else {
         const response = await API.post(`/diary/${memberId}`, requestBody);
         navigate('/share');
@@ -334,12 +319,16 @@ const CreateDiary = () => {
               onKeyUp={addHashtag}
               placeholder={hashtag ? '' : '#해시태그'}
             />
-            <button
+            <Button
+              text="저장"
+              width="120px"
+              defaultColor="#2d2d2d"
+              hoverColor="#FFF"
+              defaultBgColor="#FFFFFF"
+              hoverBgColor="#111111"
+              border="1px solid #bfbfbf"
               onClick={handleSave}
-              {...stylex.props(CreateDiaryStyle.btnStyle)}
-            >
-              저장
-            </button>
+            />
           </article>
           <div {...stylex.props(CreateDiaryStyle.hashtag)}>
             {hashArr.map((tag, index) => (

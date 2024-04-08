@@ -1,16 +1,13 @@
-import * as stylex from '@stylexjs/stylex';
+import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-
-import API from '../../services/index';
-import useUser from '../../hooks/useUser';
-import Header from '../../components/Header';
-import BackButton from '../../components/BackButton';
-import Like from '../../components/Like';
-import EMOJI from '../../constants/emoji';
-import testImg from '../../assets/icon/basicProfile.png';
-import Setting from './Setting';
 import DOMPurify from 'dompurify';
+
+import { Header, BackButton, Like } from '@components';
+import API from '@services';
+import useUser from '@recoil/user/useUser';
+import EMOJI from '@constants/emoji';
+import Setting from './Setting';
 
 const styles = stylex.create({
   wrap: {
@@ -122,7 +119,7 @@ const contentStyle = stylex.create({
 
 const Diary = () => {
   const id = useParams().id;
-  const loginUserMemberId = useUser();
+  const { memberId } = useUser();
   const [diary, setDiary] = useState({});
   const [profile, setProfile] = useState();
   const [mood, setMood] = useState();
@@ -166,7 +163,7 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={profile ? profile.profileImageURL : testImg}
+              src={profile ? profile.profileImageURL : null}
             ></img>
             <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
             <div {...stylex.props(titleStyle.name)}>
@@ -180,7 +177,7 @@ const Diary = () => {
               {diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              {loginUserMemberId === writerMemberId ? (
+              {memberId === writerMemberId ? (
                 <Setting id={id} createdDate={diary.createdDate} />
               ) : null}
             </div>

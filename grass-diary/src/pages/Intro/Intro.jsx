@@ -1,4 +1,4 @@
-import Header from '../../components/Header';
+import { Header } from '@components';
 import {
   Container,
   Section,
@@ -12,16 +12,16 @@ const Intro = () => {
   return (
     <Container>
       <Header />
-      <Section backgroundColor="#FEFEFE" height="70vh">
+      <Section backgroundColor="#FEFEFE" height="90vh">
         <ServiceMain />
       </Section>
-      <Section backgroundColor="#F9FFF7" height="70vh">
+      <Section backgroundColor="#F9FFF7" height="100vh">
         <MainDesc />
       </Section>
-      <Section backgroundColor="#F0FFEA" height="70vh">
+      <Section backgroundColor="#F0FFEA" height="100vh">
         <SecondDesc />
       </Section>
-      <Section backgroundColor="#E1FFD7" height="90vh">
+      <Section backgroundColor="#E1FFD7" height="100vh">
         <StartContent />
       </Section>
     </Container>
