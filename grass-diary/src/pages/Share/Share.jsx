@@ -1,9 +1,8 @@
+import stylex from '@stylexjs/stylex';
 import { useEffect, useRef, useState } from 'react';
-import * as stylex from '@stylexjs/stylex';
-import Header from '../../components/Header';
-import Feed from '../../components/Feed';
-import Top10Feed from '../../components/Top10Feed';
-import API from '../../services';
+
+import API from '@services';
+import { Feed, Header, Top10Feed } from '@components';
 
 const styles = stylex.create({
   container: {

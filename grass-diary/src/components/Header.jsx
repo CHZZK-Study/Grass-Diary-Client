@@ -1,9 +1,10 @@
-import * as stylex from '@stylexjs/stylex';
-import { Link, useNavigate } from 'react-router-dom';
+import stylex from '@stylexjs/stylex';
+import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
-import Profile from './Profile';
-import { clearAuth } from '../utils/authUtils';
-import useUser from '../hooks/useUser';
+
+import { Profile } from '@components';
+import useLogout from '@hooks/useLogout';
+import useUser from '@recoil/user/useUser';
 
 const header = stylex.create({
   container: {
@@ -73,11 +74,10 @@ const menuBar = stylex.create({
 });
 
 const MenuBar = ({ toggle, headerRef }) => {
-  const navigate = useNavigate();
+  const clearAuth = useLogout();
 
   const handleLogout = () => {
     clearAuth();
-    navigate('/');
   };
 
   return (
@@ -116,7 +116,7 @@ const Header = () => {
   const headerRef = useRef();
   const iconRef = useRef();
   const profileRef = useRef();
-  const memberId = useUser();
+  const { memberId } = useUser();
 
   const dropDown = () => {
     setToggle(current => !current);
@@ -136,7 +136,7 @@ const Header = () => {
     document.addEventListener('click', closeToggle);
 
     return () => document.removeEventListener('click', closeToggle);
-  }, [toggle]);
+  }, [memberId, toggle]);
 
   return (
     <div {...stylex.props(header.container)}>

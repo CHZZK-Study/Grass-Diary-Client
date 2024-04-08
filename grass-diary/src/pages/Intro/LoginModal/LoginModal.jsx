@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import googleButton from '../../../assets/loginButton/googleButton.png';
+import googleButton from '@icon/googleButton.png';
 
 const styles = stylex.create({
   container: {
