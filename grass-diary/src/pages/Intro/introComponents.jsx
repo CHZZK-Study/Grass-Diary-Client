@@ -8,6 +8,8 @@ import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
 import { Button } from '@components';
 import { checkAuth } from '@utils/authUtils';
+import IntroDiaryImage from '@icon/IntroDiaryImage.png';
+import mainCharacter from '@icon/mainCharacter.png';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -80,7 +82,11 @@ const ServiceMain = () => {
 const MainDesc = () => {
   return (
     <div {...stylex.props(styles.mainContent('row'))}>
-      <div {...stylex.props(styles.contentImage('23.15rem', '30rem'))}></div>
+      <img
+        {...stylex.props(styles.contentImage('35rem', '35rem'))}
+        src={IntroDiaryImage}
+        alt="Section2Image"
+      />
       <div {...stylex.props(styles.mainDescription)}>
         <h1 {...stylex.props(styles.contentDesc('1.75rem'))}>
           우리는 <br /> 성장을 위해서 <br /> 기록합니다
@@ -102,7 +108,11 @@ const SecondDesc = () => {
         </h1>
         <p>받은 리워드로 테마 상점에서 다양한 아이템을 만날 수 있어요</p>
       </div>
-      <div {...stylex.props(styles.contentImage('43.75rem', '25rem'))}></div>
+      <img
+        {...stylex.props(styles.contentImage('28rem', '27rem'))}
+        src={mainCharacter}
+        alt="mainCharacter"
+      />
     </div>
   );
 };
