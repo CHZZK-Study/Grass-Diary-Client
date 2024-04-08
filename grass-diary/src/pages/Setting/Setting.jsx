@@ -1,9 +1,11 @@
 import styles from './styles';
 import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
+import { useRecoilState } from 'recoil';
 
 import API from '@services';
-import useProfile from '@hooks/useProfile';
+import useProfile from '@recoil/profile/useProfile';
+import { profileAtom } from '@recoil/profile/profileState';
 import { Header, Profile, Button } from '@components';
 
 const SettingSection = ({ children, label }) => {
@@ -16,41 +18,39 @@ const SettingSection = ({ children, label }) => {
 };
 
 const Setting = () => {
-  const { nickname, setNickname, profileIntro, setProfileIntro } = useProfile();
-  const [clickedNameSave, setClickedNameSave] = useState(false);
-  const [clickedIntroSave, setClickedIntroSave] = useState(false);
+  const { nickName, profileIntro } = useProfile();
 
-  const handleChange = setter => event => {
-    setter(event.target.value);
+  const [profile, setProfile] = useRecoilState(profileAtom);
+  const [clickedProfileSave, setClickedProfileSave] = useState(false);
+
+  const handleChangeNickname = event => {
+    setProfile({ ...profile, nickname: event.target.value });
+  };
+
+  const handleChangeProfileIntro = event => {
+    setProfile({ ...profile, profileIntro: event.target.value });
   };
 
   const handleClick = setter => () => {
     setter(true);
   };
 
-  useEffect(() => {
-    if (clickedNameSave) {
-      API.patch('/members/me', { nickname: nickname })
-        .then(() => {
-          setClickedNameSave(false);
-        })
-        .catch(error => {
-          console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
-        });
-    }
-  }, [clickedNameSave, nickname]);
+  const profileInfo = {
+    nickname: profile.nickname,
+    profileIntro: profile.profileIntro,
+  };
 
   useEffect(() => {
-    if (clickedIntroSave) {
-      API.patch('/members/me', { profileIntro: profileIntro })
+    if (clickedProfileSave) {
+      API.patch('/members/me', profileInfo)
         .then(() => {
-          setClickedIntroSave(false);
+          setClickedProfileSave(false);
         })
         .catch(error => {
           console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
         });
     }
-  }, [clickedIntroSave, profileIntro]);
+  }, [clickedProfileSave, profile.nickname, profile.profileIntro]);
 
   return (
     <div {...stylex.props(styles.container)}>
@@ -75,37 +75,30 @@ const Setting = () => {
             <SettingSection label="닉네임">
               <input
                 {...stylex.props(styles.textInput('0 0 0 1.25rem', '3.2rem'))}
-                placeholder={nickname}
-                onChange={handleChange(setNickname)}
+                placeholder={nickName}
+                onChange={handleChangeNickname}
               ></input>
-              <Button
-                text="저장"
-                width="70px"
-                color="#000"
-                backgroundColor="#FFF"
-                border="2px solid #929292"
-                onClick={handleClick(setClickedNameSave)}
-              />
             </SettingSection>
             <SettingSection label="소개글">
               <textarea
                 {...stylex.props(styles.textInput('1rem 1.25rem', '6.25rem'))}
                 placeholder={profileIntro}
-                onChange={handleChange(setProfileIntro)}
+                onChange={handleChangeProfileIntro}
               ></textarea>
-              <Button
-                text="저장"
-                width="70px"
-                height="51px"
-                color="#000"
-                backgroundColor="#FFF"
-                border="2px solid #929292"
-                onClick={handleClick(setClickedIntroSave)}
-              />
             </SettingSection>
             <SettingSection label="잔디색">
-              <div {...stylex.props(styles.colorWrapper)}>
-                <div {...stylex.props(styles.grassColor)}></div>
+              <div {...stylex.props(styles.saveSection)}>
+                <div {...stylex.props(styles.colorWrapper)}>
+                  <div {...stylex.props(styles.grassColor)}></div>
+                </div>
+                <Button
+                  text="저장"
+                  width="70px"
+                  color="#000"
+                  backgroundColor="#FFF"
+                  border="1px solid #BFBFBF"
+                  onClick={handleClick(setClickedProfileSave)}
+                />
               </div>
             </SettingSection>
           </div>
