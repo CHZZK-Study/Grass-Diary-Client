@@ -83,13 +83,20 @@ const styles = stylex.create({
     padding,
   }),
 
+  saveSection: {
+    display: 'flex',
+    justifyContent: 'space-between',
+
+    width: '71%',
+  },
+
   colorWrapper: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
 
-    width: '2.9rem',
-    height: '2.9rem',
+    width: '3.1rem',
+    height: '3.1rem',
 
     border: '1px solid #BFBFBF',
     borderRadius: '100%',
@@ -97,8 +104,8 @@ const styles = stylex.create({
   },
 
   grassColor: {
-    width: '2rem',
-    height: '2rem',
+    width: '2.2rem',
+    height: '2.2rem',
 
     borderRadius: '100%',
     backgroundColor: '#84FF79',
