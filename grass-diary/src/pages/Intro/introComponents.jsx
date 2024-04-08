@@ -8,7 +8,7 @@ import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
 import { Button } from '@components';
 import { checkAuth } from '@utils/authUtils';
-import IntroDiaryImage from '@icon/IntroDiaryImage.png';
+import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
 
 const Container = ({ children }) => {
@@ -84,15 +84,21 @@ const MainDesc = () => {
     <div {...stylex.props(styles.mainContent('row'))}>
       <img
         {...stylex.props(styles.contentImage('35rem', '35rem'))}
-        src={IntroDiaryImage}
+        src={introDiaryImage}
         alt="Section2Image"
       />
       <div {...stylex.props(styles.mainDescription)}>
         <h1 {...stylex.props(styles.contentDesc('1.75rem'))}>
-          우리는 <br /> 성장을 위해서 <br /> 기록합니다
+          우리는
+          <br />
+          성장을 위해서
+          <br />
+          기록합니다
         </h1>
         <p>
-          변화와 성장이 함께하는 <br /> 나만의 스토리를 완성할 수 있어요
+          변화와 성장이 함께하는
+          <br />
+          나만의 스토리를 완성할 수 있어요
         </p>
       </div>
     </div>

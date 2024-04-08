@@ -12,7 +12,6 @@ export const checkAuthSelector = selector({
       return isLoggedIn;
     } catch (error) {
       console.error(`로그인되지 않은 사용자입니다. ${error}`);
-      throw Error;
     }
   },
 
