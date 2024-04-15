@@ -1,13 +1,15 @@
 import { createBrowserRouter } from 'react-router-dom';
-import Intro from './pages/Intro/Intro';
-import Main from './pages/Main/Main';
-import CreateDiary from './pages/CreateDiary/CreateDiary';
-import Diary from './pages/Diary/Diary';
-import Share from './pages/Share/Share';
-import Setting from './pages/Setting/Setting';
-import MyPage from './pages/MyPage/MyPage';
-import NonExistentDiary from './pages/Diary/NonExistentDiary';
-import ProtectedRoute from './components/ProtectedRoute';
+import { ProtectedRoute } from '@components';
+import { lazy } from 'react';
+
+const Intro = lazy(() => import('@pages/Intro/Intro'));
+const Main = lazy(() => import('@pages/Main/Main'));
+const CreateDiary = lazy(() => import('@pages/CreateDiary/CreateDiary'));
+const Diary = lazy(() => import('@pages/Diary/Diary'));
+const Share = lazy(() => import('@pages/Share/Share'));
+const Setting = lazy(() => import('@pages/Setting/Setting'));
+const MyPage = lazy(() => import('@pages/MyPage/MyPage'));
+const NonExistentDiary = lazy(() => import('@pages/Diary/NonExistentDiary'));
 
 const router = createBrowserRouter([
   {

@@ -7,7 +7,7 @@ const styles = stylex.create({
     alignItems: 'center',
 
     width: '100vw',
-    height: '300vh',
+    height: 'auto',
   },
 
   mainContainer: (backgroundColor, height) => ({
@@ -55,8 +55,9 @@ const styles = stylex.create({
   },
 
   contentImage: (width, height) => ({
-    border: '1px solid #c2c2c2',
-    backgroundColor: '#FFF',
+    borderRadius: '30px',
+    objectFit: 'cover',
+    objectPosition: 'left',
 
     width,
     height,

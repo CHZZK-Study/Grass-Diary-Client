@@ -1,11 +1,11 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useEffect, useState } from 'react';
-import { formatDate } from '../../utils/dateUtils';
-import { getDaysArray } from '../../utils/dateUtils';
-import useGrass from '../../hooks/ussGrass';
-import API from '../../services';
-import useUser from '../../hooks/useUser';
+
+import { formatDate, getDaysArray } from '@utils/dateUtils';
+import useGrass from '@hooks/ussGrass';
+import useUser from '@recoil/user/useUser';
+import API from '@services';
 
 const createGrass = () => {
   const year = new Date().getFullYear();
@@ -29,7 +29,7 @@ const createGrass = () => {
 const Grass = ({ setSelectedDiary }) => {
   const [selectedGrass, setSelectedGrass] = useState(null);
   const { year, grass } = createGrass();
-  const memberId = useUser();
+  const { memberId } = useUser();
   const grassColors = useGrass();
 
   const handleGrassClick = date => {

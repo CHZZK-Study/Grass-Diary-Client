@@ -1,13 +1,15 @@
 import stylex from '@stylexjs/stylex';
 import styles from './styles';
-import grassDiary from '../../assets/icon/grassDiary.png';
-import Button from '../../components/Button';
-import LoginModal from './LoginModal/LoginModal';
-import useModal from '../../hooks/useModal';
-
-import { checkAuth } from '../../utils/authUtils';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+
+import LoginModal from './LoginModal/LoginModal';
+import grassDiary from '@icon/grassDiary.png';
+import useModal from '@hooks/useModal';
+import { Button } from '@components';
+import { checkAuth } from '@utils/authUtils';
+import introDiaryImage from '@icon/introDiaryImage.png';
+import mainCharacter from '@icon/mainCharacter.png';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
@@ -44,8 +46,10 @@ const OpenModalButton = () => {
         text="일기 시작하기"
         onClick={handleStartButton}
         width="150px"
-        color="#FFF"
-        backgroundColor="#28CA3B"
+        defaultColor="#FFF"
+        hoverColor="#FFF"
+        defaultBgColor="#28CA3B"
+        hoverBgColor="#13b81b"
         border="none"
         marginTop="20px"
       />
@@ -78,13 +82,23 @@ const ServiceMain = () => {
 const MainDesc = () => {
   return (
     <div {...stylex.props(styles.mainContent('row'))}>
-      <div {...stylex.props(styles.contentImage('23.15rem', '30rem'))}></div>
+      <img
+        {...stylex.props(styles.contentImage('35rem', '35rem'))}
+        src={introDiaryImage}
+        alt="Section2Image"
+      />
       <div {...stylex.props(styles.mainDescription)}>
         <h1 {...stylex.props(styles.contentDesc('1.75rem'))}>
-          우리는 <br /> 성장을 위해서 <br /> 기록합니다
+          우리는
+          <br />
+          성장을 위해서
+          <br />
+          기록합니다
         </h1>
         <p>
-          변화와 성장이 함께하는 <br /> 나만의 스토리를 완성할 수 있어요
+          변화와 성장이 함께하는
+          <br />
+          나만의 스토리를 완성할 수 있어요
         </p>
       </div>
     </div>
@@ -100,7 +114,11 @@ const SecondDesc = () => {
         </h1>
         <p>받은 리워드로 테마 상점에서 다양한 아이템을 만날 수 있어요</p>
       </div>
-      <div {...stylex.props(styles.contentImage('43.75rem', '25rem'))}></div>
+      <img
+        {...stylex.props(styles.contentImage('28rem', '27rem'))}
+        src={mainCharacter}
+        alt="mainCharacter"
+      />
     </div>
   );
 };

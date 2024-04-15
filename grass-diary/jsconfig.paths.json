@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@icon/*": ["src/assets/icon/*"],
+      "@components/*": ["src/components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@pages/*": ["src/pages/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@recoil/*": ["src/recoil/*"]
+    }
+  }
+}

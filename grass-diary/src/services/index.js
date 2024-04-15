@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { clearAuth } from '../utils/authUtils';
 
 const API_URI = import.meta.env.VITE_API_URI;
 
@@ -22,7 +21,8 @@ API.interceptors.response.use(
   response => response,
   error => {
     if (error.response && error.response.status === 500) {
-      clearAuth();
+      localStorage.removeItem('accessToken');
+      window.location.href = '/';
     }
 
     return Promise.reject(error);

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import API from '../../services/index';
-import { EllipsisIcon, EllipsisBox } from '../../components/Ellipsis';
+import API from '@services';
+import { EllipsisIcon, EllipsisBox } from '@components';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
-import { useNavigate } from 'react-router-dom';
 
 const Setting = ({ id, createdDate }) => {
   const navigate = useNavigate();
@@ -13,8 +13,8 @@ const Setting = ({ id, createdDate }) => {
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  // const createdDate = '24년 03월 29일'; // 임시 데이터
   const date = new Date();
+
   useEffect(() => {
     if (
       // 당일 : 일기 수정 가능

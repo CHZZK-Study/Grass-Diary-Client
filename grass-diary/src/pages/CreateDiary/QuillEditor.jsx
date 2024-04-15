@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import API from '../../services';
+import API from '@services';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
@@ -65,6 +65,7 @@ const QuillEditor = ({ onContentChange, quillContent }) => {
         formats={formats}
         onChange={handleChange}
         value={quillContent}
+        style={{ height: '70vh' }}
       />
     </>
   );
