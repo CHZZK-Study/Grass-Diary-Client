@@ -7,11 +7,7 @@ import QuillEditor from './QuillEditor';
 
 import API from '@services';
 import useUser from '@recoil/user/useUser';
-<<<<<<< HEAD
-import { Header, BackButton } from '@components';
-=======
 import { Header, BackButton, Button } from '@components';
->>>>>>> upstream/release
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 
@@ -59,26 +55,6 @@ const CreateDiaryStyle = stylex.create({
     resize: 'none',
   },
 
-<<<<<<< HEAD
-  btnStyle: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    padding: '10px 50px',
-    border: 'solid 1px #bfbfbf',
-    borderRadius: '10px',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-  },
-
-=======
->>>>>>> upstream/release
   todayMood: {
     display: 'flex',
     flexDirection: 'column',

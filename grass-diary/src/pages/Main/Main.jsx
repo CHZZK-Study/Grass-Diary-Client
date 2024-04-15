@@ -12,11 +12,7 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-<<<<<<< HEAD
-import { Top10Feed, Header } from '@components';
-=======
 import { Top10Feed, Header, Button } from '@components';
->>>>>>> upstream/release
 
 const styles = stylex.create({
   title: {
@@ -110,28 +106,6 @@ const TopSectionStyles = stylex.create({
     fontSize: 25,
   },
 
-<<<<<<< HEAD
-  writeButton: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    padding: '10px 20px',
-    margin: 0,
-    cursor: 'pointer',
-    border: 'solid outset 1px #E0E0E0',
-    borderRadius: '20px',
-    boxShadow: '1px 1px 1px 1px #E0E0E0',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-  },
-
-=======
->>>>>>> upstream/release
   character: {
     width: 300,
     height: 300,
@@ -209,28 +183,6 @@ const MiddleSectionStyle = stylex.create({
     alignItems: 'center',
   },
 
-<<<<<<< HEAD
-  button: {
-    backgroundColor: {
-      default: 'white',
-      ':hover': 'black',
-    },
-    color: {
-      default: 'black',
-      ':hover': 'white',
-    },
-    marginTop: '30px',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    border: 'solid outset 1px #E0E0E0',
-    borderRadius: '20px',
-    boxShadow: '1px 1px 1px 1px #E0E0E0',
-    fontWeight: 'bold',
-    transition: 'background-color 0.3s ease, color 0.3s ease',
-  },
-
-=======
->>>>>>> upstream/release
   grassBox: {
     backgroundColor: '#e0e0e0',
     width: '20px',
@@ -323,11 +275,6 @@ const TopSection = () => {
             <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
           </div>
           <Link to="/creatediary">
-<<<<<<< HEAD
-            <button {...stylex.props(TopSectionStyles.writeButton)}>
-              오늘의 일기 쓰러가기
-            </button>
-=======
             <Button
               text="오늘의 일기 쓰러 가기"
               width="180px"
@@ -337,7 +284,6 @@ const TopSection = () => {
               hoverBgColor="#111111"
               border="1px solid #929292"
             />
->>>>>>> upstream/release
           </Link>
         </div>
         <div>
