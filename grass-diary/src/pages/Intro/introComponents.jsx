@@ -8,7 +8,7 @@ import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
 import { Button } from '@components';
 import { checkAuth } from '@utils/authUtils';
-import IntroDiaryImage from '@icon/IntroDiaryImage.png';
+import IntroDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
 
 const Container = ({ children }) => {
