@@ -111,9 +111,11 @@ const ProfileSection = ({ setSelectedDiary }) => {
           <Button
             text="교환 일기 신청"
             width="150px"
-            color="#000"
-            backgroundColor="#FFFFFF"
-            border="2px solid #929292"
+            defaultColor="#2d2d2d"
+            hoverColor="#FFF"
+            defaultBgColor="#FFFFFF"
+            hoverBgColor="#111111"
+            border="1px solid #929292"
             marginTop="25px"
             onClick={modal}
           />

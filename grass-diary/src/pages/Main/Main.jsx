@@ -12,7 +12,11 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
+<<<<<<< HEAD
 import { Top10Feed, Header } from '@components';
+=======
+import { Top10Feed, Header, Button } from '@components';
+>>>>>>> upstream/release
 
 const styles = stylex.create({
   title: {
@@ -106,6 +110,7 @@ const TopSectionStyles = stylex.create({
     fontSize: 25,
   },
 
+<<<<<<< HEAD
   writeButton: {
     backgroundColor: {
       default: 'white',
@@ -125,6 +130,8 @@ const TopSectionStyles = stylex.create({
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
+=======
+>>>>>>> upstream/release
   character: {
     width: 300,
     height: 300,
@@ -202,6 +209,7 @@ const MiddleSectionStyle = stylex.create({
     alignItems: 'center',
   },
 
+<<<<<<< HEAD
   button: {
     backgroundColor: {
       default: 'white',
@@ -221,6 +229,8 @@ const MiddleSectionStyle = stylex.create({
     transition: 'background-color 0.3s ease, color 0.3s ease',
   },
 
+=======
+>>>>>>> upstream/release
   grassBox: {
     backgroundColor: '#e0e0e0',
     width: '20px',
@@ -313,9 +323,21 @@ const TopSection = () => {
             <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
           </div>
           <Link to="/creatediary">
+<<<<<<< HEAD
             <button {...stylex.props(TopSectionStyles.writeButton)}>
               오늘의 일기 쓰러가기
             </button>
+=======
+            <Button
+              text="오늘의 일기 쓰러 가기"
+              width="180px"
+              defaultColor="#2d2d2d"
+              hoverColor="#FFF"
+              defaultBgColor="#FFFFFF"
+              hoverBgColor="#111111"
+              border="1px solid #929292"
+            />
+>>>>>>> upstream/release
           </Link>
         </div>
         <div>
@@ -535,9 +557,17 @@ const MiddleSection = () => {
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
-          <button onClick={modal} {...stylex.props(MiddleSectionStyle.button)}>
-            테마 상점
-          </button>
+          <Button
+            text="테마 상점"
+            width="130px"
+            defaultColor="#2d2d2d"
+            hoverColor="#FFF"
+            defaultBgColor="#FFFFFF"
+            hoverBgColor="#111111"
+            border="1px solid #929292"
+            marginTop="25px"
+            onClick={modal}
+          />
         </div>
       </div>
     </>

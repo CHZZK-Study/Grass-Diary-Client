@@ -50,26 +50,28 @@ const ConfirmDeleteModal = ({ setter, setDelete }) => {
     <div {...stylex.props(styles.background)}>
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.text)}>
-          <span {...stylex.props(styles.bold)}>
-            ⚠ 일기를 삭제하시겠습니까?
-          </span>
+          <span {...stylex.props(styles.bold)}>⚠ 일기를 삭제하시겠습니까?</span>
           <br />
           <div {...stylex.props(styles.ie)}>
             <Button
-              text={'취소'}
+              text="취소"
               onClick={closeModal}
-              width={'50px'}
-              color={'#fff'}
-              backgroundColor={'#28CA3B'}
-              border={'none'}
+              width="50px"
+              defaultColor="#FFF"
+              hoverColor="#FFF"
+              defaultBgColor="#28CA3B"
+              hoverBgColor="#13b81b"
+              border="none"
             />
             <Button
-              text={'삭제'}
+              text="삭제"
               onClick={deleteDiary}
-              width={'50px'}
-              color={'#fff'}
-              backgroundColor={'#28CA3B'}
-              border={'none'}
+              width="50px"
+              defaultColor="#FFF"
+              hoverColor="#FFF"
+              defaultBgColor="#28CA3B"
+              hoverBgColor="#13b81b"
+              border="none"
             />
           </div>
         </div>
