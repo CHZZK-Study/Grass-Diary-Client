@@ -54,7 +54,11 @@ const DiaryItem = ({ diary, diaryList, index }) => {
 const Diary = ({ searchTerm, sortOrder, selectedDiary }) => {
   const { memberId } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
-  const { diaryList, pageSize } = useDiary(memberId, currentPage, sortOrder);
+  const { diaryList, pageSize } = useDiary({
+    memberId,
+    currentPage,
+    sortOrder,
+  });
 
   const filteredDiaryList =
     selectedDiary && selectedDiary.diaryId
