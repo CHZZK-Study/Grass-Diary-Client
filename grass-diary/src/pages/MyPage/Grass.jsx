@@ -30,7 +30,7 @@ const Grass = ({ setSelectedDiary }) => {
   const [selectedGrass, setSelectedGrass] = useState(null);
   const { year, grass } = createGrass();
   const { memberId } = useUser();
-  const grassColors = useGrass();
+  const grassColors = useGrass(memberId);
 
   const handleGrassClick = date => {
     setSelectedGrass(formatDate(date));
@@ -59,17 +59,19 @@ const Grass = ({ setSelectedDiary }) => {
             const writeDay = formatDate(day);
             return (
               <div key={index} {...stylex.props(styles.dayContainer)}>
-                <div
-                  onClick={() => handleGrassClick(day)}
-                  {...stylex.props(
-                    styles.grassDate(
-                      writeDay === selectedGrass ? '1px solid black' : 'none',
-                      grassColors[writeDay]
-                        ? `rgba(${grassColors[writeDay]})`
-                        : '#E0E0E0',
-                    ),
-                  )}
-                ></div>
+                {grassColors && (
+                  <div
+                    onClick={() => handleGrassClick(day)}
+                    {...stylex.props(
+                      styles.grassDate(
+                        writeDay === selectedGrass ? '1px solid black' : 'none',
+                        grassColors[writeDay]
+                          ? `rgba(${grassColors[writeDay]})`
+                          : '#E0E0E0',
+                      ),
+                    )}
+                  ></div>
+                )}
                 {formatDate(day) === selectedGrass && (
                   <div {...stylex.props(styles.dateBubble)}>
                     <span>{selectedGrass}</span>
