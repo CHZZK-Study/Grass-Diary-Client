@@ -1,7 +1,7 @@
 import styles from './styles';
 import stylex from '@stylexjs/stylex';
-import { useState, useEffect } from 'react';
 import { useRecoilState } from 'recoil';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import API from '@services';
 import useProfile from '@recoil/profile/useProfile';
@@ -18,10 +18,9 @@ const SettingSection = ({ children, label }) => {
 };
 
 const Setting = () => {
+  const queryClient = useQueryClient();
   const { nickName, profileIntro } = useProfile();
-
   const [profile, setProfile] = useRecoilState(profileAtom);
-  const [clickedProfileSave, setClickedProfileSave] = useState(false);
 
   const handleChangeNickname = event => {
     setProfile({ ...profile, nickname: event.target.value });
@@ -31,26 +30,14 @@ const Setting = () => {
     setProfile({ ...profile, profileIntro: event.target.value });
   };
 
-  const handleClick = setter => () => {
-    setter(true);
-  };
-
-  const profileInfo = {
-    nickname: profile.nickname,
-    profileIntro: profile.profileIntro,
-  };
-
-  useEffect(() => {
-    if (clickedProfileSave) {
-      API.patch('/members/me', profileInfo)
-        .then(() => {
-          setClickedProfileSave(false);
-        })
-        .catch(error => {
-          console.error(`사용자 정보를 수정할 수 없습니다. ${error}`);
-        });
-    }
-  }, [clickedProfileSave, profile.nickname, profile.profileIntro]);
+  const updateProfile = useMutation({
+    mutationFn: profileInfo => API.patch('/members/me', profileInfo),
+    onSuccess: () => {
+      queryClient.invalidateQueries('profileInfo');
+    },
+    onError: error =>
+      console.error(`사용자 정보를 수정할 수 없습니다. ${error}`),
+  });
 
   return (
     <div {...stylex.props(styles.container)}>
@@ -101,7 +88,12 @@ const Setting = () => {
                   defaultBgColor="#FFFFFF"
                   hoverBgColor="#111111"
                   border="1px solid #929292"
-                  onClick={handleClick(setClickedProfileSave)}
+                  onClick={() =>
+                    updateProfile.mutate({
+                      nickname: profile.nickname,
+                      profileIntro: profile.profileIntro,
+                    })
+                  }
                 />
               </div>
             </SettingSection>
