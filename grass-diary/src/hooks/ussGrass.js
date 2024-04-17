@@ -1,35 +1,30 @@
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@utils/dateUtils';
-import useUser from '@recoil/user/useUser';
 import API from '@services';
 
-const useGrass = () => {
-  const { memberId } = useUser();
-  const [grassColors, setGrassColors] = useState({});
+const useGrass = memberId => {
+  const { data: grass } = useQuery({
+    queryKey: ['grassList', memberId],
+    queryFn: () =>
+      API.get(`/grass/${memberId}`).then(({ data }) => {
+        const updatedGrassColor = {};
+        const { grassList, colorRGB: grassColor } = data;
 
-  useEffect(() => {
-    if (memberId) {
-      API.get(`/grass/${memberId}`)
-        .then(response => {
-          const { grassList } = response.data;
-          const grassColor = response.data.colorRGB;
-          const updatedGrassColors = {};
+        grassList.forEach(grass => {
+          const { createdAt, transparency } = grass;
+          const createdDate = formatDate(new Date(createdAt));
 
-          grassList.forEach(grass => {
-            const { createdAt, transparency } = grass;
-            const createdDate = formatDate(new Date(createdAt));
-            updatedGrassColors[createdDate] = `${grassColor},${transparency}`;
-          });
+          updatedGrassColor[createdDate] = `${grassColor},${transparency}`;
+        });
 
-          setGrassColors(updatedGrassColors);
-        })
-        .catch(error =>
-          console.error(`사용자 잔디 현황을 불러올 수 없습니다. ${error}`),
-        );
-    }
-  }, [memberId]);
+        return updatedGrassColor;
+      }),
+    enabled: !!memberId,
+    onError: error =>
+      console.error(`사용자 잔디 현황을 불러올 수 없습니다. ${error}`),
+  });
 
-  return grassColors;
+  return grass;
 };
 
 export default useGrass;
