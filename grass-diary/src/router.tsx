@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { ProtectedRoute } from '@components';
+import { ProtectedRoute } from '@components/index';
 import { lazy } from 'react';
 
 const Intro = lazy(() => import('@pages/Intro/Intro'));
