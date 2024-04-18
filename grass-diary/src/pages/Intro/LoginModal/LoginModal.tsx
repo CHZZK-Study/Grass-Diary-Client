@@ -1,5 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import googleButton from '@icon/googleButton.png';
+import { API_URI } from '@services/index';
 
 const styles = stylex.create({
   container: {
@@ -89,14 +90,17 @@ const styles = stylex.create({
   },
 });
 
-const LoginModal = ({ isOpen, isClose }) => {
-  if (!isOpen) {
-    return null;
-  }
+interface ILoginModalProps {
+  isOpen: () => void;
+  isClose: () => void;
+}
 
-  const handleGoogleLogin = () => {
-    const API_URI = import.meta.env.VITE_API_URI;
+type TGoogleLogin = () => void;
 
+const LoginModal = ({ isOpen, isClose }: ILoginModalProps) => {
+  if (!isOpen) return null;
+
+  const handleGoogleLogin: TGoogleLogin = () => {
     window.open(`${API_URI}/api/auth/google`, '_self');
   };
 
