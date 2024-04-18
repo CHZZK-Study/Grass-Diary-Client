@@ -2,7 +2,7 @@ import stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
 import { useEffect, useRef, useState } from 'react';
 
-import { Profile } from '@components';
+import { Profile } from '@components/index';
 import useLogout from '@hooks/useLogout';
 import useUser from '@recoil/user/useUser';
 

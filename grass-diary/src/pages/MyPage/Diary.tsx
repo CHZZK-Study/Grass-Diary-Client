@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import useUser from '@recoil/user/useUser';
 import useDiary from '@hooks/useDiary';
-import { NormalLike, MoodProfile } from '@components';
+import { NormalLike, MoodProfile } from '@components/index';
 
 const Pagination = ({ pageSize, onPageChange }) => {
   return (

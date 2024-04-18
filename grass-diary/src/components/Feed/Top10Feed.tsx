@@ -4,8 +4,8 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 
-import API from '@services';
-import { Feed } from '@components';
+import API from '@services/index';
+import { Feed } from '@components/index';
 
 const styles = stylex.create({
   slider: {

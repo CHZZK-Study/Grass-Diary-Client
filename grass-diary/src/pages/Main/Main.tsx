@@ -6,13 +6,13 @@ import { useCallback, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { isAuthenticatedAtom, isLodingAtom } from '@recoil/auth/authState';
 
-import API from '@services';
+import API from '@services/index';
 import mainCharacter from '@icon/mainCharacter.png';
 import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-import { Top10Feed, Header, Button } from '@components';
+import { Top10Feed, Header, Button } from '@components/index';
 
 const styles = stylex.create({
   title: {

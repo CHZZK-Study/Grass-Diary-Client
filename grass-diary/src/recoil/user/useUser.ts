@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 
-import API from '@services';
+import API from '@services/index';
 import { memberIdAtom } from './userState';
 import { useAuth } from '@recoil/auth/useAuth';
 

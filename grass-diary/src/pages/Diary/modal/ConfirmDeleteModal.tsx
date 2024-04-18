@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import { Button } from '@components';
+import { Button } from '@components/index';
 
 const styles = stylex.create({
   background: {

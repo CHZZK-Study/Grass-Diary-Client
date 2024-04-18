@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import API from '@services';
+import API from '@services/index';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 

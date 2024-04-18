@@ -7,7 +7,7 @@ import Grass from './Grass';
 import Diary from './Diary';
 import useProfile from '@recoil/profile/useProfile';
 import mainCharacter from '@icon/mainCharacter.png';
-import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components';
+import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components/index';
 
 const Container = ({ children }) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;

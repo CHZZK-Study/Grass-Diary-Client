@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import LoginModal from './LoginModal/LoginModal';
 import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
-import { Button } from '@components';
+import { Button } from '@components/index';
 import { checkAuth } from '@utils/authUtils';
 import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';

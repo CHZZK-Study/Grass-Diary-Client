@@ -3,10 +3,10 @@ import stylex from '@stylexjs/stylex';
 import { useRecoilState } from 'recoil';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import API from '@services';
+import API from '@services/index';
 import useProfile from '@recoil/profile/useProfile';
 import { profileAtom } from '@recoil/profile/profileState';
-import { Header, Profile, Button } from '@components';
+import { Header, Profile, Button } from '@components/index';
 
 const SettingSection = ({ children, label }) => {
   return (

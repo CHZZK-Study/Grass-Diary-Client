@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import API from '@services';
-import { EllipsisIcon, EllipsisBox } from '@components';
+import API from '@services/index';
+import { EllipsisIcon, EllipsisBox } from '@components/index';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';

@@ -5,9 +5,9 @@ import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
 import QuillEditor from './QuillEditor';
 
-import API from '@services';
+import API from '@services/index';
 import useUser from '@recoil/user/useUser';
-import { Header, BackButton, Button } from '@components';
+import { Header, BackButton, Button } from '@components/index';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 

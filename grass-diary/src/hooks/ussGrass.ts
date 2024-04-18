@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@utils/dateUtils';
-import API from '@services';
+import API from '@services/index';
 
 const useGrass = memberId => {
   const { data: grass } = useQuery({

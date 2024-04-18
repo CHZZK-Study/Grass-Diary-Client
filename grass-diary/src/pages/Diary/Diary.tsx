@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
-import { Header, BackButton, Like } from '@components';
-import API from '@services';
+import { Header, BackButton, Like } from '@components/index';
+import API from '@services/index';
 import useUser from '@recoil/user/useUser';
 import EMOJI from '@constants/emoji';
 import Setting from './Setting';

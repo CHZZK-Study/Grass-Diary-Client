@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import { useEffect, useState } from 'react';
-import API from '@services';
+import API from '@services/index';
 import useUser from '@recoil/user/useUser';
 
 const beat1 = stylex.keyframes({

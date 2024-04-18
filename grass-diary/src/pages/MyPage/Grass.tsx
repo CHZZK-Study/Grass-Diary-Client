@@ -6,7 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { formatDate, getDaysArray } from '@utils/dateUtils';
 import useGrass from '@hooks/ussGrass';
 import useUser from '@recoil/user/useUser';
-import API from '@services';
+import API from '@services/index';
 
 const createGrass = () => {
   const year = new Date().getFullYear();
