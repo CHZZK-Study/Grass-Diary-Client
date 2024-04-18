@@ -90,13 +90,6 @@ const styles = stylex.create({
   },
 });
 
-interface ILoginModalProps {
-  isOpen: () => void;
-  isClose: () => void;
-}
-
-type TGoogleLogin = () => void;
-
 const LoginModal = ({ isOpen, isClose }: ILoginModalProps) => {
   if (!isOpen) return null;
 

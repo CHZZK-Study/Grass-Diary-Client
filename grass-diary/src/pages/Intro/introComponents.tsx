@@ -1,7 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import styles from './styles';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import LoginModal from './LoginModal/LoginModal';
 import grassDiary from '@icon/grassDiary.png';
@@ -11,47 +11,60 @@ import { checkAuth } from '@utils/authUtils';
 import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
 
-const Container = ({ children }) => {
+interface TSection {
+  backgroundColor: string;
+  height: string;
+  children: React.ReactNode;
+}
+
+interface IContainer {
+  children: React.ReactNode;
+}
+
+type TStartButton = () => void;
+
+const Container = ({ children }: IContainer) => {
   return <div {...stylex.props(styles.container)}>{children}</div>;
 };
 
-const Section = ({ backgroundColor, height, children }) => (
+const Section = ({ backgroundColor, height, children }: TSection) => (
   <section {...stylex.props(styles.mainContainer(backgroundColor, height))}>
     {children}
   </section>
 );
 
 const OpenModalButton = () => {
-  const navigate = useNavigate();
-  const { isModalOpen, handleOpenModal, handleCloseModal } = useModal();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate: NavigateFunction = useNavigate();
+  const { isModalOpen, handleOpenModal, handleCloseModal }: IModalReturn =
+    useModal();
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const loggedIn = async () => {
-      const accessToken = await checkAuth();
+      const accessToken: boolean = await checkAuth();
       if (accessToken) setIsLoggedIn(true);
     };
 
     loggedIn();
   }, []);
 
-  const handleStartButton = () => {
+  const handleStartButton: TStartButton = () => {
     if (isLoggedIn) navigate('/main');
-    else handleOpenModal();
+    if (!isLoggedIn) handleOpenModal();
   };
 
   return (
     <>
       <Button
         text="일기 시작하기"
-        onClick={handleStartButton}
         width="150px"
+        marginTop="20px"
         defaultColor="#FFF"
         hoverColor="#FFF"
         defaultBgColor="#28CA3B"
         hoverBgColor="#13b81b"
         border="none"
-        marginTop="20px"
+        onClick={handleStartButton}
       />
       {!isLoggedIn && isModalOpen && (
         <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
@@ -63,7 +76,7 @@ const OpenModalButton = () => {
 const ServiceMain = () => {
   return (
     <div {...stylex.props(styles.mainContent('row'))}>
-      <div {...stylex.props(styles.mainDescription)}>
+      <div {...stylex.props(styles.mainDescription())}>
         <h1 {...stylex.props(styles.mainTitle)}>잔디 일기</h1>
         <p {...stylex.props(styles.contentDesc('1.35rem'))}>
           일상 속의 잔디, <br />
@@ -87,7 +100,7 @@ const MainDesc = () => {
         src={introDiaryImage}
         alt="Section2Image"
       />
-      <div {...stylex.props(styles.mainDescription)}>
+      <div {...stylex.props(styles.mainDescription())}>
         <h1 {...stylex.props(styles.contentDesc('1.75rem'))}>
           우리는
           <br />

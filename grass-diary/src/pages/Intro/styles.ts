@@ -10,7 +10,7 @@ const styles = stylex.create({
     height: 'auto',
   },
 
-  mainContainer: (backgroundColor, height) => ({
+  mainContainer: (backgroundColor: string, height: string) => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -21,7 +21,7 @@ const styles = stylex.create({
     backgroundColor,
   }),
 
-  mainDescription: alignItems => ({
+  mainDescription: (alignItems?: string) => ({
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
@@ -29,13 +29,13 @@ const styles = stylex.create({
     alignItems,
   }),
 
-  mainContent: flexDirection => ({
+  mainContent: (flexDirection: string) => ({
     display: 'flex',
     alignItems: 'center',
-
     justifyContent: 'space-evenly',
 
     width: '1080px',
+
     flexDirection,
   }),
 
@@ -54,7 +54,7 @@ const styles = stylex.create({
     width: '33.75rem',
   },
 
-  contentImage: (width, height) => ({
+  contentImage: (width: string, height: string) => ({
     borderRadius: '30px',
     objectFit: 'cover',
     objectPosition: 'left',
@@ -63,7 +63,7 @@ const styles = stylex.create({
     height,
   }),
 
-  contentDesc: fontSize => ({
+  contentDesc: (fontSize: string) => ({
     marginBottom: '0.6rem',
     fontSize,
   }),
