@@ -34,18 +34,31 @@ const styles = stylex.create({
   }),
 });
 
+interface IButton {
+  text?: string;
+  width?: string;
+  height?: string;
+  marginTop?: string;
+  defaultColor?: string;
+  hoverColor?: string;
+  defaultBgColor?: string;
+  hoverBgColor?: string;
+  border?: string;
+  onClick?: () => void;
+}
+
 const Button = ({
   text,
-  onClick,
   width,
   height,
+  marginTop,
   defaultColor,
   hoverColor,
   defaultBgColor,
   hoverBgColor,
   border,
-  marginTop,
-}) => {
+  onClick,
+}: IButton) => {
   return (
     <>
       <button
