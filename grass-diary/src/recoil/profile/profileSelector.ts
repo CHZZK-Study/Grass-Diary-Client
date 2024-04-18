@@ -2,7 +2,7 @@ import { selector } from 'recoil';
 import API from '@services/index';
 import { memberIdAtom } from '@recoil/user/userState';
 
-export const profileSelector = selector({
+export const profileSelector = selector<IProfile | undefined>({
   key: 'profileSelector',
   get: async ({ get }) => {
     const memberId = get(memberIdAtom);

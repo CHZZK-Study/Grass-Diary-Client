@@ -1,10 +1,10 @@
 import { atom } from 'recoil';
 
-export const profileAtom = atom({
+export const profileAtom = atom<IProfile>({
   key: 'profile',
   default: {
-    profileImage: '',
-    nickname: '',
+    profileImageURL: '',
+    nickName: '',
     profileIntro: '',
   },
 });
