@@ -1,14 +1,23 @@
 import styles from './styles';
 import stylex from '@stylexjs/stylex';
 import { useRecoilState } from 'recoil';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from '@tanstack/react-query';
 
 import API from '@services/index';
 import useProfile from '@recoil/profile/useProfile';
 import { profileAtom } from '@recoil/profile/profileState';
 import { Header, Profile, Button } from '@components/index';
 
-const SettingSection = ({ children, label }) => {
+interface ISettingSection {
+  children: React.ReactNode;
+  label: string;
+}
+
+const SettingSection = ({ children, label }: ISettingSection) => {
   return (
     <form {...stylex.props(styles.settingSection)}>
       <span>{label}</span>
@@ -18,22 +27,24 @@ const SettingSection = ({ children, label }) => {
 };
 
 const Setting = () => {
-  const queryClient = useQueryClient();
-  const { nickName, profileIntro } = useProfile();
+  const queryClient: QueryClient = useQueryClient();
+  const { nickName, profileIntro }: Partial<IProfile> = useProfile();
   const [profile, setProfile] = useRecoilState(profileAtom);
 
-  const handleChangeNickname = event => {
-    setProfile({ ...profile, nickname: event.target.value });
+  const handleChangeNickname = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProfile({ ...profile, nickName: event.target.value });
   };
 
-  const handleChangeProfileIntro = event => {
+  const handleChangeProfileIntro = (
+    event: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     setProfile({ ...profile, profileIntro: event.target.value });
   };
 
-  const updateProfile = useMutation({
+  const updateProfile = useMutation<IUpdateProfile, Error, IUpdateProfile>({
     mutationFn: profileInfo => API.patch('/members/me', profileInfo),
     onSuccess: () => {
-      queryClient.invalidateQueries('profileInfo');
+      queryClient.invalidateQueries({ queryKey: ['profileInfo'] });
     },
     onError: error =>
       console.error(`사용자 정보를 수정할 수 없습니다. ${error}`),
@@ -90,7 +101,7 @@ const Setting = () => {
                   border="1px solid #929292"
                   onClick={() =>
                     updateProfile.mutate({
-                      nickname: profile.nickname,
+                      nickName: profile.nickName,
                       profileIntro: profile.profileIntro,
                     })
                   }
