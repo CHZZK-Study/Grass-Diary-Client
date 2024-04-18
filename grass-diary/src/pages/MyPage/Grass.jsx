@@ -1,6 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
 import { formatDate, getDaysArray } from '@utils/dateUtils';
 import useGrass from '@hooks/ussGrass';
@@ -36,26 +37,31 @@ const Grass = ({ setSelectedDiary }) => {
     setSelectedGrass(formatDate(date));
   };
 
-  useEffect(() => {
-    if (selectedGrass) {
-      const selectedDate = `${year}-${selectedGrass.split('/').join('-')}`;
+  const selectedDate = selectedGrass
+    ? `${year}-${selectedGrass.split('/').join('-')}`
+    : null;
 
-      API.get(`/search/date/${memberId}?date=${selectedDate}`)
-        .then(response => {
-          setSelectedDiary(response.data);
-        })
-        .catch(error => {
-          console.error(error);
-        });
-    }
-  }, [selectedGrass, memberId, setSelectedDiary, year]);
+  const { data: selectedDiary } = useQuery({
+    queryKey: ['selectedDiary', memberId, selectedDate],
+    queryFn: () =>
+      API.get(`/search/date/${memberId}?date=${selectedDate}`).then(
+        ({ data }) => data,
+      ),
+    enabled: !!selectedGrass && !!memberId,
+    onError: error =>
+      console.error(`선택된 날짜의 일기를 불러올 수 없습니다. ${error}`),
+  });
+
+  useEffect(() => {
+    if (selectedDiary) setSelectedDiary(selectedDiary);
+    if (!selectedDiary) setSelectedDiary([]);
+  }, [selectedDiary]);
 
   return (
     <div {...stylex.props(styles.grassContainer)}>
       {grass.map((column, index) => (
         <div key={index} {...stylex.props(styles.grass)}>
           {column.map((day, index) => {
-            if (day === null) return null;
             const writeDay = formatDate(day);
             return (
               <div key={index} {...stylex.props(styles.dayContainer)}>
