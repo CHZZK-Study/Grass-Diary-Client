@@ -11,7 +11,7 @@ interface IUpdateProfile {
 }
 
 // Mood Profile Type
-interface IMoodProfile extends IDiary {
+interface IMoodProfile {
   diary: IDiary[];
   index: number;
 }

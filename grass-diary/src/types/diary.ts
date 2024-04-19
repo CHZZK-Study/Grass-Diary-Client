@@ -4,7 +4,7 @@ interface ITages {
   tagUsageCount?: number;
 }
 
-interface IDiary extends ITages {
+interface IDiary {
   content?: string;
   createdAt?: string;
   createdDate?: string;
@@ -16,7 +16,7 @@ interface IDiary extends ITages {
 }
 
 // DiaryItem Component Type
-interface IDiaryItem extends IDiary {
+interface IDiaryItem {
   diary: IDiary;
   diaryList: IDiary[];
   index: number;
