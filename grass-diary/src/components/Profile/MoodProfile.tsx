@@ -12,15 +12,15 @@ const styles = stylex.create({
   },
 });
 
-const MoodProfile = ({ diary, index }) => {
-  const [mood, setMood] = useState([]);
+const MoodProfile = ({ diary, index }: IMoodProfile) => {
+  const [mood, setMood] = useState<string[]>([]);
 
   useMemo(() => {
-    const moods = [];
+    const moods: string[] = [];
 
     for (let i = 0; i < diary.length; i++) {
-      let mood = diary[i].transparency.toString()[2];
-      moods.push(EMOJI[mood]);
+      let diaryMood: string = diary[i].transparency.toString()[2];
+      moods.push(EMOJI[diaryMood]);
     }
 
     setMood(moods);

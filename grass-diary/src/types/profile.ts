@@ -9,3 +9,9 @@ interface IUpdateProfile {
   nickName?: string;
   profileIntro?: string;
 }
+
+// Mood Profile Type
+interface IMoodProfile extends IDiary {
+  diary: IDiary[];
+  index: number;
+}
