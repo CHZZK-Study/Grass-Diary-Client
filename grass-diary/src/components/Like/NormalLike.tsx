@@ -1,14 +1,20 @@
 import stylex from '@stylexjs/stylex';
 
 const feed = stylex.create({
-  like: justifyContent => ({
+  like: (justifyContent: string) => ({
     display: 'flex',
     gap: '15px',
-    justifyContent: justifyContent,
+
+    justifyContent,
   }),
 });
 
-const NormalLike = ({ likeCount, justifyContent }) => {
+interface INormalLike {
+  likeCount: number;
+  justifyContent: string;
+}
+
+const NormalLike = ({ likeCount, justifyContent }: INormalLike) => {
   return (
     <div {...stylex.props(feed.like(justifyContent))}>
       <span>
