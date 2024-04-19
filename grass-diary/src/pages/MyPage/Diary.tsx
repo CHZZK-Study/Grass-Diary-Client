@@ -20,9 +20,14 @@ const Pagination = ({ pageSize, onPageChange }) => {
   );
 };
 
-const DiaryItem = ({ diary, diaryList, index }) => {
-  const createMarkup = htmlContent => {
-    return { __html: DOMPurify.sanitize(htmlContent) };
+type TCreateMarpkup = (htmlContent: string | Node | undefined) => {
+  __html: string;
+};
+
+const DiaryItem = ({ diary, diaryList, index }: IDiaryItem) => {
+  const createMarkup: TCreateMarpkup = htmlContent => {
+    const content = htmlContent || '';
+    return { __html: DOMPurify.sanitize(content) };
   };
 
   return (
@@ -37,15 +42,19 @@ const DiaryItem = ({ diary, diaryList, index }) => {
         </div>
         <div {...stylex.props(styles.diaryContent)}>
           <div>
-            {diary.tags.map(tag => (
-              <span {...stylex.props(styles.hashtag)} key={tag.id}>
-                #{`${tag.tag} `}
-              </span>
-            ))}
+            {diary.tags &&
+              diary.tags.map(tag => (
+                <span {...stylex.props(styles.hashtag)} key={tag.id}>
+                  #{`${tag.tag} `}
+                </span>
+              ))}
           </div>
           <div dangerouslySetInnerHTML={createMarkup(diary.content)}></div>
         </div>
-        <NormalLike likeCount={diary.likeCount} />
+        <NormalLike
+          likeCount={diary.likeCount || 0}
+          justifyContent="flex-start"
+        />
       </div>
     </Link>
   );

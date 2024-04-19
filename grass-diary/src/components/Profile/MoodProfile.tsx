@@ -19,7 +19,7 @@ const MoodProfile = ({ diary, index }: IMoodProfile) => {
     const moods: string[] = [];
 
     for (let i = 0; i < diary.length; i++) {
-      let diaryMood: string = diary[i].transparency.toString()[2];
+      let diaryMood: string = diary[i].transparency!.toString()[2];
       moods.push(EMOJI[diaryMood]);
     }
 
