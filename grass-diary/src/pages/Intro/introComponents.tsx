@@ -17,10 +17,6 @@ interface TSection {
   children: React.ReactNode;
 }
 
-interface IContainer {
-  children: React.ReactNode;
-}
-
 type TStartButton = () => void;
 
 const Container = ({ children }: IContainer) => {
