@@ -65,7 +65,13 @@ const DiaryItem = ({ diary, diaryList, index }: IDiaryItem) => {
   );
 };
 
-const Diary = ({ searchTerm, sortOrder, selectedDiary }) => {
+interface IDiaryProps {
+  searchTerm: string;
+  sortOrder: string;
+  selectedDiary?: IDiary;
+}
+
+const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
   const { memberId } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
   const { diaryList, pageSize } = useDiary({
@@ -79,7 +85,7 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }) => {
       ? [selectedDiary]
       : diaryList.filter(diary => diary.content.includes(searchTerm));
 
-  const handlePageChange = page => {
+  const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
 

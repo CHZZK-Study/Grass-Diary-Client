@@ -16,16 +16,16 @@ const Container = ({ children }: IContainer) => {
 const MainContainer = () => {
   const navigate = useNavigate();
 
-  const [toggleButton, setToggleButton] = useState('나의 일기장');
-  const [searchTerm, setSearchTerm] = useState('');
-  const [sortOrder, setSortOrder] = useState('latest');
-  const [selectedDiary, setSelectedDiary] = useState([]);
+  const [toggleButton, setToggleButton] = useState<string>('나의 일기장');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [sortOrder, setSortOrder] = useState<string>('latest');
+  const [selectedDiary, setSelectedDiary] = useState<IDiary>();
 
-  const handleToggleButton = buttonName => {
+  const handleToggleButton = (buttonName: string) => {
     setToggleButton(buttonName);
   };
 
-  const handleSearchChange = event => {
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value);
   };
 
@@ -36,7 +36,7 @@ const MainContainer = () => {
     if (sortQuery) setSortOrder(sortQuery);
   }, [window.location.search]);
 
-  const handleSortChange = order => {
+  const handleSortChange = (order: string) => {
     setSortOrder(order);
     navigate(`?sort=${order}`);
   };
@@ -67,8 +67,13 @@ const MainContainer = () => {
   );
 };
 
-const ToggleButton = ({ buttonLabel, handleToggleButton }) => {
-  const buttonLabels = ['나의 일기장', '교환 일기장'];
+interface IToggleButton {
+  buttonLabel: string;
+  handleToggleButton: (label: string) => void;
+}
+
+const ToggleButton = ({ buttonLabel, handleToggleButton }: IToggleButton) => {
+  const buttonLabels: string[] = ['나의 일기장', '교환 일기장'];
 
   return (
     <div {...stylex.props(styles.profileToggle)}>
