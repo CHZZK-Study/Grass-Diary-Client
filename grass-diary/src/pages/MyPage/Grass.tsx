@@ -8,18 +8,22 @@ import useGrass from '@hooks/ussGrass';
 import useUser from '@recoil/user/useUser';
 import API from '@services/index';
 
-const createGrass = () => {
-  const year = new Date().getFullYear();
-  const days = getDaysArray(year);
-  const columns = Math.ceil(days.length / 7);
+type TCreateGrass = () => { year: number; grass: (Date | null)[][] };
+
+const createGrass: TCreateGrass = () => {
+  const year: number = new Date().getFullYear();
+  const days: Date[] = getDaysArray(year);
+  const columns: number = Math.ceil(days.length / 7);
 
   // 1년을 7으로 나눈 수만큼 잔디 배열 생성 (default: null)
-  const grass = Array.from({ length: columns }, () => Array(7).fill(null));
+  const grass: (Date | null)[][] = Array.from({ length: columns }, () =>
+    Array(7).fill(null),
+  );
 
   // 잔디 배열에 해당하는 날짜 저장
   days.forEach((day, index) => {
-    const column = Math.floor(index / 7);
-    const row = index % 7;
+    const column: number = Math.floor(index / 7);
+    const row: number = index % 7;
 
     grass[column][row] = day;
   });
