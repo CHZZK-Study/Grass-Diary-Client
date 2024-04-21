@@ -1,22 +1,23 @@
 import { selector } from 'recoil';
 import { checkAuth } from '@utils/authUtils';
-import { isAuthenticatedAtom, isLodingAtom } from './authState';
+import { isAuthenticatedAtom, isLoadingAtom } from './authState';
 
-export const checkAuthSelector = selector({
+export const checkAuthSelector = selector<boolean>({
   key: 'checkAuthSelector',
   get: async ({ get }) => {
     get(isAuthenticatedAtom);
 
     try {
-      const isLoggedIn = await checkAuth();
+      const isLoggedIn: boolean = await checkAuth();
       return isLoggedIn;
     } catch (error) {
       console.error(`로그인되지 않은 사용자입니다. ${error}`);
+      return false;
     }
   },
 
-  set: ({ set }, isAuthenticated) => {
-    set(isAuthenticatedAtom, isAuthenticated);
-    set(isLodingAtom, false);
+  set: ({ set }, newValue) => {
+    set(isAuthenticatedAtom, newValue);
+    set(isLoadingAtom, false);
   },
 });

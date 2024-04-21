@@ -1,13 +1,13 @@
 import { atom } from 'recoil';
 
-const isAuthenticatedAtom = atom({
+const isAuthenticatedAtom = atom<boolean>({
   key: 'isAuthenticated',
   default: false,
 });
 
-const isLodingAtom = atom({
+const isLoadingAtom = atom<boolean>({
   key: 'isLoding',
   default: true,
 });
 
-export { isAuthenticatedAtom, isLodingAtom };
+export { isAuthenticatedAtom, isLoadingAtom };

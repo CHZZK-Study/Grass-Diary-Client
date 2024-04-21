@@ -1,13 +1,19 @@
 import { useRecoilState, useRecoilValueLoadable } from 'recoil';
-import { isAuthenticatedAtom, isLodingAtom } from './authState';
+import { isAuthenticatedAtom, isLoadingAtom } from './authState';
 import { checkAuthSelector } from './authSelector';
 import { useEffect } from 'react';
 
-export const useAuth = () => {
-  const [isAuthenticated, setIsAuthenticated] = useRecoilState(isAuthenticatedAtom);
-  const [isLoading, setIsLoading] = useRecoilState(isLodingAtom);
+interface IUseAuthReturn {
+  isAuthenticated: boolean;
+  isLoading: boolean;
+}
 
-  const checkAuthLoadable = useRecoilValueLoadable(checkAuthSelector);
+export const useAuth = (): IUseAuthReturn => {
+  const [isAuthenticated, setIsAuthenticated] =
+    useRecoilState<boolean>(isAuthenticatedAtom);
+  const [isLoading, setIsLoading] = useRecoilState<boolean>(isLoadingAtom);
+
+  const checkAuthLoadable = useRecoilValueLoadable<boolean>(checkAuthSelector);
 
   useEffect(() => {
     switch (checkAuthLoadable.state) {
