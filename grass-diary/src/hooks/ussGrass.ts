@@ -2,17 +2,32 @@ import { useQuery } from '@tanstack/react-query';
 import { formatDate } from '@utils/dateUtils';
 import API from '@services/index';
 
-const useGrass = memberId => {
-  const { data: grass } = useQuery({
+interface IGrassList {
+  createdAt: string;
+  transparency: number;
+}
+
+type TUpdatedGrassColor = { [key: string]: string };
+
+const useGrass = (memberId: number | null) => {
+  const { data: grass } = useQuery<
+    TUpdatedGrassColor,
+    Error,
+    TUpdatedGrassColor,
+    (string | number | null)[]
+  >({
     queryKey: ['grassList', memberId],
     queryFn: () =>
       API.get(`/grass/${memberId}`).then(({ data }) => {
-        const updatedGrassColor = {};
-        const { grassList, colorRGB: grassColor } = data;
+        const updatedGrassColor: TUpdatedGrassColor = {};
+        const {
+          grassList,
+          colorRGB: grassColor,
+        }: { grassList: IGrassList[]; colorRGB: number } = data;
 
         grassList.forEach(grass => {
-          const { createdAt, transparency } = grass;
-          const createdDate = formatDate(new Date(createdAt));
+          const { createdAt, transparency }: IGrassList = grass;
+          const createdDate: string = formatDate(new Date(createdAt));
 
           updatedGrassColor[createdDate] = `${grassColor},${transparency}`;
         });
