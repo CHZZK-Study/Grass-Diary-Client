@@ -1,10 +1,16 @@
 import { useQuery } from '@tanstack/react-query';
 import API from '@services/index';
 
-const useDiary = ({ memberId, currentPage, sortOrder }) => {
+interface IUseDiaryProps {
+  memberId: number | null;
+  currentPage: number;
+  sortOrder: string;
+}
+
+const useDiary = ({ memberId, currentPage, sortOrder }: IUseDiaryProps) => {
   const queryKey = ['diaryList', { memberId, currentPage, sortOrder }];
 
-  const queryFn = async () => {
+  const queryFn = async (): Promise<IDiaryResponse> => {
     let apiUrl = `/diary/main/${memberId}?page=${currentPage}`;
 
     if (sortOrder === 'oldest') apiUrl += `&sort=createdAt,ASC`;
@@ -13,7 +19,12 @@ const useDiary = ({ memberId, currentPage, sortOrder }) => {
     return response.data;
   };
 
-  const { data: diary } = useQuery({
+  const { data: diary } = useQuery<
+    IDiaryResponse,
+    Error,
+    IDiaryResponse,
+    (string | IUseDiaryProps)[]
+  >({
     queryKey,
     queryFn,
     enabled: !!memberId,
@@ -21,8 +32,8 @@ const useDiary = ({ memberId, currentPage, sortOrder }) => {
       console.error(`사용자의 일기를 조회할 수 없습니다. ${error}`),
   });
 
-  const diaryList = diary?.content || [];
-  const pageSize = diary?.totalPages || 0;
+  const diaryList: IDiary[] = diary?.content || [];
+  const pageSize: number = diary?.totalPages || 0;
 
   return { diaryList, pageSize };
 };
