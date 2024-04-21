@@ -1,5 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import styles from './style';
+import Swal from 'sweetalert2';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -92,7 +93,11 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }: IToggleButton) => {
   );
 };
 
-const ProfileSection = ({ setSelectedDiary }) => {
+interface IProfileSection {
+  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary | undefined>>;
+}
+
+const ProfileSection = ({ setSelectedDiary }: IProfileSection) => {
   const { nickName, profileIntro } = useProfile();
 
   const modal = () => {
