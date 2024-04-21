@@ -20,7 +20,9 @@ const MainContainer = () => {
   const [toggleButton, setToggleButton] = useState<string>('나의 일기장');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('latest');
-  const [selectedDiary, setSelectedDiary] = useState<IDiary>();
+  const [selectedDiary, setSelectedDiary] = useState<IDiary | undefined>(
+    undefined,
+  );
 
   const handleToggleButton = (buttonName: string) => {
     setToggleButton(buttonName);

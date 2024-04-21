@@ -31,21 +31,30 @@ const createGrass: TCreateGrass = () => {
   return { year, grass };
 };
 
-const Grass = ({ setSelectedDiary }) => {
-  const [selectedGrass, setSelectedGrass] = useState(null);
+interface IGrass {
+  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary | undefined>>;
+}
+
+const Grass = ({ setSelectedDiary }: IGrass) => {
+  const [selectedGrass, setSelectedGrass] = useState<string | null>(null);
   const { year, grass } = createGrass();
   const { memberId } = useUser();
   const grassColors = useGrass(memberId);
 
-  const handleGrassClick = date => {
+  const handleGrassClick = (date: Date | null) => {
     setSelectedGrass(formatDate(date));
   };
 
-  const selectedDate = selectedGrass
+  const selectedDate: string | null = selectedGrass
     ? `${year}-${selectedGrass.split('/').join('-')}`
     : null;
 
-  const { data: selectedDiary } = useQuery({
+  const { data: selectedDiary } = useQuery<
+    IDiary,
+    Error,
+    IDiary,
+    (string | number | string | null)[]
+  >({
     queryKey: ['selectedDiary', memberId, selectedDate],
     queryFn: () =>
       API.get(`/search/date/${memberId}?date=${selectedDate}`).then(
@@ -58,7 +67,7 @@ const Grass = ({ setSelectedDiary }) => {
 
   useEffect(() => {
     if (selectedDiary) setSelectedDiary(selectedDiary);
-    if (!selectedDiary) setSelectedDiary([]);
+    if (!selectedDiary) setSelectedDiary(undefined);
   }, [selectedDiary]);
 
   return (
