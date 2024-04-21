@@ -1,6 +1,5 @@
 import stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
-import DOMPurify from 'dompurify';
 import { NormalLike } from '@components/index';
 
 const feed = stylex.create({
@@ -46,12 +45,19 @@ const feed = stylex.create({
 });
 
 const Feed = ({ likeCount, link, title, content, name, profile }) => {
-  const createMarkup = htmlContent => {
-    return { __html: DOMPurify.sanitize(htmlContent) };
+  const extractTextFromHTML = htmlString => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlString, 'text/html');
+
+    return doc.body.textContent || '';
   };
 
-  const processedContent =
-    content && content.length > 350 ? `${content.slice(0, 350)}...` : content;
+  const textWithoutTags = () => {
+    if (content && content.length > 210) {
+      return `${extractTextFromHTML(content).slice(0, 210)}...`;
+    }
+    return extractTextFromHTML(content);
+  };
 
   return (
     <Link to={link}>
@@ -63,10 +69,7 @@ const Feed = ({ likeCount, link, title, content, name, profile }) => {
         </div>
 
         <div {...stylex.props(feed.title)}>{title}</div>
-        <div
-          {...stylex.props(feed.content)}
-          dangerouslySetInnerHTML={createMarkup(processedContent)}
-        />
+        <div {...stylex.props(feed.content)}>{textWithoutTags()}</div>
       </article>
     </Link>
   );
