@@ -144,7 +144,11 @@ const ProfileSection = ({ setSelectedDiary }: IProfileSection) => {
   );
 };
 
-const SearchBar = ({ onSearchChange }) => {
+interface ISearchBar {
+  onSearchChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const SearchBar = ({ onSearchChange }: ISearchBar) => {
   return (
     <div {...stylex.props(styles.searchSection)}>
       <div {...stylex.props(styles.searchIcon)}>
@@ -159,7 +163,11 @@ const SearchBar = ({ onSearchChange }) => {
   );
 };
 
-const SortButton = ({ onSortChange }) => {
+interface ISortButton {
+  onSortChange: (sortOrder: string) => void;
+}
+
+const SortButton = ({ onSortChange }: ISortButton) => {
   return (
     <div {...stylex.props(styles.sortContainer)}>
       <EllipsisIcon width="170" translateValue="145px">
