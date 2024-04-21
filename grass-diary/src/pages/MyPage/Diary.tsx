@@ -8,7 +8,12 @@ import useUser from '@recoil/user/useUser';
 import useDiary from '@hooks/useDiary';
 import { NormalLike, MoodProfile } from '@components/index';
 
-const Pagination = ({ pageSize, onPageChange }) => {
+interface IPagination {
+  pageSize: number;
+  onPageChange: (index: number) => void;
+}
+
+const Pagination = ({ pageSize, onPageChange }: IPagination) => {
   return (
     <div {...stylex.props(styles.pageButtonWrap)}>
       {Array.from({ length: pageSize }, (_, index) => (
