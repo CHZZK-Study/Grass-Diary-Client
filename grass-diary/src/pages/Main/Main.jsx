@@ -367,8 +367,6 @@ const MiddleSection = () => {
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
-  const temporaryPoint = grassCount * 10;
-
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
 
@@ -442,6 +440,7 @@ const MiddleSection = () => {
       confirmButtonText: '확인',
     });
   };
+  console.log({ rewardPoint });
 
   return (
     <>
@@ -499,7 +498,7 @@ const MiddleSection = () => {
             width="125"
             height="125"
           />
-          <AnimateReward n={temporaryPoint} />
+          <AnimateReward n={rewardPoint} />
           <h2>나의 리워드</h2>
           <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
           <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
@@ -519,7 +518,6 @@ const MiddleSection = () => {
     </>
   );
 };
-
 const BottomSection = () => {
   return (
     <>

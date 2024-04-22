@@ -4,7 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const QuillEditor = ({ onContentChange, quillContent }) => {
-  const handleChange = editor => {
+  const handleChange = (content, delta, source, editor) => {
     onContentChange(editor.getHTML());
   };
 
