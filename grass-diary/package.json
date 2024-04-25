@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.42",
     "@stylexjs/stylex": "^0.5.1",
     "@tanstack/react-query": "^5.29.2",
     "axios": "^1.6.7",
