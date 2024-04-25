@@ -50,8 +50,6 @@ const styles = stylex.create({
   }),
 
   contentDesc: (fontSize?: string, margin?: string, fontWeight?: string) => ({
-    lineHeight: '1.34',
-
     fontWeight,
     fontSize,
     margin,
