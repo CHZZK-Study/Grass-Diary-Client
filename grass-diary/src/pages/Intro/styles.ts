@@ -3,23 +3,9 @@ import stylex from '@stylexjs/stylex';
 const styles = stylex.create({
   container: {
     display: 'flex',
-    flexDirection: 'column',
     alignItems: 'center',
-
-    width: '100vw',
-    height: 'auto',
-  },
-
-  mainContainer: (backgroundColor: string, height: string) => ({
-    display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-
-    width: '100%',
-
-    height,
-    backgroundColor,
-  }),
+  },
 
   mainDescription: (alignItems?: string) => ({
     display: 'flex',
