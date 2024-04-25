@@ -155,7 +155,7 @@ const Diary = () => {
 
   return (
     <>
-      <Header />
+      <Header margin="auto" />
       <div {...stylex.props(styles.wrap)}>
         <BackButton />
         {/* 일기 타이틀  */}

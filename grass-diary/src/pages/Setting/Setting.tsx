@@ -52,7 +52,7 @@ const Setting = () => {
 
   return (
     <div {...stylex.props(styles.container)}>
-      <Header />
+      <Header margin="auto" />
       <div {...stylex.props(styles.contentWrap)}>
         <div {...stylex.props(styles.titleSection)}>
           <span {...stylex.props(styles.title)}>설정</span>

@@ -112,7 +112,7 @@ const Share = () => {
 
   return (
     <>
-      <Header />
+      <Header margin="auto" />
       <div {...stylex.props(styles.container)}>
         <section>
           <div {...stylex.props(styles.top10Title)}>🏆 이번 주 TOP 10</div>

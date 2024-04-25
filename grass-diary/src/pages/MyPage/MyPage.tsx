@@ -4,7 +4,7 @@ import { Container, MainContainer } from './myComponents';
 const MyPage = () => {
   return (
     <Container>
-      <Header />
+      <Header margin="auto" />
       <MainContainer />
     </Container>
   );

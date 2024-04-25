@@ -255,7 +255,7 @@ const CreateDiary = () => {
   return (
     <>
       <header>
-        <Header />
+        <Header margin="auto" />
       </header>
       <main {...stylex.props(CreateDiaryStyle.container)}>
         <BackButton link={'/main'} />
