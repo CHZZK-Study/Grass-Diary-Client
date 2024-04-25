@@ -7,17 +7,20 @@ import useLogout from '@hooks/useLogout';
 import useUser from '@recoil/user/useUser';
 
 const header = stylex.create({
-  container: {
+  container: (position?: string, margin?: string) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: '0 20px',
+    padding: '20px 20px',
     height: '80px',
-    margin: 'auto',
     width: {
       default: '1140px',
       '@media (max-width: 1139px)': '100vw',
     },
-  },
+    zIndex: '10',
+
+    position,
+    margin,
+  }),
   logo: {
     cursor: 'pointer',
     fontSize: '18px',
@@ -111,7 +114,12 @@ const MenuBar = ({ toggle, headerRef }) => {
   );
 };
 
-const Header = () => {
+type THeader = {
+  position?: string;
+  margin?: string;
+};
+
+const Header = ({ position, margin }: THeader) => {
   const [toggle, setToggle] = useState(false);
   const headerRef = useRef();
   const iconRef = useRef();
@@ -139,7 +147,7 @@ const Header = () => {
   }, [memberId, toggle]);
 
   return (
-    <div {...stylex.props(header.container)}>
+    <div {...stylex.props(header.container(position, margin))}>
       <Link to="/main">
         <span {...stylex.props(header.logo)}>잔디일기</span>
       </Link>

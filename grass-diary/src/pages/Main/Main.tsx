@@ -581,7 +581,7 @@ const Main = () => {
 
   return (
     <>
-      <Header />
+      <Header margin="auto" />
       <TopSection />
       <MiddleSection />
       <BottomSection />

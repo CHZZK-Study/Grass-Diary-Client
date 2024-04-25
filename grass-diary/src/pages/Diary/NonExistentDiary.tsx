@@ -16,7 +16,7 @@ const styles = stylex.create({
 const NonExistentDiary = () => {
   return (
     <>
-      <Header />
+      <Header margin="auto" />
       <div {...stylex.props(styles.wrap)}>
         <BackButton goBackTo={'/main'} />
         <div {...stylex.props(styles.content)}>
