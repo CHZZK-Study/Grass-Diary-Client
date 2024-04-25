@@ -11,24 +11,6 @@ import { checkAuth } from '@utils/authUtils';
 import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
 
-interface TSection {
-  backgroundColor: string;
-  height: string;
-  children: React.ReactNode;
-}
-
-type TStartButton = () => void;
-
-const Container = ({ children }: IContainer) => {
-  return <div {...stylex.props(styles.container)}>{children}</div>;
-};
-
-const Section = ({ backgroundColor, height, children }: TSection) => (
-  <section {...stylex.props(styles.mainContainer(backgroundColor, height))}>
-    {children}
-  </section>
-);
-
 const OpenModalButton = () => {
   const navigate: NavigateFunction = useNavigate();
   const { isModalOpen, handleOpenModal, handleCloseModal }: IModalReturn =
@@ -43,6 +25,8 @@ const OpenModalButton = () => {
 
     loggedIn();
   }, []);
+
+  type TStartButton = () => void;
 
   const handleStartButton: TStartButton = () => {
     if (isLoggedIn) navigate('/main');
@@ -143,4 +127,4 @@ const StartContent = () => {
   );
 };
 
-export { Container, Section, ServiceMain, MainDesc, SecondDesc, StartContent };
+export { ServiceMain, MainDesc, SecondDesc, StartContent };
