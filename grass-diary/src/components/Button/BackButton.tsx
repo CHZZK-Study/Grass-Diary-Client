@@ -21,7 +21,11 @@ const styles = stylex.create({
   },
 });
 
-const BackButton = ({ goBackTo }) => {
+type BackButtonProps = {
+  goBackTo?: string;
+};
+
+const BackButton: React.FC<BackButtonProps> = ({ goBackTo }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const goBack = () => {
