@@ -172,9 +172,7 @@ const MiddleSectionStyle = stylex.create({
 
   title: {
     display: 'flex',
-
     width: '1200px',
-
     padding: '50px 0 50px 10px',
   },
 
@@ -231,10 +229,19 @@ const MiddleSectionStyle = stylex.create({
 const BottomSectionStyle = stylex.create({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '800px',
-    paddingTop: '50px',
+
+    width: '1200px',
+
+    padding: '50px 0 0 10px',
+  },
+
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: '10px',
   },
 
   title: {
@@ -244,6 +251,7 @@ const BottomSectionStyle = stylex.create({
   },
 
   btn: {
+    fontSize: '20px',
     fontWeight: 'bold',
     border: 'none',
     backgroundColor: 'white',
@@ -471,7 +479,7 @@ const MiddleSection = () => {
     <>
       <div {...stylex.props(MiddleSectionStyle.title)}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-          <h1>기록 상자</h1>
+          <h1>📫 기록 상자</h1>
           <span>
             총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
           </span>
@@ -552,7 +560,7 @@ const BottomSection = () => {
   return (
     <>
       <div {...stylex.props(BottomSectionStyle.container)}>
-        <div>
+        <div {...stylex.props(BottomSectionStyle.contentWrapper)}>
           <div {...stylex.props(BottomSectionStyle.title)}>
             <img
               src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Trophy.png"
@@ -560,7 +568,7 @@ const BottomSection = () => {
               width="25"
               height="25"
             />
-            <h2>이번 주 TOP 10</h2>
+            <h1>이번 주 TOP 10</h1>
           </div>
           <span>다른 사람의 하루를 구경하러 가볼까요?</span>
         </div>

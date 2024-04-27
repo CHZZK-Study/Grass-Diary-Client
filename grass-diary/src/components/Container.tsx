@@ -5,6 +5,8 @@ const styles = stylex.create({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+
+    gap: '10px',
   },
 });
 
