@@ -12,7 +12,7 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-import { Top10Feed, Header, Button } from '@components/index';
+import { Top10Feed, Header, Button, Container } from '@components/index';
 
 const styles = stylex.create({
   title: {
@@ -84,9 +84,10 @@ const styles = stylex.create({
 const TopSectionStyles = stylex.create({
   container: {
     display: 'flex',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: '200px',
+
+    width: '100%',
     backgroundColor: '#F9F9F9',
     height: 400,
     border: 'solid 1px #F9F9F9',
@@ -580,13 +581,13 @@ const Main = () => {
   }, [navigate]);
 
   return (
-    <>
-      <Header margin="auto" />
+    <Container>
+      <Header />
       <TopSection />
       <MiddleSection />
       <BottomSection />
       <Top10Feed />
-    </>
+    </Container>
   );
 };
 

@@ -1,12 +1,6 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  container: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
   mainDescription: (alignItems?: string) => ({
     display: 'flex',
     flexDirection: 'column',

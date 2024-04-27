@@ -1,4 +1,4 @@
-import { Header } from '@components/index';
+import { Container, Header } from '@components/index';
 import {
   ServiceMain,
   MainDesc,
@@ -10,7 +10,9 @@ import ReactFullpage from '@fullpage/react-fullpage';
 const Intro = () => {
   return (
     <>
-      <Header position="fixed" margin="0 10.3rem" />
+      <Container>
+        <Header position="fixed" />
+      </Container>
       <ReactFullpage
         scrollingSpeed={1000}
         render={({ state }) => {
