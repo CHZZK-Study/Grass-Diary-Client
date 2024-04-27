@@ -32,7 +32,8 @@ const header = stylex.create({
 
   logo: {
     cursor: 'pointer',
-    fontSize: '18px',
+    fontSize: '22px',
+    fontWeight: '500',
   },
   userMenu: {
     zIndex: '1',
