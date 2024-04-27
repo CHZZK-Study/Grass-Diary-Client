@@ -84,27 +84,35 @@ const styles = stylex.create({
 const TopSectionStyles = stylex.create({
   container: {
     display: 'flex',
-    justifyContent: 'space-evenly',
+    justifyContent: 'space-around',
     alignItems: 'center',
 
-    width: '100%',
+    width: '1200px',
+    height: '400px',
+
     backgroundColor: '#F9F9F9',
-    height: 400,
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '30px',
+    border: 'solid 1px #BFBFBF',
+    borderRadius: '30px 30px 0 0',
   },
 
   bannerContainer: {
     display: 'flex',
     flexDirection: 'column',
+
+    width: '35%',
     gap: '30px',
+
+    paddingLeft: '20px',
   },
 
   bannerTitle: {
     display: 'flex',
     flexDirection: 'column',
+
+    fontSize: 30,
     fontWeight: 'bold',
-    fontSize: 25,
+
+    gap: '20px',
   },
 
   character: {
@@ -116,37 +124,49 @@ const TopSectionStyles = stylex.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '200px',
-    paddingTop: '50px',
+
+    width: '1200px',
+    height: '300px',
+
+    gap: '30px',
+    paddingTop: '30px',
   },
 
-  bottomLeftBox: {
+  bottomBox: {
     display: 'flex',
-    gap: '100px',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '100%',
+    height: '100%',
+
     backgroundColor: '#F9F9F9',
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '20px',
-    padding: '70px',
+
+    border: 'solid 1px #BFBFBF',
+    borderRadius: '0 0 20px 20px',
+
+    gap: '40px',
   },
 
-  bottomLeft: {
+  bottomIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '170px',
+    height: '170px',
+
+    borderRadius: '100%',
+    backgroundColor: '#F2F2F2',
+  },
+
+  bottomContent: (gap?: string) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px',
-  },
-  bottomRightBox: {
-    display: 'flex',
-    gap: '100px',
-    backgroundColor: '#F9F9F9',
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '20px',
-    padding: '70px',
-  },
+    justifyContent: 'center',
 
-  bottomRight: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
+    gap,
+  }),
 });
 
 const MiddleSectionStyle = stylex.create({
@@ -296,19 +316,24 @@ const TopSection = () => {
         </div>
       </div>
       <div {...stylex.props(TopSectionStyles.bottomContainer)}>
-        <div {...stylex.props(TopSectionStyles.bottomLeftBox)}>
-          <div>
-            <button {...stylex.props(styles.button)}>
-              <i className="fa-solid fa-book" style={{ fontSize: '50px' }}></i>
-            </button>
+        <div {...stylex.props(TopSectionStyles.bottomBox)}>
+          <div {...stylex.props(TopSectionStyles.bottomIcon)}>
+            <i
+              className="fa-solid fa-book"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '80px',
+              }}
+            ></i>
           </div>
-
-          <div {...stylex.props(TopSectionStyles.bottomLeft)}>
+          <div {...stylex.props(TopSectionStyles.bottomContent('15px'))}>
             <Link to="/mypage">
               <div
                 style={{
                   fontWeight: 'bold',
-                  fontSize: '20px',
+                  fontSize: '30px',
                   cursor: 'pointer',
                 }}
               >
@@ -316,7 +341,10 @@ const TopSection = () => {
                 <button {...stylex.props(styles.button)}>
                   <i
                     className="fa-regular fa-circle-right"
-                    style={{ fontSize: '25px', paddingLeft: '90px' }}
+                    style={{
+                      fontSize: '28px',
+                      paddingLeft: '55px',
+                    }}
                   ></i>
                 </button>
               </div>
@@ -324,21 +352,24 @@ const TopSection = () => {
             <div>나의 하루들은 어떻게 흘러갔을까?</div>
           </div>
         </div>
-        <div {...stylex.props(TopSectionStyles.bottomRightBox)}>
-          <div>
-            <button {...stylex.props(styles.button)}>
-              <i
-                className="fa-solid fa-user-group"
-                style={{ fontSize: '50px' }}
-              ></i>
-            </button>
+        <div {...stylex.props(TopSectionStyles.bottomBox)}>
+          <div {...stylex.props(TopSectionStyles.bottomIcon)}>
+            <i
+              className="fa-solid fa-user-group"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '80px',
+              }}
+            ></i>
           </div>
-          <div {...stylex.props(TopSectionStyles.bottomRight)}>
+          <div {...stylex.props(TopSectionStyles.bottomContent())}>
             <div
               onClick={modal}
               style={{
                 fontWeight: 'bold',
-                fontSize: '20px',
+                fontSize: '30px',
                 marginBottom: '10px',
                 cursor: 'pointer',
               }}
@@ -347,7 +378,7 @@ const TopSection = () => {
               <button {...stylex.props(styles.button)}>
                 <i
                   className="fa-regular fa-circle-right"
-                  style={{ fontSize: '25px', paddingLeft: '90px' }}
+                  style={{ fontSize: '28px', paddingLeft: '50px' }}
                 ></i>
               </button>
             </div>
