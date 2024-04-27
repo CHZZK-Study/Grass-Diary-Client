@@ -1,10 +1,10 @@
-import { Header } from '@components/index';
-import { Container, MainContainer } from './myComponents';
+import { Header, Container } from '@components/index';
+import { MainContainer } from './myComponents';
 
 const MyPage = () => {
   return (
     <Container>
-      <Header margin="auto" />
+      <Header />
       <MainContainer />
     </Container>
   );

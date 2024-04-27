@@ -6,7 +6,7 @@ import { NavigateFunction, useNavigate } from 'react-router-dom';
 import LoginModal from './LoginModal/LoginModal';
 import grassDiary from '@icon/grassDiary.png';
 import useModal from '@hooks/useModal';
-import { Button } from '@components/index';
+import { Button, Container } from '@components/index';
 import { checkAuth } from '@utils/authUtils';
 import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
@@ -55,7 +55,7 @@ const OpenModalButton = () => {
 
 const ServiceMain = () => {
   return (
-    <div {...stylex.props(styles.container)}>
+    <Container>
       <div {...stylex.props(styles.mainContent('row'))}>
         <div {...stylex.props(styles.mainDescription())}>
           <h1 {...stylex.props(styles.mainTitle)}>잔디 일기</h1>
@@ -78,13 +78,13 @@ const ServiceMain = () => {
           <img src={grassDiary} alt="잔디 다이어리" />
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
 const MainDesc = () => {
   return (
-    <div {...stylex.props(styles.container)}>
+    <Container>
       <div {...stylex.props(styles.mainContent('row'))}>
         <img
           {...stylex.props(styles.contentImage('35rem', '35rem'))}
@@ -103,13 +103,13 @@ const MainDesc = () => {
           </p>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
 const SecondDesc = () => {
   return (
-    <div {...stylex.props(styles.container)}>
+    <Container>
       <div {...stylex.props(styles.mainContent('column'))}>
         <div {...stylex.props(styles.mainDescription('center'))}>
           <h1>꾸준히 잔디를 심고 리워드를 획득해요</h1>
@@ -123,7 +123,7 @@ const SecondDesc = () => {
           alt="mainCharacter"
         />
       </div>
-    </div>
+    </Container>
   );
 };
 
