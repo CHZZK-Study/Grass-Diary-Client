@@ -51,9 +51,9 @@ interface ILatesData {
 }
 
 const Share = () => {
-  const [cursorId, setCursorId] = useState<number>(922337203685477600);
+  const [cursorId, setCursorId] = useState(922337203685477600);
   const [latestDatas, setLatestDatas] = useState<ILatesData[]>([]);
-  const [noFeed, setNoFeed] = useState<boolean>(true);
+  const [noFeed, setNoFeed] = useState(true);
   const target = useRef<HTMLDivElement>(null);
 
   const getProfileApi = async (memberId: number) => {
@@ -70,7 +70,7 @@ const Share = () => {
       ).then(res => res.data.diaries);
 
       const initData = await Promise.all(
-        res.map(async data => {
+        res.map(async (data: ILatestResponse) => {
           const profile = await getProfileApi(data.memberId);
           const title =
             `${data.createdAt.slice(2, 4)}년 ` +

@@ -65,3 +65,12 @@ interface IPopularResponse {
   memberId: number;
   nickname: string;
 }
+
+interface ILatestResponse {
+  content: string;
+  createdAt: string;
+  diaryId: number;
+  diaryLikeCount: number;
+  memberId: number;
+  nickname: string;
+}
