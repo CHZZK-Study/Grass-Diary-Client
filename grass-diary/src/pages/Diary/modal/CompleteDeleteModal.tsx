@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 const styles = stylex.create({
   background: {
@@ -38,8 +38,12 @@ const styles = stylex.create({
   },
 });
 
-const CompleteDeleteModal = ({ setter }) => {
-  const navigate = useNavigate();
+interface propsType {
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CompleteDeleteModal = ({ setter }: propsType) => {
+  const navigate: NavigateFunction = useNavigate();
   const closeModal = () => {
     setter(false);
     navigate('/non-existent-page');

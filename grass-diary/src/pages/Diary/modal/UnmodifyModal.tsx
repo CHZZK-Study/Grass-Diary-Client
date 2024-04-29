@@ -41,7 +41,11 @@ const styles = stylex.create({
   },
 });
 
-const UnmodifyModal = ({ setter }) => {
+interface propsType {
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const UnmodifyModal = ({ setter }: propsType) => {
   const closeModal = () => setter(false);
 
   return (

@@ -39,7 +39,12 @@ const styles = stylex.create({
   },
 });
 
-const ConfirmDeleteModal = ({ setter, setDelete }) => {
+interface propsType {
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
+  setDelete: () => void;
+}
+
+const ConfirmDeleteModal = ({ setter, setDelete }: propsType) => {
   const closeModal = () => setter(false);
 
   const deleteDiary = () => {
@@ -50,9 +55,7 @@ const ConfirmDeleteModal = ({ setter, setDelete }) => {
     <div {...stylex.props(styles.background)}>
       <div {...stylex.props(styles.container)}>
         <div {...stylex.props(styles.text)}>
-          <span {...stylex.props(styles.bold)}>
-            ⚠ 일기를 삭제하시겠습니까?
-          </span>
+          <span {...stylex.props(styles.bold)}>⚠ 일기를 삭제하시겠습니까?</span>
           <br />
           <div {...stylex.props(styles.ie)}>
             <Button
