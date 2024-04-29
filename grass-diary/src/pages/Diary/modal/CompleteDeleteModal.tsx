@@ -43,7 +43,7 @@ interface propsType {
 }
 
 const CompleteDeleteModal = ({ setter }: propsType) => {
-  const navigate: NavigateFunction = useNavigate();
+  const navigate = useNavigate();
   const closeModal = () => {
     setter(false);
     navigate('/non-existent-page');

@@ -125,15 +125,10 @@ interface IDiaryData {
 }
 
 const Diary = () => {
-  const id: string = useParams().id;
+  const id: string | undefined = useParams().id;
   const { memberId } = useUser();
   const [likeCount, setLikeCount] = useState<number>(0);
-  const [data, setData] = useState<IDiaryData | undefined>({
-    diary: {},
-    writerMemberId: 0,
-    profile: {},
-    mood: '',
-  });
+  const [data, setData] = useState<IDiaryData | undefined>(undefined);
 
   const fetchDiaryData = async () => {
     try {
@@ -159,7 +154,7 @@ const Diary = () => {
     fetchDiaryData();
   }, []);
 
-  const createMarkup = (htmlContent: string) => {
+  const createMarkup = (htmlContent: string | undefined) => {
     return { __html: DOMPurify.sanitize(htmlContent) };
   };
 
@@ -173,26 +168,26 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={data.profile.profileImageURL}
+              src={data?.profile.profileImageURL}
             ></img>
-            <div {...stylex.props(titleStyle.emoji)}>{data.mood}</div>
+            <div {...stylex.props(titleStyle.emoji)}>{data?.mood}</div>
             <div {...stylex.props(titleStyle.name)}>
-              {data.profile.nickName}
+              {data?.profile.nickName}
             </div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
             <span {...stylex.props(titleStyle.title)}>
-              {data.diary.createdDate}
+              {data?.diary.createdDate}
             </span>
             <span {...stylex.props(titleStyle.time)}>
-              {data.diary.createdAt}
+              {data?.diary.createdAt}
             </span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
-              {data.diary.isPrivate ? '비공개' : '공개'}
+              {data?.diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              {memberId === data.writerMemberId ? (
-                <Setting id={id} createdDate={data.diary.createdDate} />
+              {memberId === data?.writerMemberId ? (
+                <Setting id={id} createdDate={data?.diary.createdDate} />
               ) : null}
             </div>
           </div>
@@ -201,13 +196,13 @@ const Diary = () => {
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
           <div {...stylex.props(contentStyle.hashTag)}>
-            {data.diary.tags?.map(tag => {
+            {data?.diary.tags?.map(tag => {
               return `#${tag.tag} `;
             })}
           </div>
           <div
             {...stylex.props(contentStyle.content)}
-            dangerouslySetInnerHTML={createMarkup(data.diary.content)}
+            dangerouslySetInnerHTML={createMarkup(data?.diary.content)}
           />
         </div>
 
@@ -217,12 +212,12 @@ const Diary = () => {
             diaryId={id}
             likeCount={likeCount}
             setLikeCount={setLikeCount}
-            liked={data.diary.likedByLogInMember}
+            liked={data?.diary.likedByLogInMember}
           />
           <div {...stylex.props(styles.feelBackground)}>
             <div
               {...stylex.props(
-                styles.feel(`rgba(0, 255, 0, ${data.diary.transparency})`),
+                styles.feel(`rgba(0, 255, 0, ${data?.diary.transparency})`),
               )}
             ></div>
           </div>

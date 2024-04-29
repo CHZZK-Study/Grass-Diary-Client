@@ -7,15 +7,20 @@ import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
 
-const Setting = ({ id, createdDate }: { id: string; createdDate: string }) => {
-  const navigate: NavigateFunction = useNavigate();
-
+const Setting = ({
+  id,
+  createdDate,
+}: {
+  id: string | undefined;
+  createdDate: string;
+}) => {
+  const navigate = useNavigate();
+  const date = new Date();
   const [modifiable, setModifiable] = useState<boolean>(false);
   const [unmodifyModal, setUnmodifyModal] = useState<boolean>(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState<boolean>(false);
   const [completeDeleteModal, setCompleteDeleteModal] =
     useState<boolean>(false);
-  const date: Date = new Date();
 
   useEffect(() => {
     if (createdDate) {
