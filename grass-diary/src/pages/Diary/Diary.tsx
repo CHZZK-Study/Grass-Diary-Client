@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
-import { Header, BackButton, Like } from '@components/index';
+import { Header, BackButton, Like, Container } from '@components/index';
 import API from '@services/index';
 import useUser from '@recoil/user/useUser';
 import EMOJI from '@constants/emoji';
@@ -159,7 +159,7 @@ const Diary = () => {
   };
 
   return (
-    <>
+    <Container>
       <Header />
       <div {...stylex.props(styles.wrap)}>
         <BackButton />
@@ -223,7 +223,7 @@ const Diary = () => {
           </div>
         </div>
       </div>
-    </>
+    </Container>
   );
 };
 

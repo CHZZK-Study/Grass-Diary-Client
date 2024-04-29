@@ -26,10 +26,11 @@ h1,
 h2,
 h3,
 h4,
+p,
 button,
 input,
 label {
-  line-height: 1.1;
+  line-height: 1.34;
 }
 
 h1,
@@ -40,6 +41,15 @@ h4 {
   white-space: pre-wrap;
   word-wrap: break-word; /* IE 5.5-7 */
   white-space: -moz-pre-wrap; /* Firefox 1.0-2.0 */
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin: 0;
+  padding: 0;
 }
 
 a:not([class]) {

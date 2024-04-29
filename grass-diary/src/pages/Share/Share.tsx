@@ -2,7 +2,7 @@ import stylex from '@stylexjs/stylex';
 import { useEffect, useRef, useState } from 'react';
 
 import API from '@services/index';
-import { Feed, Header, Top10Feed } from '@components/index';
+import { Container, Feed, Header, Top10Feed } from '@components/index';
 
 const styles = stylex.create({
   container: {
@@ -125,7 +125,7 @@ const Share = () => {
   }, [latestDatas]);
 
   return (
-    <>
+    <Container>
       <Header />
       <div {...stylex.props(styles.container)}>
         <section>
@@ -160,7 +160,7 @@ const Share = () => {
           <div ref={target} {...stylex.props(styles.observer)}></div>
         </div>
       </div>
-    </>
+    </Container>
   );
 };
 

@@ -10,10 +10,6 @@ import useProfile from '@recoil/profile/useProfile';
 import mainCharacter from '@icon/mainCharacter.png';
 import { Button, EllipsisBox, EllipsisIcon, Profile } from '@components/index';
 
-const Container = ({ children }: IContainer) => {
-  return <div {...stylex.props(styles.container)}>{children}</div>;
-};
-
 const MainContainer = () => {
   const navigate = useNavigate();
 
@@ -186,4 +182,4 @@ const SortButton = ({ onSortChange }: ISortButton) => {
   );
 };
 
-export { Container, MainContainer };
+export { MainContainer };

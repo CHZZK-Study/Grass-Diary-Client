@@ -7,20 +7,33 @@ import useLogout from '@hooks/useLogout';
 import useUser from '@recoil/user/useUser';
 
 const header = stylex.create({
-  container: {
+  container: (position?: string) => ({
     display: 'flex',
     alignItems: 'center',
-    padding: '0 20px',
-    height: '80px',
-    margin: 'auto',
+    justifyContent: 'center',
+    padding: '20px 20px',
+
     width: {
       default: '1140px',
       '@media (max-width: 1139px)': '100vw',
     },
+    zIndex: '10',
+
+    position,
+  }),
+
+  itemWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    width: '100%',
   },
+
   logo: {
     cursor: 'pointer',
-    fontSize: '18px',
+    fontSize: '22px',
+    fontWeight: '500',
   },
   userMenu: {
     zIndex: '1',
@@ -116,7 +129,12 @@ const MenuBar = ({ toggle, headerRef }: IMenuBar) => {
   );
 };
 
-const Header = () => {
+type THeader = {
+  position?: string;
+  margin?: string;
+};
+
+const Header = ({ position, margin }: THeader) => {
   const [toggle, setToggle] = useState(false);
   const headerRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLDivElement>(null);
@@ -150,24 +168,26 @@ const Header = () => {
   }, [memberId, toggle]);
 
   return (
-    <div {...stylex.props(header.container)}>
-      <Link to="/main">
-        <span {...stylex.props(header.logo)}>잔디일기</span>
-      </Link>
-      {memberId ? (
-        <div {...stylex.props(header.userMenu)} onClick={dropDown}>
-          <div ref={profileRef}>
-            <Profile width="44px" height="44px" />
+    <div {...stylex.props(header.container(position, margin))}>
+      <div {...stylex.props(header.itemWrapper)}>
+        <Link to="/main">
+          <span {...stylex.props(header.logo)}>잔디일기</span>
+        </Link>
+        {memberId ? (
+          <div {...stylex.props(header.userMenu)} onClick={dropDown}>
+            <div ref={profileRef}>
+              <Profile width="44px" height="44px" />
+            </div>
+            <div
+              {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
+              ref={iconRef}
+            >
+              <i className="fa-solid fa-angle-down"></i>
+            </div>
+            <MenuBar headerRef={headerRef} toggle={toggle} />
           </div>
-          <div
-            {...stylex.props(header.arrowUp, toggle && header.arrowDown)}
-            ref={iconRef}
-          >
-            <i className="fa-solid fa-angle-down"></i>
-          </div>
-          <MenuBar headerRef={headerRef} toggle={toggle} />
-        </div>
-      ) : null}
+        ) : null}
+      </div>
     </div>
   );
 };

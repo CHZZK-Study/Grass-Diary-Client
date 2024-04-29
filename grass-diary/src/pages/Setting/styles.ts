@@ -1,17 +1,6 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
-    width: '100vw',
-    height: '100vh',
-
-    gap: '0.625rem',
-  },
-
   contentWrap: {
     display: 'flex',
     flexDirection: 'column',
