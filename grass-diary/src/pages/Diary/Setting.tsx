@@ -16,11 +16,10 @@ const Setting = ({
 }) => {
   const navigate = useNavigate();
   const date = new Date();
-  const [modifiable, setModifiable] = useState<boolean>(false);
-  const [unmodifyModal, setUnmodifyModal] = useState<boolean>(false);
-  const [confirmDeleteModal, setConfirmDeleteModal] = useState<boolean>(false);
-  const [completeDeleteModal, setCompleteDeleteModal] =
-    useState<boolean>(false);
+  const [modifiable, setModifiable] = useState(false);
+  const [unmodifyModal, setUnmodifyModal] = useState(false);
+  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
+  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
 
   useEffect(() => {
     if (createdDate) {

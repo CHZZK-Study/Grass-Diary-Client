@@ -33,7 +33,7 @@ interface ITop10Data {
 
 const Top10Feed = () => {
   const [top10Datas, setTop10Datas] = useState<ITop10Data[]>([]);
-  const [noFeed, setNoFeed] = useState<boolean>(true);
+  const [noFeed, setNoFeed] = useState(true);
   const settings = {
     dots: true,
     infinite: true,

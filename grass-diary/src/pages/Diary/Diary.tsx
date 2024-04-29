@@ -125,9 +125,9 @@ interface IDiaryData {
 }
 
 const Diary = () => {
-  const id: string | undefined = useParams().id;
+  const id = useParams().id;
   const { memberId } = useUser();
-  const [likeCount, setLikeCount] = useState<number>(0);
+  const [likeCount, setLikeCount] = useState(0);
   const [data, setData] = useState<IDiaryData | undefined>(undefined);
 
   const fetchDiaryData = async () => {
