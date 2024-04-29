@@ -18,7 +18,6 @@ const Setting = ({ id, createdDate }: { id: string; createdDate: string }) => {
   const date: Date = new Date();
 
   useEffect(() => {
-    console.log(typeof date);
     if (createdDate) {
       if (
         // 당일 : 일기 수정 가능
