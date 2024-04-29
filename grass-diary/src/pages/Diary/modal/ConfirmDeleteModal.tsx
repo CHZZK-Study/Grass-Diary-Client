@@ -39,12 +39,12 @@ const styles = stylex.create({
   },
 });
 
-interface propsType {
+interface IConfirmDeleteModal {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
   setDelete: () => void;
 }
 
-const ConfirmDeleteModal = ({ setter, setDelete }: propsType) => {
+const ConfirmDeleteModal = ({ setter, setDelete }: IConfirmDeleteModal) => {
   const closeModal = () => setter(false);
 
   const deleteDiary = () => {

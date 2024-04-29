@@ -38,11 +38,11 @@ const styles = stylex.create({
   },
 });
 
-interface propsType {
+interface ICompleteDeleteModal {
   setter: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CompleteDeleteModal = ({ setter }: propsType) => {
+const CompleteDeleteModal = ({ setter }: ICompleteDeleteModal) => {
   const navigate = useNavigate();
   const closeModal = () => {
     setter(false);
