@@ -11,6 +11,7 @@ interface IDiary {
   diaryId: number;
   isPrivate: boolean;
   likeCount: number;
+  likedByLogInMember: boolean;
   tags: ITages[];
   transparency: number;
 }
