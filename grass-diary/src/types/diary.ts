@@ -56,3 +56,12 @@ interface IDiaryResponse {
   totalElements: number;
   totalPages: number;
 }
+
+interface IPopularResponse {
+  createdAt: string;
+  diaryContent: string;
+  diaryId: number;
+  diaryLikeCount: number;
+  memberId: number;
+  nickname: string;
+}
