@@ -1,26 +1,6 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
-    width: '100vw',
-    height: 'auto',
-  },
-
-  mainContainer: (backgroundColor: string, height: string) => ({
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-
-    width: '100%',
-
-    height,
-    backgroundColor,
-  }),
-
   mainDescription: (alignItems?: string) => ({
     display: 'flex',
     flexDirection: 'column',
@@ -63,9 +43,10 @@ const styles = stylex.create({
     height,
   }),
 
-  contentDesc: (fontSize: string) => ({
-    marginBottom: '0.6rem',
+  contentDesc: (fontSize?: string, margin?: string, fontWeight?: string) => ({
+    fontWeight,
     fontSize,
+    margin,
   }),
 });
 

@@ -1,14 +1,6 @@
 import stylex from '@stylexjs/stylex';
 
 const styles = stylex.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-
-    width: '100vw',
-  },
-
   mainContainer: {
     display: 'flex',
     flexDirection: 'column',

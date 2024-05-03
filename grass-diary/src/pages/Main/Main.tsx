@@ -12,13 +12,11 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-import { Top10Feed, Header, Button } from '@components/index';
+import { Top10Feed, Header, Button, Container } from '@components/index';
 
 const styles = stylex.create({
-  title: {
-    fontSize: '80px',
-    color: 'green',
-    fontWeight: 'bold',
+  subContent: {
+    fontSize: '20px',
   },
   imgNav: {
     width: 50,
@@ -84,26 +82,32 @@ const styles = stylex.create({
 const TopSectionStyles = stylex.create({
   container: {
     display: 'flex',
+    justifyContent: 'space-around',
     alignItems: 'center',
-    justifyContent: 'center',
-    gap: '200px',
+
+    width: '1200px',
+    height: '400px',
+
     backgroundColor: '#F9F9F9',
-    height: 400,
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '30px',
+    border: 'solid 1px #BFBFBF',
+    borderRadius: '30px 30px 0 0',
   },
 
   bannerContainer: {
     display: 'flex',
     flexDirection: 'column',
+
+    width: '35%',
     gap: '30px',
+
+    paddingLeft: '20px',
   },
 
   bannerTitle: {
     display: 'flex',
     flexDirection: 'column',
-    fontWeight: 'bold',
-    fontSize: 25,
+
+    gap: '20px',
   },
 
   character: {
@@ -115,37 +119,49 @@ const TopSectionStyles = stylex.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    gap: '200px',
-    paddingTop: '50px',
+
+    width: '1200px',
+    height: '300px',
+
+    gap: '30px',
+    paddingTop: '30px',
   },
 
-  bottomLeftBox: {
+  bottomBox: {
     display: 'flex',
-    gap: '100px',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '100%',
+    height: '100%',
+
     backgroundColor: '#F9F9F9',
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '20px',
-    padding: '70px',
+
+    border: 'solid 1px #BFBFBF',
+    borderRadius: '0 0 20px 20px',
+
+    gap: '40px',
   },
 
-  bottomLeft: {
+  bottomIcon: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+    width: '170px',
+    height: '170px',
+
+    borderRadius: '100%',
+    backgroundColor: '#F2F2F2',
+  },
+
+  bottomContent: (gap?: string) => ({
     display: 'flex',
     flexDirection: 'column',
-    gap: '10px',
-  },
-  bottomRightBox: {
-    display: 'flex',
-    gap: '100px',
-    backgroundColor: '#F9F9F9',
-    border: 'solid 1px #F9F9F9',
-    borderRadius: '20px',
-    padding: '70px',
-  },
+    justifyContent: 'center',
 
-  bottomRight: {
-    display: 'flex',
-    flexDirection: 'column',
-  },
+    gap,
+  }),
 });
 
 const MiddleSectionStyle = stylex.create({
@@ -156,11 +172,8 @@ const MiddleSectionStyle = stylex.create({
 
   title: {
     display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '900px',
-    paddingTop: '50px',
-    paddingBottom: '50px',
+    width: '1200px',
+    padding: '50px 0 50px 10px',
   },
 
   container: {
@@ -169,11 +182,19 @@ const MiddleSectionStyle = stylex.create({
     gap: '300px',
   },
 
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+
   grassContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+
+    gap: '15px',
   },
 
   rewardContainer: {
@@ -181,19 +202,15 @@ const MiddleSectionStyle = stylex.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
 
-  grassBox: {
-    backgroundColor: '#e0e0e0',
-    width: '20px',
-    height: '20px',
-    margin: '2px',
-    borderRadius: '5px',
+    gap: '15px',
   },
 
   calendar: {
     display: 'flex',
     flexWrap: 'wrap',
+
+    marginBottom: '10px',
   },
 
   day: {
@@ -212,10 +229,19 @@ const MiddleSectionStyle = stylex.create({
 const BottomSectionStyle = stylex.create({
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    gap: '800px',
-    paddingTop: '50px',
+
+    width: '1200px',
+
+    padding: '50px 0 0 10px',
+  },
+
+  contentWrapper: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    gap: '10px',
   },
 
   title: {
@@ -225,6 +251,7 @@ const BottomSectionStyle = stylex.create({
   },
 
   btn: {
+    fontSize: '20px',
     fontWeight: 'bold',
     border: 'none',
     backgroundColor: 'white',
@@ -272,13 +299,15 @@ const TopSection = () => {
           <div {...stylex.props(TopSectionStyles.bannerTitle)}>
             <i
               className="fa-solid fa-lightbulb"
-              style={{ paddingBottom: '20px' }}
+              style={{ fontSize: '30px', paddingBottom: '20px' }}
             ></i>
-            <div>{date ? <p>{date}</p> : <p>Loading...</p>}</div>
+            <h1>{date ? <p>{date}</p> : <p>Loading...</p>}</h1>
           </div>
           <div style={{ display: 'flex', gap: '10px' }}>
             <i className="fa-solid fa-circle-question"></i>
-            <div>{todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}</div>
+            <span>
+              {todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}
+            </span>
           </div>
           <Link to="/creatediary">
             <Button
@@ -301,63 +330,66 @@ const TopSection = () => {
         </div>
       </div>
       <div {...stylex.props(TopSectionStyles.bottomContainer)}>
-        <div {...stylex.props(TopSectionStyles.bottomLeftBox)}>
-          <div>
-            <button {...stylex.props(styles.button)}>
-              <i className="fa-solid fa-book" style={{ fontSize: '50px' }}></i>
-            </button>
+        <div {...stylex.props(TopSectionStyles.bottomBox)}>
+          <div {...stylex.props(TopSectionStyles.bottomIcon)}>
+            <i
+              className="fa-solid fa-book"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '80px',
+              }}
+            ></i>
           </div>
-
-          <div {...stylex.props(TopSectionStyles.bottomLeft)}>
+          <div {...stylex.props(TopSectionStyles.bottomContent('15px'))}>
             <Link to="/mypage">
-              <div
-                style={{
-                  fontWeight: 'bold',
-                  fontSize: '20px',
-                  cursor: 'pointer',
-                }}
-              >
+              <h1 style={{ cursor: 'pointer' }}>
                 나의 일기장
                 <button {...stylex.props(styles.button)}>
                   <i
                     className="fa-regular fa-circle-right"
-                    style={{ fontSize: '25px', paddingLeft: '90px' }}
+                    style={{
+                      fontSize: '28px',
+                      paddingLeft: '55px',
+                    }}
                   ></i>
                 </button>
-              </div>
+              </h1>
             </Link>
-            <div>나의 하루들은 어떻게 흘러갔을까?</div>
+            <span>나의 하루들은 어떻게 흘러갔을까?</span>
           </div>
         </div>
-        <div {...stylex.props(TopSectionStyles.bottomRightBox)}>
-          <div>
-            <button {...stylex.props(styles.button)}>
-              <i
-                className="fa-solid fa-user-group"
-                style={{ fontSize: '50px' }}
-              ></i>
-            </button>
+        <div {...stylex.props(TopSectionStyles.bottomBox)}>
+          <div {...stylex.props(TopSectionStyles.bottomIcon)}>
+            <i
+              className="fa-solid fa-user-group"
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                fontSize: '80px',
+              }}
+            ></i>
           </div>
-          <div {...stylex.props(TopSectionStyles.bottomRight)}>
-            <div
+          <div {...stylex.props(TopSectionStyles.bottomContent())}>
+            <h1
               onClick={modal}
               style={{
-                fontWeight: 'bold',
-                fontSize: '20px',
-                marginBottom: '10px',
                 cursor: 'pointer',
+                marginBottom: '10px',
               }}
             >
               교환 일기장
               <button {...stylex.props(styles.button)}>
                 <i
                   className="fa-regular fa-circle-right"
-                  style={{ fontSize: '25px', paddingLeft: '90px' }}
+                  style={{ fontSize: '28px', paddingLeft: '50px' }}
                 ></i>
               </button>
-            </div>
-            <div>친구의 일기를 확인하고</div>
-            <div>나의 이야기를 들려주세요</div>
+            </h1>
+            <span>친구의 일기를 확인하고</span>
+            <span>나의 이야기를 들려주세요</span>
           </div>
         </div>
       </div>
@@ -470,13 +502,12 @@ const MiddleSection = () => {
   return (
     <>
       <div {...stylex.props(MiddleSectionStyle.title)}>
-        <div>
-          <h2>기록 상자</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+          <h1>📫 기록 상자</h1>
           <span>
             총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
           </span>
         </div>
-        <div></div>
       </div>
       <div {...stylex.props(MiddleSectionStyle.container)}>
         <div
@@ -503,15 +534,18 @@ const MiddleSection = () => {
             </div>
           </section>
           <h2>나의 이번달 잔디</h2>
-          <span>
-            {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
-            개가 작성되었어요
-          </span>
-          {grassCount ? (
-            <span>리워드를 확인 해보세요!</span>
-          ) : (
-            <span>일기를 쓰고 잔디를 심어보세요!</span>
-          )}
+          <div {...stylex.props(MiddleSectionStyle.contentWrapper)}>
+            <span>
+              {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
+              개가 작성되었어요
+            </span>
+
+            {grassCount ? (
+              <span>리워드를 확인 해보세요!</span>
+            ) : (
+              <span>일기를 쓰고 잔디를 심어보세요!</span>
+            )}
+          </div>
         </div>
         <div
           className="cardSectionR"
@@ -520,13 +554,15 @@ const MiddleSection = () => {
           <img
             src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Party%20Popper.png"
             alt="Party Popper"
-            width="125"
-            height="125"
+            width="170"
+            height="170"
           />
           <AnimateReward n={rewardPoint} />
           <h2>나의 리워드</h2>
-          <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
-          <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
+          <div {...stylex.props(MiddleSectionStyle.contentWrapper)}>
+            <span>잔디를 꾸준히 심고 리워드를 받으세요</span>
+            <span>테마 상점에서 다양한 아이템을 만날 수 있어요</span>
+          </div>
           <Button
             text="테마 상점"
             width="130px"
@@ -548,7 +584,7 @@ const BottomSection = () => {
   return (
     <>
       <div {...stylex.props(BottomSectionStyle.container)}>
-        <div>
+        <div {...stylex.props(BottomSectionStyle.contentWrapper)}>
           <div {...stylex.props(BottomSectionStyle.title)}>
             <img
               src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Trophy.png"
@@ -556,7 +592,7 @@ const BottomSection = () => {
               width="25"
               height="25"
             />
-            <h2>이번 주 TOP 10</h2>
+            <h1>이번 주 TOP 10</h1>
           </div>
           <span>다른 사람의 하루를 구경하러 가볼까요?</span>
         </div>
@@ -604,13 +640,13 @@ const Main = () => {
   }, [navigate]);
 
   return (
-    <>
+    <Container>
       <Header />
       <TopSection />
       <MiddleSection />
       <BottomSection />
       <Top10Feed />
-    </>
+    </Container>
   );
 };
 

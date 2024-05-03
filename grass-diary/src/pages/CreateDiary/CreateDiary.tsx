@@ -7,7 +7,7 @@ import QuillEditor from './QuillEditor';
 
 import API from '@services/index';
 import useUser from '@recoil/user/useUser';
-import { Header, BackButton, Button } from '@components/index';
+import { Header, BackButton, Button, Container } from '@components/index';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 
@@ -272,7 +272,7 @@ const CreateDiary = () => {
   }, []);
 
   return (
-    <>
+    <Container>
       <header>
         <Header />
       </header>
@@ -364,7 +364,7 @@ const CreateDiary = () => {
           </div>
         </section>
       </main>
-    </>
+    </Container>
   );
 };
 

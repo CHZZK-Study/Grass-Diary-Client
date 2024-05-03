@@ -10,7 +10,7 @@ import {
 import API from '@services/index';
 import useProfile from '@recoil/profile/useProfile';
 import { profileAtom } from '@recoil/profile/profileState';
-import { Header, Profile, Button } from '@components/index';
+import { Container, Header, Profile, Button } from '@components/index';
 
 interface ISettingSection {
   children: React.ReactNode;
@@ -51,7 +51,7 @@ const Setting = () => {
   });
 
   return (
-    <div {...stylex.props(styles.container)}>
+    <Container>
       <Header />
       <div {...stylex.props(styles.contentWrap)}>
         <div {...stylex.props(styles.titleSection)}>
@@ -111,7 +111,7 @@ const Setting = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 };
 
