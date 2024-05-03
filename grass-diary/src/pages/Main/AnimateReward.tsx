@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useSpring, animated } from 'react-spring';
+import { useSpring, animated, SpringValue } from 'react-spring';
 
-function AnimateReward({ n }) {
-  const [isVisible, setIsVisible] = useState(false);
-  const { number } = useSpring({
+function AnimateReward({ n }: { n: number }) {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+
+  const { number } = useSpring<{ number: SpringValue<number> }>({
     from: { number: 0 },
     number: isVisible ? n : 0,
     delay: 200,
@@ -11,19 +12,22 @@ function AnimateReward({ n }) {
   });
 
   useEffect(() => {
-    const option = {
+    const option: IntersectionObserverInit = {
       root: null,
       rootMargin: '0px',
       threshold: 0.5,
     };
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      });
-    }, option);
+    const observer = new IntersectionObserver(
+      (entries: IntersectionObserverEntry[]) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      option,
+    );
 
     const target = document.getElementById('animateReward');
     if (target) {

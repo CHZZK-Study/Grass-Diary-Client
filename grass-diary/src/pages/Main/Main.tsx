@@ -259,12 +259,17 @@ const BottomSectionStyle = stylex.create({
   },
 });
 
+type TodayInfoResponse = {
+  date: string;
+  todayQuestion: string;
+};
+
 const TopSection = () => {
-  const [date, setDate] = useState(null);
-  const [todayQuestion, setTodayQuestion] = useState(null);
+  const [date, setDate] = useState<string | null>(null);
+  const [todayQuestion, setTodayQuestion] = useState<string | null>(null);
 
   useEffect(() => {
-    API.get('/main/todayInfo')
+    API.get<TodayInfoResponse>('/main/todayInfo')
       .then(response => {
         setDate(response.data.date);
         setTodayQuestion(response.data.todayQuestion);
@@ -286,6 +291,7 @@ const TopSection = () => {
       confirmButtonText: '확인',
     });
   }, []);
+
   return (
     <>
       <div {...stylex.props(TopSectionStyles.container)}>
@@ -391,15 +397,33 @@ const TopSection = () => {
   );
 };
 
+type Grass = {
+  createdAt: string;
+  transparency: number;
+};
+
+type GrassInfoDTO = {
+  grassList: Grass[];
+  colorRGB: string;
+};
+
+type GrassApiResponse = {
+  count: number;
+  grassInfoDTO: GrassInfoDTO;
+};
+
+type RewardPointResponse = {
+  rewardPoint: number;
+};
+
 const MiddleSection = () => {
-  const [rewardPoint, setRewardPoint] = useState(null);
-  const [grassCount, setGrassCount] = useState(null);
-  const [grassColor, setGrassColor] = useState(null);
-  const [grassList, setGrassList] = useState([]);
+  const [rewardPoint, setRewardPoint] = useState<number | null>(null);
+  const [grassCount, setGrassCount] = useState<number | null>(null);
+  const [grassColor, setGrassColor] = useState<string | null>(null);
+  const [grassList, setGrassList] = useState<Grass[]>([]);
 
   const currentDate = dayjs();
   const currentMonth = currentDate.format('M');
-  const temporaryPoint = grassCount * 10;
 
   const nextMonthFirstDay = currentDate.add(1, 'month').startOf('month');
   const currentMonthLastDay = nextMonthFirstDay.subtract(1, 'day');
@@ -408,7 +432,7 @@ const MiddleSection = () => {
 
   useEffect(() => {
     if (memberId) {
-      API.get(`/member/totalReward/${memberId}`)
+      API.get<RewardPointResponse>(`/member/totalReward/${memberId}`)
         .then(response => {
           setRewardPoint(response.data.rewardPoint);
         })
@@ -420,7 +444,7 @@ const MiddleSection = () => {
 
   useEffect(() => {
     if (memberId) {
-      API.get(`/main/grass/${memberId}`)
+      API.get<GrassApiResponse>(`/main/grass/${memberId}`)
         .then(response => {
           setGrassCount(response.data.count);
           setGrassColor(response.data.grassInfoDTO.colorRGB);
@@ -437,8 +461,8 @@ const MiddleSection = () => {
     (_, i) => i + 1,
   );
 
-  const weeksInMonth = [];
-  let week = [];
+  const weeksInMonth: number[][] = [];
+  let week: number[] = [];
 
   daysInMonth.forEach((day, index) => {
     week.push(day);
@@ -449,7 +473,7 @@ const MiddleSection = () => {
   });
 
   const getGrassStyle = useCallback(
-    day => {
+    (day: number | string) => {
       const grass = grassList.find(g => dayjs(g.createdAt).format('D') == day);
       if (grass) {
         return {
@@ -533,7 +557,7 @@ const MiddleSection = () => {
             width="170"
             height="170"
           />
-          <AnimateReward n={temporaryPoint} />
+          <AnimateReward n={rewardPoint} />
           <h2>나의 리워드</h2>
           <div {...stylex.props(MiddleSectionStyle.contentWrapper)}>
             <span>잔디를 꾸준히 심고 리워드를 받으세요</span>

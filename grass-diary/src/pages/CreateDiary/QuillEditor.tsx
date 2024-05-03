@@ -3,12 +3,22 @@ import API from '@services/index';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
-const QuillEditor = ({ onContentChange, quillContent }) => {
-  const handleChange = (content, delta, source, editor) => {
+type QuillEditorProps = {
+  onContentChange: (content: string) => void;
+  quillContent: string;
+};
+
+const QuillEditor = ({ onContentChange, quillContent }: QuillEditorProps) => {
+  const handleChange = (
+    content: string,
+    delta: any,
+    source: any,
+    editor: any,
+  ) => {
     onContentChange(editor.getHTML());
   };
 
-  const [todayQuestion, setTodayQuestion] = useState();
+  const [todayQuestion, setTodayQuestion] = useState<string>();
 
   useEffect(() => {
     API.get('/main/todayInfo')

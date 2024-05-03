@@ -93,21 +93,34 @@ const CreateDiaryStyle = stylex.create({
   },
 });
 
+type HashTag = string;
+type MoodValue = number;
+
+type DiaryInfo = {
+  hashArr: HashTag[];
+  moodValue: MoodValue;
+  currentMonth: string;
+  currentDay: string;
+  currentDDay: string;
+  quillContent: string | null;
+  isPrivate: boolean;
+};
+
 const CreateDiary = () => {
-  const diaryid = useParams().id;
+  const { id: diaryId } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
-  const [hashtag, setHashtag] = useState('');
-  const [hashArr, setHashArr] = useState([]);
-  const [quillContent, setQuillContent] = useState(null);
-  const [isPrivate, setIsPrivate] = useState(true);
-  const [moodValue, setMoodValue] = useState(5);
+  const [hashtag, setHashtag] = useState<string>('');
+  const [hashArr, setHashArr] = useState<HashTag[]>([]);
+  const [quillContent, setQuillContent] = useState<string | null>(null);
+  const [isPrivate, setIsPrivate] = useState<boolean>(true);
+  const [moodValue, setMoodValue] = useState<MoodValue>(5);
 
   const selectedEmoticon = EMOJI[moodValue];
   const currentDate = dayjs();
-  const currentMonth = currentDate.format('M');
-  const currentDay = currentDate.format('DD');
-  const currentDDay = currentDate.format('ddd');
+  const currentMonth: string = currentDate.format('M');
+  const currentDay: string = currentDate.format('DD');
+  const currentDDay: string = currentDate.format('ddd');
 
   const handlePrivateChange = () => {
     setIsPrivate(true);
@@ -126,10 +139,10 @@ const CreateDiary = () => {
   };
 
   // 해시태그 로직 함수
-  const addHashtag = e => {
+  const addHashtag = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      const inputText = e.target.value.trim();
+      const inputText = (e.target as HTMLInputElement).value.trim();
       const validCharsPattern = /[가-힣A-Za-z0-9]+/g;
 
       const matches = inputText.match(validCharsPattern);
@@ -142,18 +155,18 @@ const CreateDiary = () => {
   };
 
   // 해시태그를 배열에서 제거하는 함수
-  const removeHashtag = index => {
+  const removeHashtag = (index: number) => {
     setHashArr(prev => prev.filter((_, i) => i !== index));
   };
 
-  const [diaryInfo, setDiaryInfo] = useState({
+  const [diaryInfo, setDiaryInfo] = useState<DiaryInfo>({
     hashArr: [],
-    moodValue: 5,
+    moodValue: 0,
     currentMonth: '',
     currentDay: '',
     currentDDay: '',
-    quillContent: '',
-    isPrivate: true,
+    quillContent: null,
+    isPrivate: false,
   });
 
   useEffect(() => {
@@ -217,11 +230,11 @@ const CreateDiary = () => {
     }
 
     try {
-      if (diaryid) {
-        await API.patch(`/diary/${diaryid}`, requestBody);
-        navigate(`/diary/${diaryid}`, { replace: true, state: 'editcomplete' });
+      if (diaryId) {
+        await API.patch(`/diary/${diaryId}`, requestBody);
+        navigate(`/diary/${diaryId}`, { replace: true, state: 'editcomplete' });
       } else {
-        const response = await API.post(`/diary/${memberId}`, requestBody);
+        await API.post(`/diary/${memberId}`, requestBody);
         navigate('/share');
       }
     } catch (error) {
@@ -232,11 +245,17 @@ const CreateDiary = () => {
   };
 
   // 수정 기능일 때의 코드
+
+  type Tag = {
+    id: number;
+    tag: string;
+  };
+
   const fetchDiaryData = async () => {
     try {
-      if (diaryid) {
-        const response = await API.get(`/diary/${diaryid}`);
-        const tags = response.data.tags.map(tag => tag.tag);
+      if (diaryId) {
+        const response = await API.get(`/diary/${diaryId}`);
+        const tags = response.data.tags.map((tag: Tag) => tag.tag);
 
         setHashArr(tags);
         setIsPrivate(response.data.isPrivate);
@@ -258,7 +277,7 @@ const CreateDiary = () => {
         <Header />
       </header>
       <main {...stylex.props(CreateDiaryStyle.container)}>
-        <BackButton link={'/main'} />
+        <BackButton goBackTo={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
           <h2>
             {currentMonth}월 {currentDay}일 {currentDDay}요일
