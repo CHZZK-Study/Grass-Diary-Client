@@ -36,7 +36,18 @@ const ellipsis = stylex.create({
   },
 });
 
-const EllipsisBox = ({ onClick, text }) => {
+interface IEllipsisBox {
+  onClick: () => void;
+  text: string;
+}
+
+interface IEllipsisIcon {
+  children: React.ReactNode;
+  width: string;
+  translateValue: string;
+}
+
+const EllipsisBox = ({ onClick, text }: IEllipsisBox) => {
   return (
     <div onClick={onClick} {...stylex.props(ellipsis.box)}>
       {text}
@@ -44,23 +55,24 @@ const EllipsisBox = ({ onClick, text }) => {
   );
 };
 
-const EllipsisIcon = ({ children, width, translateValue }) => {
+const EllipsisIcon = ({ children, width, translateValue }: IEllipsisIcon) => {
   const [open, setOpen] = useState(false);
-  const ellisisRef = useRef(null);
-  const iconRef = useRef(null);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
 
   const clickEvent = () => {
     setOpen(current => !current);
   };
 
   useEffect(() => {
-    const closeEllispis = e => {
-      if (
-        open &&
-        !ellisisRef.current.contains(e.target) &&
-        !iconRef.current.contains(e.target)
-      )
-        setOpen(false);
+    const closeEllispis = (event: MouseEvent) => {
+      if (open && boxRef.current && iconRef.current) {
+        if (
+          !boxRef.current.contains(event.target as HTMLElement) &&
+          !iconRef.current.contains(event.target as HTMLElement)
+        )
+          setOpen(false);
+      }
     };
 
     document.addEventListener('click', closeEllispis);
@@ -76,7 +88,7 @@ const EllipsisIcon = ({ children, width, translateValue }) => {
 
       {open && (
         <div
-          ref={ellisisRef}
+          ref={boxRef}
           {...stylex.props(ellipsis.container(width, translateValue))}
         >
           <div {...stylex.props(ellipsis.box)}></div>

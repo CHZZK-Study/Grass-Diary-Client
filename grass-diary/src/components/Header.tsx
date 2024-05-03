@@ -86,7 +86,12 @@ const menuBar = stylex.create({
   },
 });
 
-const MenuBar = ({ toggle, headerRef }) => {
+interface IMenuBar {
+  toggle: boolean;
+  headerRef: React.RefObject<HTMLDivElement>;
+}
+
+const MenuBar = ({ toggle, headerRef }: IMenuBar) => {
   const clearAuth = useLogout();
 
   const handleLogout = () => {
@@ -131,9 +136,9 @@ type THeader = {
 
 const Header = ({ position, margin }: THeader) => {
   const [toggle, setToggle] = useState(false);
-  const headerRef = useRef();
-  const iconRef = useRef();
-  const profileRef = useRef();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const iconRef = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
   const { memberId } = useUser();
 
   const dropDown = () => {
@@ -141,14 +146,20 @@ const Header = ({ position, margin }: THeader) => {
   };
 
   useEffect(() => {
-    const closeToggle = e => {
+    const closeToggle = (e: MouseEvent) => {
       if (
         toggle &&
-        !headerRef.current.contains(e.target) &&
-        !iconRef.current.contains(e.target) &&
-        !profileRef.current.contains(e.target)
-      )
-        setToggle(false);
+        headerRef.current &&
+        iconRef.current &&
+        profileRef.current
+      ) {
+        if (
+          !headerRef.current.contains(e.target as HTMLElement) &&
+          !iconRef.current.contains(e.target as HTMLElement) &&
+          !profileRef.current.contains(e.target as HTMLElement)
+        )
+          setToggle(false);
+      }
     };
 
     document.addEventListener('click', closeToggle);

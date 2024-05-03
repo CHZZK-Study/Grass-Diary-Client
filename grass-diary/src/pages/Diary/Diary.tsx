@@ -117,28 +117,33 @@ const contentStyle = stylex.create({
   },
 });
 
+interface IDiaryData {
+  diary: IDiary;
+  writerMemberId: number;
+  profile: IProfile;
+  mood: string;
+}
+
 const Diary = () => {
   const id = useParams().id;
   const { memberId } = useUser();
-  const [diary, setDiary] = useState({});
-  const [profile, setProfile] = useState();
-  const [mood, setMood] = useState();
-  const [liked, setliked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [writerMemberId, setWriterMemberId] = useState();
+  const [data, setData] = useState<IDiaryData | undefined>(undefined);
 
   const fetchDiaryData = async () => {
     try {
       const response = await API.get(`/diary/${id}`);
-      const memberId = response.data.memberId;
-      const responseMember = await API.get(`/member/profile/${memberId}`);
+      const responseProfile = await API.get(
+        `/member/profile/${response.data.memberId}`,
+      );
 
-      setMood(EMOJI[response.data.transparency * 10]);
-      setDiary(response.data);
-      setProfile(responseMember.data);
-      setliked(response.data.likedByLogInMember);
       setLikeCount(response.data.likeCount);
-      setWriterMemberId(memberId);
+      setData({
+        diary: response.data,
+        writerMemberId: response.data.memberId,
+        profile: responseProfile.data,
+        mood: EMOJI[response.data.transparency * 10],
+      });
     } catch (error) {
       console.error(`일기 상세 정보를 불러올 수 없습니다. ${error}`);
     }
@@ -149,7 +154,7 @@ const Diary = () => {
     fetchDiaryData();
   }, []);
 
-  const createMarkup = htmlContent => {
+  const createMarkup = (htmlContent: string | undefined) => {
     return { __html: DOMPurify.sanitize(htmlContent) };
   };
 
@@ -163,22 +168,26 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={profile ? profile.profileImageURL : null}
+              src={data?.profile.profileImageURL}
             ></img>
-            <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
+            <div {...stylex.props(titleStyle.emoji)}>{data?.mood}</div>
             <div {...stylex.props(titleStyle.name)}>
-              {profile ? profile.nickName : null}
+              {data?.profile.nickName}
             </div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
-            <span {...stylex.props(titleStyle.title)}>{diary.createdDate}</span>
-            <span {...stylex.props(titleStyle.time)}>{diary.createdAt}</span>
+            <span {...stylex.props(titleStyle.title)}>
+              {data?.diary.createdDate}
+            </span>
+            <span {...stylex.props(titleStyle.time)}>
+              {data?.diary.createdAt}
+            </span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
-              {diary.isPrivate ? '비공개' : '공개'}
+              {data?.diary.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              {memberId === writerMemberId ? (
-                <Setting id={id} createdDate={diary.createdDate} />
+              {memberId === data?.writerMemberId ? (
+                <Setting id={id} createdDate={data?.diary.createdDate} />
               ) : null}
             </div>
           </div>
@@ -187,13 +196,13 @@ const Diary = () => {
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
           <div {...stylex.props(contentStyle.hashTag)}>
-            {diary.tags?.map(tag => {
+            {data?.diary.tags?.map(tag => {
               return `#${tag.tag} `;
             })}
           </div>
           <div
             {...stylex.props(contentStyle.content)}
-            dangerouslySetInnerHTML={createMarkup(diary.content)}
+            dangerouslySetInnerHTML={createMarkup(data?.diary.content)}
           />
         </div>
 
@@ -203,12 +212,12 @@ const Diary = () => {
             diaryId={id}
             likeCount={likeCount}
             setLikeCount={setLikeCount}
-            liked={liked}
+            liked={data?.diary.likedByLogInMember}
           />
           <div {...stylex.props(styles.feelBackground)}>
             <div
               {...stylex.props(
-                styles.feel(`rgba(0, 255, 0, ${diary.transparency})`),
+                styles.feel(`rgba(0, 255, 0, ${data?.diary.transparency})`),
               )}
             ></div>
           </div>

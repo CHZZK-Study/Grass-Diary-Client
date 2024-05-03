@@ -41,13 +41,22 @@ const styles = stylex.create({
   },
 });
 
+interface ILatesData {
+  diaryId: number;
+  title: string;
+  diaryContent: string;
+  diaryLikeCount: number;
+  profile: string;
+  nickname: string;
+}
+
 const Share = () => {
   const [cursorId, setCursorId] = useState(922337203685477600);
-  const [latestDatas, setLatestDatas] = useState([]);
+  const [latestDatas, setLatestDatas] = useState<ILatesData[]>([]);
   const [noFeed, setNoFeed] = useState(true);
-  const target = useRef();
+  const target = useRef<HTMLDivElement>(null);
 
-  const getProfileApi = async memberId => {
+  const getProfileApi = async (memberId: number) => {
     const profile = await API.get(`/member/profile/${memberId}`).then(
       res => res.data.profileImageURL,
     );
@@ -61,12 +70,13 @@ const Share = () => {
       ).then(res => res.data.diaries);
 
       const initData = await Promise.all(
-        res.map(async data => {
+        res.map(async (data: ILatestResponse) => {
           const profile = await getProfileApi(data.memberId);
           const title =
             `${data.createdAt.slice(2, 4)}년 ` +
             `${data.createdAt.slice(5, 7)}월 ` +
             `${data.createdAt.slice(8, 10)}일`;
+
           return {
             diaryId: data.diaryId,
             title: title,
@@ -88,7 +98,7 @@ const Share = () => {
     }
   };
 
-  const callback = async ([entry]) => {
+  const callback: IntersectionObserverCallback = async ([entry]) => {
     if (entry.isIntersecting) {
       getApi();
     }
@@ -101,7 +111,11 @@ const Share = () => {
     }
 
     const observer = new IntersectionObserver(callback, { threshold: 1 });
-    observer.observe(target.current);
+    const { current } = target;
+
+    if (current) {
+      observer.observe(current);
+    }
 
     return () => {
       if (observer) {

@@ -22,8 +22,17 @@ const styles = stylex.create({
   },
 });
 
+interface ITop10Data {
+  diaryId: number;
+  title: string;
+  diaryContent: string;
+  diaryLikeCount: number;
+  profile: string;
+  nickname: string;
+}
+
 const Top10Feed = () => {
-  const [top10Datas, setTop10Datas] = useState();
+  const [top10Datas, setTop10Datas] = useState<ITop10Data[]>([]);
   const [noFeed, setNoFeed] = useState(true);
   const settings = {
     dots: true,
@@ -35,7 +44,7 @@ const Top10Feed = () => {
     pauseOnHover: true,
   };
 
-  const getProfileApi = async memberId => {
+  const getProfileApi = async (memberId: number) => {
     const profile = await API.get(`/member/profile/${memberId}`).then(
       res => res.data.profileImageURL,
     );
@@ -49,13 +58,14 @@ const Top10Feed = () => {
         return res.data;
       });
 
-      const initData = await Promise.all(
-        res.map(async data => {
+      const initData: ITop10Data[] = await Promise.all(
+        res.map(async (data: IPopularResponse) => {
           const profile = await getProfileApi(data.memberId);
           const title =
             `${data.createdAt.slice(2, 4)}년 ` +
             `${data.createdAt.slice(5, 7)}월 ` +
             `${data.createdAt.slice(8, 10)}일`;
+
           return {
             diaryId: data.diaryId,
             title: title,

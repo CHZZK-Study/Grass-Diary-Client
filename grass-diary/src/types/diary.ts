@@ -11,6 +11,7 @@ interface IDiary {
   diaryId: number;
   isPrivate: boolean;
   likeCount: number;
+  likedByLogInMember: boolean;
   tags: ITages[];
   transparency: number;
 }
@@ -54,4 +55,22 @@ interface IDiaryResponse {
   sort: ISort;
   totalElements: number;
   totalPages: number;
+}
+
+interface IPopularResponse {
+  createdAt: string;
+  diaryContent: string;
+  diaryId: number;
+  diaryLikeCount: number;
+  memberId: number;
+  nickname: string;
+}
+
+interface ILatestResponse {
+  content: string;
+  createdAt: string;
+  diaryId: number;
+  diaryLikeCount: number;
+  memberId: number;
+  nickname: string;
 }

@@ -1,5 +1,5 @@
 import stylex from '@stylexjs/stylex';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 const styles = stylex.create({
   background: {
@@ -38,7 +38,11 @@ const styles = stylex.create({
   },
 });
 
-const CompleteDeleteModal = ({ setter }) => {
+interface ICompleteDeleteModal {
+  setter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const CompleteDeleteModal = ({ setter }: ICompleteDeleteModal) => {
   const navigate = useNavigate();
   const closeModal = () => {
     setter(false);

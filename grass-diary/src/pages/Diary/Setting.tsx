@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 import API from '@services/index';
 import { EllipsisIcon, EllipsisBox } from '@components/index';
@@ -7,25 +7,33 @@ import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
 import CompleteDeleteModal from './modal/CompleteDeleteModal';
 
-const Setting = ({ id, createdDate }) => {
+const Setting = ({
+  id,
+  createdDate,
+}: {
+  id: string | undefined;
+  createdDate: string;
+}) => {
   const navigate = useNavigate();
+  const date = new Date();
   const [modifiable, setModifiable] = useState(false);
   const [unmodifyModal, setUnmodifyModal] = useState(false);
   const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
   const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
-  const date = new Date();
 
   useEffect(() => {
-    if (
-      // 당일 : 일기 수정 가능
-      createdDate.slice(0, 2) === String(date.getFullYear()).slice(2, 4) &&
-      createdDate.slice(5, 6) == date.getMonth() + 1 &&
-      createdDate.slice(8, 10) == date.getDate()
-    ) {
-      setModifiable(true);
-    } else {
-      // 그 외 시간 : 수정 불가능
-      setModifiable(false);
+    if (createdDate) {
+      if (
+        // 당일 : 일기 수정 가능
+        createdDate.slice(0, 2) === String(date.getFullYear()).slice(2, 4) &&
+        +createdDate.slice(5, 6) === date.getMonth() + 1 &&
+        +createdDate.slice(8, 10) === date.getDate()
+      ) {
+        setModifiable(true);
+      } else {
+        // 그 외 시간 : 수정 불가능
+        setModifiable(false);
+      }
     }
   }, []);
 

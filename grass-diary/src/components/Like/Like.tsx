@@ -44,7 +44,14 @@ const styles = stylex.create({
   },
 });
 
-const Like = ({ diaryId, likeCount, setLikeCount, liked }) => {
+interface ILike {
+  diaryId: number;
+  likeCount: number;
+  setLikeCount: React.Dispatch<React.SetStateAction<number>>;
+  liked: boolean;
+}
+
+const Like = ({ diaryId, likeCount, setLikeCount, liked }: ILike) => {
   const [canLike, setCanLike] = useState(false); // ture=> 하트 눌려있는 상태. delete 가능 상태, false => 하트 안눌린 상태. post 가능 상태
   const { memberId } = useUser();
 

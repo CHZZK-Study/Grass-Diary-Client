@@ -44,8 +44,24 @@ const feed = stylex.create({
   },
 });
 
-const Feed = ({ likeCount, link, title, content, name, profile }) => {
-  const extractTextFromHTML = htmlString => {
+interface propsType {
+  likeCount: number;
+  link: string;
+  title: string;
+  content: string;
+  name: string;
+  profile: string;
+}
+
+const Feed = ({
+  likeCount,
+  link,
+  title,
+  content,
+  name,
+  profile,
+}: propsType) => {
+  const extractTextFromHTML = (htmlString: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
 
