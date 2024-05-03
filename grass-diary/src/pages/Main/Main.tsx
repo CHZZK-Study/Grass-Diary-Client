@@ -237,7 +237,7 @@ type TodayInfoResponse = {
   todayQuestion: string;
 };
 
-const TopSection: React.FC = () => {
+const TopSection = () => {
   const [date, setDate] = useState<string | null>(null);
   const [todayQuestion, setTodayQuestion] = useState<string | null>(null);
 
@@ -384,7 +384,7 @@ type RewardPointResponse = {
   rewardPoint: number;
 };
 
-const MiddleSection: React.FC = () => {
+const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState<number | null>(null);
   const [grassCount, setGrassCount] = useState<number | null>(null);
   const [grassColor, setGrassColor] = useState<string | null>(null);
@@ -544,7 +544,7 @@ const MiddleSection: React.FC = () => {
   );
 };
 
-const BottomSection: React.FC = () => {
+const BottomSection = () => {
   return (
     <>
       <div {...stylex.props(BottomSectionStyle.container)}>
@@ -570,7 +570,7 @@ const BottomSection: React.FC = () => {
   );
 };
 
-const Main: React.FC = () => {
+const Main = () => {
   const navigate = useNavigate();
   const setIsAuthenticated = useSetRecoilState(isAuthenticatedAtom);
   const setIsLoading = useSetRecoilState(isLoadingAtom);

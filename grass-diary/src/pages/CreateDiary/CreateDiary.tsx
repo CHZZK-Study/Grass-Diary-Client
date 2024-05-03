@@ -106,7 +106,7 @@ type DiaryInfo = {
   isPrivate: boolean;
 };
 
-const CreateDiary: React.FC = () => {
+const CreateDiary = () => {
   const { id: diaryId } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
