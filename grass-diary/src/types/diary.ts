@@ -74,3 +74,10 @@ interface ILatestResponse {
   memberId: number;
   nickname: string;
 }
+
+interface IDiaryDetail extends IDiary {
+  hasImage: null;
+  hasTag: null;
+  id: number;
+  memberId: number | undefined;
+}
