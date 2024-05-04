@@ -1,5 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import { Button } from '@components/index';
+import { useDeleteDiary } from '@hooks/useDeleteDiary';
+import CompleteDeleteModal from './CompleteDeleteModal';
 
 const styles = stylex.create({
   background: {
@@ -39,49 +41,55 @@ const styles = stylex.create({
   },
 });
 
-interface IConfirmDeleteModal {
-  setter: React.Dispatch<React.SetStateAction<boolean>>;
-  setDelete: () => void;
-}
+type Props = {
+  diaryId: string | undefined;
+  setConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ConfirmDeleteModal = ({ setter, setDelete }: IConfirmDeleteModal) => {
-  const closeModal = () => setter(false);
+const ConfirmDeleteModal = ({ diaryId, setConfirmModal }: Props) => {
+  const { mutate, isSuccess } = useDeleteDiary(diaryId);
 
-  const deleteDiary = () => {
-    setDelete();
-    setter(false);
-  };
+  const closeModal = () => setConfirmModal(false);
+
+  const handleDelete = () => mutate();
+
+  if (isSuccess) return <CompleteDeleteModal />;
+
   return (
-    <div {...stylex.props(styles.background)}>
-      <div {...stylex.props(styles.container)}>
-        <div {...stylex.props(styles.text)}>
-          <span {...stylex.props(styles.bold)}>⚠ 일기를 삭제하시겠습니까?</span>
-          <br />
-          <div {...stylex.props(styles.ie)}>
-            <Button
-              text="취소"
-              onClick={closeModal}
-              width="50px"
-              defaultColor="#FFF"
-              hoverColor="#FFF"
-              defaultBgColor="#28CA3B"
-              hoverBgColor="#13b81b"
-              border="none"
-            />
-            <Button
-              text="삭제"
-              onClick={deleteDiary}
-              width="50px"
-              defaultColor="#FFF"
-              hoverColor="#FFF"
-              defaultBgColor="#28CA3B"
-              hoverBgColor="#13b81b"
-              border="none"
-            />
+    <>
+      <div {...stylex.props(styles.background)}>
+        <div {...stylex.props(styles.container)}>
+          <div {...stylex.props(styles.text)}>
+            <span {...stylex.props(styles.bold)}>
+              ⚠ 일기를 삭제하시겠습니까?
+            </span>
+            <br />
+            <div {...stylex.props(styles.ie)}>
+              <Button
+                text="취소"
+                onClick={closeModal}
+                width="50px"
+                defaultColor="#FFF"
+                hoverColor="#FFF"
+                defaultBgColor="#28CA3B"
+                hoverBgColor="#13b81b"
+                border="none"
+              />
+              <Button
+                text="삭제"
+                onClick={handleDelete}
+                width="50px"
+                defaultColor="#FFF"
+                hoverColor="#FFF"
+                defaultBgColor="#28CA3B"
+                hoverBgColor="#13b81b"
+                border="none"
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

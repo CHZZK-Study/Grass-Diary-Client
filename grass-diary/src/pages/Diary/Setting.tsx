@@ -1,25 +1,31 @@
 import { useState, useEffect } from 'react';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-
-import API from '@services/index';
+import { useNavigate } from 'react-router-dom';
 import { EllipsisIcon, EllipsisBox } from '@components/index';
 import UnmodifyModal from './modal/UnmodifyModal';
 import ConfirmDeleteModal from './modal/ConfirmDeleteModal';
-import CompleteDeleteModal from './modal/CompleteDeleteModal';
 
-const Setting = ({
-  id,
-  createdDate,
-}: {
-  id: string | undefined;
+type Props = {
+  diaryId: string | undefined;
   createdDate: string;
-}) => {
+};
+
+const Setting = ({ diaryId, createdDate }: Props) => {
   const navigate = useNavigate();
   const date = new Date();
-  const [modifiable, setModifiable] = useState(false);
-  const [unmodifyModal, setUnmodifyModal] = useState(false);
-  const [confirmDeleteModal, setConfirmDeleteModal] = useState(false);
-  const [completeDeleteModal, setCompleteDeleteModal] = useState(false);
+  const [canEdit, setCanEdit] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
+
+  const showConfirmModal = () => setConfirmModal(true);
+
+  const linkToModify = () => {
+    localStorage.removeItem('lastWritingDate');
+    if (!canEdit && !editModal) {
+      setEditModal(true);
+      return;
+    }
+    navigate(`/editdiary/${diaryId}`);
+  };
 
   useEffect(() => {
     if (createdDate) {
@@ -29,35 +35,13 @@ const Setting = ({
         +createdDate.slice(5, 6) === date.getMonth() + 1 &&
         +createdDate.slice(8, 10) === date.getDate()
       ) {
-        setModifiable(true);
+        setCanEdit(true);
       } else {
         // 그 외 시간 : 수정 불가능
-        setModifiable(false);
+        setCanEdit(false);
       }
     }
   }, []);
-
-  const showConfirmModal = () => setConfirmDeleteModal(true);
-
-  const linkToModify = () => {
-    localStorage.removeItem('lastWritingDate');
-    if (!modifiable && !unmodifyModal) {
-      setUnmodifyModal(true);
-      return;
-    }
-    navigate(`/editdiary/${id}`);
-  };
-
-  const deleteDiary = async () => {
-    localStorage.removeItem('lastWritingDate');
-    await API.delete(`/diary/${id}`)
-      .then(() => {
-        setCompleteDeleteModal(true);
-      })
-      .catch(error =>
-        console.error(`사용자의 일기를 삭제할 수 없습니다. ${error}`),
-      );
-  };
 
   return (
     <>
@@ -66,15 +50,12 @@ const Setting = ({
         <EllipsisBox onClick={showConfirmModal} text="삭제" />
       </EllipsisIcon>
 
-      {unmodifyModal && <UnmodifyModal setter={setUnmodifyModal} />}
-      {confirmDeleteModal && (
+      {editModal && <UnmodifyModal setter={setEditModal} />}
+      {confirmModal && (
         <ConfirmDeleteModal
-          setter={setConfirmDeleteModal}
-          setDelete={deleteDiary}
+          diaryId={diaryId}
+          setConfirmModal={setConfirmModal}
         />
-      )}
-      {completeDeleteModal && (
-        <CompleteDeleteModal setter={setCompleteDeleteModal} />
       )}
     </>
   );

@@ -164,7 +164,7 @@ const Diary = () => {
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
               {memberId === detail?.memberId ? (
-                <Setting id={diaryId} createdDate={detail?.createdDate} />
+                <Setting diaryId={diaryId} createdDate={detail?.createdDate} />
               ) : null}
             </div>
           </div>
