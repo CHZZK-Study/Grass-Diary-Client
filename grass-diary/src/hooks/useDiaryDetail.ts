@@ -2,11 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import { useWriterProfile } from './useWriterProfile';
 import API from '@services/index';
 
-const fetchDiaryDetails = (id: string | undefined) => {
+type Props = {
+  id: string | undefined;
+};
+
+const fetchDiaryDetails = (id: Props) => {
   return API.get(`/diary/${id}`);
 };
 
-export const useDiaryDetail = (diaryId: string | undefined) => {
+export const useDiaryDetail = (diaryId: Props) => {
   const queryFn = async (): Promise<IDiaryDetail> => {
     const res = await fetchDiaryDetails(diaryId);
     return res.data;
