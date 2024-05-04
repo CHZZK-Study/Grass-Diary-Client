@@ -45,10 +45,10 @@ const styles = stylex.create({
 });
 
 interface ILike {
-  diaryId: number;
+  diaryId: string | undefined;
   likeCount: number;
   setLikeCount: React.Dispatch<React.SetStateAction<number>>;
-  liked: boolean;
+  liked: boolean | undefined;
 }
 
 const Like = ({ diaryId, likeCount, setLikeCount, liked }: ILike) => {
