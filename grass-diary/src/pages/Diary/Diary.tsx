@@ -8,7 +8,6 @@ import useUser from '@recoil/user/useUser';
 import EMOJI from '@constants/emoji';
 import Setting from './Setting';
 import { useDiaryDetail } from '@hooks/useDiaryDetail';
-import { useWriterProfile } from '@hooks/useWriterProfile';
 
 const styles = stylex.create({
   wrap: {
@@ -118,24 +117,17 @@ const contentStyle = stylex.create({
   },
 });
 
-interface IDiaryData {
-  diary: IDiary;
-  writerMemberId: number;
-  profile: IProfile;
-  mood: string;
-}
-
 const Diary = () => {
-  const { id: diaryId } = useParams();
+  const { diaryId } = useParams();
   const { memberId } = useUser();
   const [likeCount, setLikeCount] = useState(0);
-  const { data: detail } = useDiaryDetail(diaryId);
-  const writerId = detail?.data.memberId;
-  const { data: writer } = useWriterProfile(writerId);
+  const [mood, setMood] = useState('');
+  const { detail, writer } = useDiaryDetail(diaryId);
 
   useEffect(() => {
     if (detail) {
-      setLikeCount(detail.data.likeCount);
+      setLikeCount(detail.likeCount);
+      setMood(EMOJI[detail.transparency * 10]);
     }
   }, [detail]);
 
@@ -157,28 +149,22 @@ const Diary = () => {
           <div {...stylex.props(titleStyle.progileBox)}>
             <img
               {...stylex.props(titleStyle.profileImg)}
-              src={writer?.data.profileImageURL}
+              src={writer?.profileImageURL}
             ></img>
-            <div {...stylex.props(titleStyle.emoji)}>
-              {EMOJI[detail?.data.transparency * 10]}
-            </div>
-            <div {...stylex.props(titleStyle.name)}>
-              {writer?.data.nickName}
-            </div>
+            <div {...stylex.props(titleStyle.emoji)}>{mood}</div>
+            <div {...stylex.props(titleStyle.name)}>{writer?.nickName}</div>
           </div>
           <div {...stylex.props(titleStyle.diaryHeader)}>
             <span {...stylex.props(titleStyle.title)}>
-              {detail?.data.createdDate}
+              {detail?.createdDate}
             </span>
-            <span {...stylex.props(titleStyle.time)}>
-              {detail?.data.createdAt}
-            </span>
+            <span {...stylex.props(titleStyle.time)}>{detail?.createdAt}</span>
             <span {...stylex.props(titleStyle.privateOrPubilc)}>
-              {detail?.data.isPrivate ? '비공개' : '공개'}
+              {detail?.isPrivate ? '비공개' : '공개'}
             </span>
             <div {...stylex.props(titleStyle.ellipsis)}>
-              {memberId === detail?.data.memberId ? (
-                <Setting id={diaryId} createdDate={detail?.data.createdDate} />
+              {memberId === detail?.memberId ? (
+                <Setting id={diaryId} createdDate={detail?.createdDate} />
               ) : null}
             </div>
           </div>
@@ -187,13 +173,13 @@ const Diary = () => {
         {/* 일기 내용 */}
         <div {...stylex.props(contentStyle.diaryContent)}>
           <div {...stylex.props(contentStyle.hashTag)}>
-            {detail?.data.tags?.map(tag => {
+            {detail?.tags?.map(tag => {
               return `#${tag.tag} `;
             })}
           </div>
           <div
             {...stylex.props(contentStyle.content)}
-            dangerouslySetInnerHTML={createMarkup(detail?.data.content)}
+            dangerouslySetInnerHTML={createMarkup(detail?.content)}
           />
         </div>
 
@@ -203,12 +189,12 @@ const Diary = () => {
             diaryId={diaryId}
             likeCount={likeCount}
             setLikeCount={setLikeCount}
-            liked={detail?.data.likedByLogInMember}
+            liked={detail?.likedByLogInMember}
           />
           <div {...stylex.props(styles.feelBackground)}>
             <div
               {...stylex.props(
-                styles.feel(`rgba(0, 255, 0, ${detail?.data.transparency})`),
+                styles.feel(`rgba(0, 255, 0, ${detail?.transparency})`),
               )}
             ></div>
           </div>
