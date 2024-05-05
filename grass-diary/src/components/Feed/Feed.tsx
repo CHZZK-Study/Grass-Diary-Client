@@ -1,6 +1,7 @@
 import stylex from '@stylexjs/stylex';
 import { Link } from 'react-router-dom';
 import { NormalLike } from '@components/index';
+import { useWriterProfile } from '@hooks/useWriterProfile';
 
 const feed = stylex.create({
   box: {
@@ -50,7 +51,7 @@ interface propsType {
   title: string;
   content: string;
   name: string;
-  profile: string;
+  memberId: number;
 }
 
 const Feed = ({
@@ -59,8 +60,10 @@ const Feed = ({
   title,
   content,
   name,
-  profile,
+  memberId,
 }: propsType) => {
+  const { data: writer } = useWriterProfile(memberId);
+
   const extractTextFromHTML = (htmlString: string) => {
     const parser = new DOMParser();
     const doc = parser.parseFromString(htmlString, 'text/html');
@@ -80,7 +83,7 @@ const Feed = ({
       <article {...stylex.props(feed.box)}>
         <NormalLike likeCount={likeCount} justifyContent={'flex-end'} />
         <div {...stylex.props(feed.header)}>
-          <img {...stylex.props(feed.img)} src={profile}></img>
+          <img {...stylex.props(feed.img)} src={writer?.profileImageURL}></img>
           <div {...stylex.props(feed.name)}>{name}</div>
         </div>
 
