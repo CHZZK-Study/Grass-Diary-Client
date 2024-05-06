@@ -1,5 +1,5 @@
 ---
-name: 기능 추가 (Feature)
+name: "기능 추가 (Feature) \U0001F680"
 about: 기능 추가 템플릿
 title: ''
 labels: ''

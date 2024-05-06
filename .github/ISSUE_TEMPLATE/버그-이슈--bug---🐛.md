@@ -1,5 +1,5 @@
 ---
-name: 버그 이슈 (Bug)
+name: "버그 이슈 (Bug)  \U0001F41B"
 about: 버그 이슈 템플릿
 title: ''
 labels: ''

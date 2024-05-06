@@ -1,5 +1,5 @@
 ---
-name: 자유형식 (Custom)
+name: "자유형식 (Custom) \U0001F4DD"
 about: 커스텀 템플릿
 title: ''
 labels: ''
