@@ -437,7 +437,8 @@ type GrassInfoDTO = {
 };
 
 type GrassApiResponse = {
-  count: number;
+  totalCount: number;
+  thisMonthCount: number;
   grassInfoDTO: GrassInfoDTO;
 };
 
@@ -447,7 +448,8 @@ type RewardPointResponse = {
 
 const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState<number | null>(null);
-  const [grassCount, setGrassCount] = useState<number | null>(null);
+  const [grassTotalCount, setGrassTotalCount] = useState<number | null>(null);
+  const [grassMonthCount, setGrassMonthCount] = useState<number | null>(null);
   const [grassColor, setGrassColor] = useState<string | null>(null);
   const [grassList, setGrassList] = useState<Grass[]>([]);
 
@@ -475,7 +477,8 @@ const MiddleSection = () => {
     if (memberId) {
       API.get<GrassApiResponse>(`/main/grass/${memberId}`)
         .then(response => {
-          setGrassCount(response.data.count);
+          setGrassTotalCount(response.data.totalCount);
+          setGrassMonthCount(response.data.thisMonthCount);
           setGrassColor(response.data.grassInfoDTO.colorRGB);
           setGrassList(response.data.grassInfoDTO.grassList);
         })
@@ -534,7 +537,8 @@ const MiddleSection = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <h1>📫 기록 상자</h1>
           <span>
-            총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
+            총 {grassTotalCount ? grassTotalCount : 0}개의 기록을 보유하고
+            있어요!
           </span>
         </div>
       </div>
@@ -565,11 +569,12 @@ const MiddleSection = () => {
           <h2>나의 이번달 잔디</h2>
           <div {...stylex.props(MiddleSectionStyle.contentWrapper)}>
             <span>
-              {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
+              {currentMonth}월 일기는 현재까지 총{' '}
+              {grassMonthCount ? grassMonthCount : 0}
               개가 작성되었어요
             </span>
 
-            {grassCount ? (
+            {grassTotalCount ? (
               <span>리워드를 확인 해보세요!</span>
             ) : (
               <span>일기를 쓰고 잔디를 심어보세요!</span>
