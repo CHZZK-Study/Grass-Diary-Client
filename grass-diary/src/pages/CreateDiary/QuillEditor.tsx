@@ -8,6 +8,10 @@ type QuillEditorProps = {
   quillContent: string;
 };
 
+type QuestionResponse = {
+  question: string;
+};
+
 const QuillEditor = ({ onContentChange, quillContent }: QuillEditorProps) => {
   const handleChange = (
     content: string,
@@ -21,9 +25,9 @@ const QuillEditor = ({ onContentChange, quillContent }: QuillEditorProps) => {
   const [todayQuestion, setTodayQuestion] = useState<string>();
 
   useEffect(() => {
-    API.get('/main/todayInfo')
+    API.get<QuestionResponse>('/diary/today-question')
       .then(response => {
-        setTodayQuestion(response.data.todayQuestion);
+        setTodayQuestion(response.data.question);
       })
       .catch(error => {
         console.error(`오늘의 질문을 불러올 수 없습니다. ${error}`);
@@ -67,7 +71,8 @@ const QuillEditor = ({ onContentChange, quillContent }: QuillEditorProps) => {
 
   return (
     <>
-      <h3>{todayQuestion ? todayQuestion : 'Loading...'}</h3>
+      <h4>{todayQuestion ? todayQuestion : 'Loading...'}</h4>
+      <br></br>
       <ReactQuill
         theme="snow"
         placeholder={todayQuestion ? todayQuestion : '일기를 작성 해보세요!'}
