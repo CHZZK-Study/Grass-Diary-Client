@@ -22,6 +22,8 @@ const styles = stylex.create({
 });
 
 const PopularFeed = () => {
+  const { data: top10 } = usePopularDiaries();
+
   const settings = {
     dots: true,
     infinite: true,
@@ -32,48 +34,24 @@ const PopularFeed = () => {
     pauseOnHover: true,
   };
 
-  const { data: top10 } = usePopularDiaries();
+  const feedList = top10?.map(data => (
+    <Feed
+      key={data.diaryId}
+      likeCount={data.diaryLikeCount}
+      link={`/diary/${data.diaryId}`}
+      createdAt={data.createdAt}
+      content={data.diaryContent}
+      name={data.nickname}
+      memberId={data.memberId}
+    />
+  ));
 
   return (
     <div className="slider-container" {...stylex.props(styles.slider)}>
-      {top10?.length > 3 ? (
-        <Slider {...settings}>
-          {top10?.map(data => {
-            const title =
-              `${data.createdAt.slice(2, 4)}년 ` +
-              `${data.createdAt.slice(5, 7)}월 ` +
-              `${data.createdAt.slice(8, 10)}일`;
-            return (
-              <Feed
-                key={data.diaryId}
-                likeCount={data.diaryLikeCount}
-                link={`/diary/${data.diaryId}`}
-                title={title}
-                content={data.diaryContent}
-                name={data.nickname}
-                memberId={data.memberId}
-              />
-            );
-          })}
-        </Slider>
+      {top10 && top10.length > 3 ? (
+        <Slider {...settings}>{feedList}</Slider>
       ) : (
-        top10?.map(data => {
-          const title =
-            `${data.createdAt.slice(2, 4)}년 ` +
-            `${data.createdAt.slice(5, 7)}월 ` +
-            `${data.createdAt.slice(8, 10)}일`;
-          return (
-            <Feed
-              key={data.diaryId}
-              likeCount={data.diaryLikeCount}
-              link={`/diary/${data.diaryId}`}
-              title={title}
-              content={data.diaryContent}
-              name={data.nickname}
-              memberId={data.memberId}
-            />
-          );
-        })
+        feedList
       )}
       {!top10 ? (
         <div {...stylex.props(styles.noFeed)}>

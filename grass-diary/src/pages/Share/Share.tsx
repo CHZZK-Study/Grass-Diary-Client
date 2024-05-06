@@ -43,6 +43,25 @@ const Share = () => {
   const target = useRef<HTMLDivElement>(null);
   const { data: latest, fetchNextPage } = useLatestDiaries();
 
+  const feedList = latest?.pages.map((group, i) => (
+    <Fragment key={i}>
+      {group &&
+        group?.map(data => {
+          return (
+            <Feed
+              key={data.diaryId}
+              likeCount={data.diaryLikeCount}
+              link={`/diary/${data.diaryId}`}
+              createdAt={data.createdAt}
+              content={data.content}
+              name={data.nickname}
+              memberId={data.memberId}
+            />
+          );
+        })}
+    </Fragment>
+  ));
+
   const callback: IntersectionObserverCallback = async ([entry]) => {
     if (entry.isIntersecting) {
       fetchNextPage();
@@ -83,28 +102,7 @@ const Share = () => {
             우리들의 다채로운 하루를 들어보세요
           </div>
           <div {...stylex.props(styles.latestFeed)}>
-            {latest?.pages.map((group, i) => (
-              <Fragment key={i}>
-                {group &&
-                  group?.map((data: ILatestResponse) => {
-                    const title =
-                      `${data.createdAt.slice(2, 4)}년 ` +
-                      `${data.createdAt.slice(5, 7)}월 ` +
-                      `${data.createdAt.slice(8, 10)}일`;
-                    return (
-                      <Feed
-                        key={data.diaryId}
-                        likeCount={data.diaryLikeCount}
-                        link={`/diary/${data.diaryId}`}
-                        title={title}
-                        content={data.content}
-                        name={data.nickname}
-                        memberId={data.memberId}
-                      />
-                    );
-                  })}
-              </Fragment>
-            ))}
+            {feedList}
             {!latest ? (
               <div {...stylex.props(styles.noFeed)}>
                 공개된 일기가 아직 없어요
