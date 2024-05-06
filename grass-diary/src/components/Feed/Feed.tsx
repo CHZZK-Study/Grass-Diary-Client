@@ -48,7 +48,7 @@ const feed = stylex.create({
 interface propsType {
   likeCount: number;
   link: string;
-  title: string;
+  createdAt: string;
   content: string;
   name: string;
   memberId: number;
@@ -57,12 +57,17 @@ interface propsType {
 const Feed = ({
   likeCount,
   link,
-  title,
+  createdAt,
   content,
   name,
   memberId,
 }: propsType) => {
   const { data: writer } = useWriterProfile(memberId);
+
+  const title =
+    `${createdAt.slice(2, 4)}년 ` +
+    `${createdAt.slice(5, 7)}월 ` +
+    `${createdAt.slice(8, 10)}일`;
 
   const extractTextFromHTML = (htmlString: string) => {
     const parser = new DOMParser();
