@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
 import stylex from '@stylexjs/stylex';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 
-import API from '@services/index';
 import { Feed } from '@components/index';
+import { useTop10Diaries } from '@hooks/useTop10Diaries';
 
 const styles = stylex.create({
   slider: {
@@ -16,24 +15,13 @@ const styles = stylex.create({
     },
   },
   noFeed: {
-    height: '150px',
+    height: '440px',
     textAlign: 'center',
-    lineHeight: '150px',
+    lineHeight: '440px',
   },
 });
 
-interface ITop10Data {
-  diaryId: number;
-  title: string;
-  diaryContent: string;
-  diaryLikeCount: number;
-  profile: string;
-  nickname: string;
-}
-
 const Top10Feed = () => {
-  const [top10Datas, setTop10Datas] = useState<ITop10Data[]>([]);
-  const [noFeed, setNoFeed] = useState(true);
   const settings = {
     dots: true,
     infinite: true,
@@ -44,82 +32,50 @@ const Top10Feed = () => {
     pauseOnHover: true,
   };
 
-  const getProfileApi = async (memberId: number) => {
-    const profile = await API.get(`/member/profile/${memberId}`).then(
-      res => res.data.profileImageURL,
-    );
-    return profile;
-  };
-
-  const getDiaryApi = async () => {
-    try {
-      const res = await API.get('/shared/diaries/popular').then(res => {
-        if (res.data.length > 0) setNoFeed(false);
-        return res.data;
-      });
-
-      const initData: ITop10Data[] = await Promise.all(
-        res.map(async (data: IPopularResponse) => {
-          const profile = await getProfileApi(data.memberId);
-          const title =
-            `${data.createdAt.slice(2, 4)}년 ` +
-            `${data.createdAt.slice(5, 7)}월 ` +
-            `${data.createdAt.slice(8, 10)}일`;
-
-          return {
-            diaryId: data.diaryId,
-            title: title,
-            diaryContent: data.diaryContent,
-            diaryLikeCount: data.diaryLikeCount,
-            profile: profile,
-            nickname: data.nickname,
-          };
-        }),
-      );
-      setTop10Datas(initData);
-    } catch (error) {
-      console.error(`TOP 10 정보를 불러올 수 없습니다. ${error}`);
-    }
-  };
-
-  useEffect(() => {
-    getDiaryApi();
-  }, []);
+  const { data: top10 } = useTop10Diaries();
 
   return (
     <div className="slider-container" {...stylex.props(styles.slider)}>
-      {top10Datas?.length > 3 ? (
+      {top10?.length > 3 ? (
         <Slider {...settings}>
-          {top10Datas?.map(data => {
+          {top10?.map(data => {
+            const title =
+              `${data.createdAt.slice(2, 4)}년 ` +
+              `${data.createdAt.slice(5, 7)}월 ` +
+              `${data.createdAt.slice(8, 10)}일`;
             return (
               <Feed
                 key={data.diaryId}
                 likeCount={data.diaryLikeCount}
                 link={`/diary/${data.diaryId}`}
-                title={data.title}
+                title={title}
                 content={data.diaryContent}
                 name={data.nickname}
-                profile={data.profile}
+                memberId={data.memberId}
               />
             );
           })}
         </Slider>
       ) : (
-        top10Datas?.map(data => {
+        top10?.map(data => {
+          const title =
+            `${data.createdAt.slice(2, 4)}년 ` +
+            `${data.createdAt.slice(5, 7)}월 ` +
+            `${data.createdAt.slice(8, 10)}일`;
           return (
             <Feed
               key={data.diaryId}
               likeCount={data.diaryLikeCount}
               link={`/diary/${data.diaryId}`}
-              title={data.title}
+              title={title}
               content={data.diaryContent}
               name={data.nickname}
-              profile={data.profile}
+              memberId={data.memberId}
             />
           );
         })
       )}
-      {noFeed ? (
+      {!top10 ? (
         <div {...stylex.props(styles.noFeed)}>
           이번 주는 공개된 일기가 아직 없어요
         </div>
