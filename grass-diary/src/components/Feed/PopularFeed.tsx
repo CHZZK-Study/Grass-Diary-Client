@@ -4,7 +4,7 @@ import 'slick-carousel/slick/slick-theme.css';
 import Slider from 'react-slick';
 
 import { Feed } from '@components/index';
-import { useTop10Diaries } from '@hooks/useTop10Diaries';
+import { usePopularDiaries } from '@hooks/usePopularDiaries';
 
 const styles = stylex.create({
   slider: {
@@ -21,7 +21,7 @@ const styles = stylex.create({
   },
 });
 
-const Top10Feed = () => {
+const PopularFeed = () => {
   const settings = {
     dots: true,
     infinite: true,
@@ -32,7 +32,7 @@ const Top10Feed = () => {
     pauseOnHover: true,
   };
 
-  const { data: top10 } = useTop10Diaries();
+  const { data: top10 } = usePopularDiaries();
 
   return (
     <div className="slider-container" {...stylex.props(styles.slider)}>
@@ -84,4 +84,4 @@ const Top10Feed = () => {
   );
 };
 
-export default Top10Feed;
+export default PopularFeed;

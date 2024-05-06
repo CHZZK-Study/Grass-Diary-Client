@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import { Fragment, useEffect, useRef } from 'react';
-import { Container, Feed, Header, Top10Feed } from '@components/index';
+import { Container, Feed, Header, PopularFeed } from '@components/index';
 import { useLatestDiaries } from '@hooks/useLatestDiaries';
 
 const styles = stylex.create({
@@ -75,7 +75,7 @@ const Share = () => {
       <div {...stylex.props(styles.container)}>
         <section>
           <div {...stylex.props(styles.top10Title)}>🏆 이번 주 TOP 10</div>
-          <Top10Feed />
+          <PopularFeed />
         </section>
 
         <div>
