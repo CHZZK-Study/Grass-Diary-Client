@@ -1,7 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import dayjs from 'dayjs';
 import Swal from 'sweetalert2';
 import QuillEditor from './QuillEditor';
 
@@ -96,6 +95,7 @@ type MoodValue = number;
 type DiaryInfo = {
   hashArr: HashTag[];
   moodValue: MoodValue;
+  year: number | null;
   month: number | null;
   date: number | null;
   day: string | null;
@@ -112,6 +112,7 @@ const CreateDiary = () => {
   const [isPrivate, setIsPrivate] = useState<boolean>(true);
   const [moodValue, setMoodValue] = useState<MoodValue>(5);
   const selectedEmoticon = EMOJI[moodValue];
+  const [year, setYear] = useState<number | null>(null);
   const [month, setMonth] = useState<number | null>(null);
   const [date, setDate] = useState<number | null>(null);
   const [day, setDay] = useState<string | null>(null);
@@ -156,6 +157,7 @@ const CreateDiary = () => {
   const [diaryInfo, setDiaryInfo] = useState<DiaryInfo>({
     hashArr: [],
     moodValue: 0,
+    year: 0,
     month: 0,
     date: 0,
     day: '',
@@ -166,6 +168,7 @@ const CreateDiary = () => {
   useEffect(() => {
     API.get<DiaryInfo>('/main/today-date')
       .then(response => {
+        setYear(response.data.year);
         setMonth(response.data.month);
         setDate(response.data.date);
         setDay(response.data.day);
@@ -190,7 +193,7 @@ const CreateDiary = () => {
 
   const checkWritingPermission = () => {
     const lastWritingDate = localStorage.getItem('lastWritingDate');
-    const currentDate = dayjs().format('DD/MM/YYYY');
+    const currentDate = `${year}년/${month}월/${date}일`;
 
     if (lastWritingDate === currentDate) {
       return false;
@@ -246,7 +249,7 @@ const CreateDiary = () => {
     } catch (error) {
       console.error(error);
     }
-    const currentDate = dayjs().format('DD/MM/YYYY');
+    const currentDate = `${year}년/${month}월/${date}일`;
     localStorage.setItem('lastWritingDate', currentDate);
   };
 
