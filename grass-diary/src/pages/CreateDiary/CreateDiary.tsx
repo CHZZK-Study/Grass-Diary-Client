@@ -11,8 +11,6 @@ import { Header, BackButton, Button, Container } from '@components/index';
 import EMOJI from '@constants/emoji';
 import 'dayjs/locale/ko';
 
-dayjs.locale('ko');
-
 const CreateDiaryStyle = stylex.create({
   container: {
     background: '#F9F9F9',
@@ -95,13 +93,12 @@ const CreateDiaryStyle = stylex.create({
 
 type HashTag = string;
 type MoodValue = number;
-
 type DiaryInfo = {
   hashArr: HashTag[];
   moodValue: MoodValue;
-  currentMonth: string;
-  currentDay: string;
-  currentDDay: string;
+  month: number | null;
+  date: number | null;
+  day: string | null;
   quillContent: string | null;
   isPrivate: boolean;
 };
@@ -109,18 +106,15 @@ type DiaryInfo = {
 const CreateDiary = () => {
   const { id: diaryId } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
   const [hashtag, setHashtag] = useState<string>('');
   const [hashArr, setHashArr] = useState<HashTag[]>([]);
-  const [quillContent, setQuillContent] = useState<string | null>(null);
+  const [quillContent, setQuillContent] = useState<string>('');
   const [isPrivate, setIsPrivate] = useState<boolean>(true);
   const [moodValue, setMoodValue] = useState<MoodValue>(5);
-
   const selectedEmoticon = EMOJI[moodValue];
-  const currentDate = dayjs();
-  const currentMonth: string = currentDate.format('M');
-  const currentDay: string = currentDate.format('DD');
-  const currentDDay: string = currentDate.format('ddd');
+  const [month, setMonth] = useState<number | null>(null);
+  const [date, setDate] = useState<number | null>(null);
+  const [day, setDay] = useState<string | null>(null);
 
   const handlePrivateChange = () => {
     setIsPrivate(true);
@@ -162,11 +156,23 @@ const CreateDiary = () => {
   const [diaryInfo, setDiaryInfo] = useState<DiaryInfo>({
     hashArr: [],
     moodValue: 0,
-    currentMonth: '',
-    currentDay: '',
-    currentDDay: '',
+    month: 0,
+    date: 0,
+    day: '',
     quillContent: null,
     isPrivate: false,
+  });
+
+  useEffect(() => {
+    API.get<DiaryInfo>('/main/today-date')
+      .then(response => {
+        setMonth(response.data.month);
+        setDate(response.data.date);
+        setDay(response.data.day);
+      })
+      .catch(error => {
+        console.error(`오늘의 날짜를 불러올 수 없습니다. ${error}`);
+      });
   });
 
   useEffect(() => {
@@ -175,12 +181,12 @@ const CreateDiary = () => {
       hashArr,
       moodValue,
       quillContent,
-      currentMonth: currentDate.format('M'),
-      currentDay: currentDate.format('DD'),
-      currentDDay: currentDate.format('ddd'),
+      month: month ?? prevState.month,
+      date: date ?? prevState.date,
+      day: day ?? prevState.day,
       isPrivate,
     }));
-  }, [hashArr, moodValue, quillContent, isPrivate]);
+  }, [hashArr, moodValue, quillContent, isPrivate, month, date, day]);
 
   const checkWritingPermission = () => {
     const lastWritingDate = localStorage.getItem('lastWritingDate');
@@ -213,9 +219,9 @@ const CreateDiary = () => {
       isPrivate,
       conditionLevel: `LEVEL_${moodValue}`,
       hashtags: hashArr,
-      month: currentMonth,
-      date: currentDay,
-      day: currentDDay,
+      month: month,
+      date: date,
+      day: day,
     };
 
     if (!quillContent || !quillContent.trim()) {
@@ -280,7 +286,7 @@ const CreateDiary = () => {
         <BackButton goBackTo={'/main'} />
         <section {...stylex.props(CreateDiaryStyle.title)}>
           <h2>
-            {currentMonth}월 {currentDay}일 {currentDDay}요일
+            {month}월 {date}일 {day}요일
           </h2>
         </section>
         <section>
