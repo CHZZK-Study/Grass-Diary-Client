@@ -2,8 +2,8 @@ import API from '@services/index';
 import { useMutation } from '@tanstack/react-query';
 
 type Props = {
-  diaryId: string | undefined;
-  memberId: number | null;
+  diaryId: string;
+  memberId: number;
 };
 
 const postLikeApi = ({ diaryId, memberId }: Props) => {

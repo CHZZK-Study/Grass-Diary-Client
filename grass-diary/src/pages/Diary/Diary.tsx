@@ -122,7 +122,7 @@ const Diary = () => {
   const { memberId } = useUser();
   const [likeCount, setLikeCount] = useState(0);
   const [mood, setMood] = useState('');
-  const { detail, writer } = useDiaryDetail(diaryId);
+  const { detail, writer } = useDiaryDetail(diaryId!);
 
   useEffect(() => {
     if (detail) {

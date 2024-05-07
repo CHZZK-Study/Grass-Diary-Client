@@ -42,7 +42,7 @@ const styles = stylex.create({
 });
 
 type Props = {
-  diaryId: string | undefined;
+  diaryId: string;
   setConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 

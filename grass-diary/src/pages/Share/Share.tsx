@@ -41,9 +41,9 @@ const styles = stylex.create({
 
 const Share = () => {
   const target = useRef<HTMLDivElement>(null);
-  const { data: latest, fetchNextPage } = useLatestDiaries();
+  const { latest, fetchNextPage } = useLatestDiaries();
 
-  const feedList = latest?.pages.map((group, i) => (
+  const feedList = latest?.map((group, i) => (
     <Fragment key={i}>
       {group &&
         group?.map(data => {
@@ -70,7 +70,7 @@ const Share = () => {
 
   // 무한 스크롤
   useEffect(() => {
-    if (latest?.pages.length === 0) {
+    if (latest?.length === 0) {
       window.scrollTo(0, 0);
     }
 

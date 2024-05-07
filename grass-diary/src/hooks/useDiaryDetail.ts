@@ -1,27 +1,27 @@
 import { useQuery } from '@tanstack/react-query';
 import { useWriterProfile } from './useWriterProfile';
 import API from '@services/index';
+import { AxiosError } from 'axios';
 
-type Props = {
-  id: string | undefined;
-};
-
-const fetchDiaryDetails = (id: Props) => {
+const fetchDiaryDetails = (id: string) => {
   return API.get(`/diary/${id}`);
 };
 
-export const useDiaryDetail = (diaryId: Props) => {
-  const queryFn = async (): Promise<IDiaryDetail> => {
-    const res = await fetchDiaryDetails(diaryId);
-    return res.data;
-  };
-
-  const { data: detail } = useQuery<IDiaryDetail>({
+export const useDiaryDetail = (diaryId: string) => {
+  const { data: detail } = useQuery<
+    IDiaryDetail,
+    AxiosError,
+    IDiaryDetail,
+    [string, string]
+  >({
     queryKey: ['get-diaryDetail', diaryId],
-    queryFn,
+    queryFn: async () => {
+      const res = await fetchDiaryDetails(diaryId);
+      return res.data;
+    },
   });
-
   const writerId = detail?.memberId;
-  const { data: writer } = useWriterProfile(writerId);
+  const { data: writer } = useWriterProfile(writerId!);
+
   return { detail, writer };
 };
