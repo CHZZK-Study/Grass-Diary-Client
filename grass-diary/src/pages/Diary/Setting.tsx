@@ -53,7 +53,7 @@ const Setting = ({ diaryId, createdDate }: Props) => {
       {editModal && <UnmodifyModal setter={setEditModal} />}
       {confirmModal && (
         <ConfirmDeleteModal
-          diaryId={diaryId}
+          diaryId={diaryId!}
           setConfirmModal={setConfirmModal}
         />
       )}
