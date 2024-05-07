@@ -12,7 +12,7 @@ import subCharacter from '@icon/subCharacter.png';
 import useUser from '@recoil/user/useUser';
 import AnimateReward from './AnimateReward';
 import { checkAuth } from '@utils/authUtils';
-import { Top10Feed, Header, Button, Container } from '@components/index';
+import { PopularFeed, Header, Button, Container } from '@components/index';
 
 const styles = stylex.create({
   subContent: {
@@ -679,7 +679,7 @@ const Main = () => {
       <TopSection />
       <MiddleSection />
       <BottomSection />
-      <Top10Feed />
+      <PopularFeed />
     </Container>
   );
 };

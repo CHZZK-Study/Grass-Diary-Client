@@ -25,7 +25,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/creatediary', element: <CreateDiary /> },
       { path: '/editdiary/:id', element: <CreateDiary /> },
-      { path: '/diary/:id', element: <Diary /> },
+      { path: '/diary/:diaryId', element: <Diary /> },
       { path: '/share', element: <Share /> },
       { path: '/setting', element: <Setting /> },
       { path: '/mypage', element: <MyPage /> },
