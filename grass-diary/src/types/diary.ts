@@ -57,7 +57,7 @@ interface IDiaryResponse {
   totalPages: number;
 }
 
-interface IPopularResponse {
+interface IPopularDiaryResponse {
   createdAt: string;
   diaryContent: string;
   diaryId: number;
@@ -66,7 +66,12 @@ interface IPopularResponse {
   nickname: string;
 }
 
-interface ILatestResponse {
+interface ILatestDiaryResponse {
+  pageParams: number[];
+  pages: ILatestDiary[][];
+}
+
+interface ILatestDiary {
   content: string;
   createdAt: string;
   diaryId: number;
@@ -79,5 +84,5 @@ interface IDiaryDetail extends IDiary {
   hasImage: null;
   hasTag: null;
   id: number;
-  memberId: number | undefined;
+  memberId: number;
 }
