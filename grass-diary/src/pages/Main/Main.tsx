@@ -259,25 +259,44 @@ const BottomSectionStyle = stylex.create({
   },
 });
 
-type TodayInfoResponse = {
-  date: string;
-  todayQuestion: string;
+type QuestionResponse = {
+  question: string;
+};
+
+type DateResponse = {
+  year: number;
+  month: number;
+  date: number;
+  day: string;
 };
 
 const TopSection = () => {
-  const [date, setDate] = useState<string | null>(null);
+  const [month, setMonth] = useState<number | null>(null);
+  const [date, setDate] = useState<number | null>(null);
+  const [day, setDay] = useState<string | null>(null);
   const [todayQuestion, setTodayQuestion] = useState<string | null>(null);
 
   useEffect(() => {
-    API.get<TodayInfoResponse>('/main/todayInfo')
+    API.get<QuestionResponse>('/diary/today-question')
       .then(response => {
-        setDate(response.data.date);
-        setTodayQuestion(response.data.todayQuestion);
+        setTodayQuestion(response.data.question);
       })
       .catch(error => {
-        console.error(`오늘의 정보를 불러올 수 없습니다. ${error}`);
+        console.error(`오늘의 질문을 불러올 수 없습니다. ${error}`);
       });
   }, []);
+
+  useEffect(() => {
+    API.get<DateResponse>('/main/today-date')
+      .then(response => {
+        setMonth(response.data.month);
+        setDate(response.data.date);
+        setDay(response.data.day);
+      })
+      .catch(error => {
+        console.error(`오늘의 날짜를 불러올 수 없습니다. ${error}`);
+      });
+  });
 
   const modal = useCallback(() => {
     Swal.fire({
@@ -299,11 +318,21 @@ const TopSection = () => {
           <div {...stylex.props(TopSectionStyles.bannerTitle)}>
             <i
               className="fa-solid fa-lightbulb"
-              style={{ fontSize: '30px', paddingBottom: '20px' }}
+              style={{ fontSize: '20px', paddingBottom: '5px' }}
             ></i>
-            <h1>{date ? <p>{date}</p> : <p>Loading...</p>}</h1>
+            <h1>
+              {date ? (
+                <p>
+                  오늘은<br></br>
+                  {month}월 {date}일<br></br>
+                  {day}요일 입니다.
+                </p>
+              ) : (
+                <p>Loading...</p>
+              )}
+            </h1>
           </div>
-          <div style={{ display: 'flex', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
             <i className="fa-solid fa-circle-question"></i>
             <span>
               {todayQuestion ? <>{todayQuestion}</> : <>Loading...</>}
@@ -408,7 +437,8 @@ type GrassInfoDTO = {
 };
 
 type GrassApiResponse = {
-  count: number;
+  totalCount: number;
+  thisMonthCount: number;
   grassInfoDTO: GrassInfoDTO;
 };
 
@@ -418,7 +448,8 @@ type RewardPointResponse = {
 
 const MiddleSection = () => {
   const [rewardPoint, setRewardPoint] = useState<number | null>(null);
-  const [grassCount, setGrassCount] = useState<number | null>(null);
+  const [grassTotalCount, setGrassTotalCount] = useState<number | null>(null);
+  const [grassMonthCount, setGrassMonthCount] = useState<number | null>(null);
   const [grassColor, setGrassColor] = useState<string | null>(null);
   const [grassList, setGrassList] = useState<Grass[]>([]);
 
@@ -446,7 +477,8 @@ const MiddleSection = () => {
     if (memberId) {
       API.get<GrassApiResponse>(`/main/grass/${memberId}`)
         .then(response => {
-          setGrassCount(response.data.count);
+          setGrassTotalCount(response.data.totalCount);
+          setGrassMonthCount(response.data.thisMonthCount);
           setGrassColor(response.data.grassInfoDTO.colorRGB);
           setGrassList(response.data.grassInfoDTO.grassList);
         })
@@ -505,7 +537,8 @@ const MiddleSection = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           <h1>📫 기록 상자</h1>
           <span>
-            총 {grassCount ? grassCount : 0}개의 기록을 보유하고 있어요!
+            총 {grassTotalCount ? grassTotalCount : 0}개의 기록을 보유하고
+            있어요!
           </span>
         </div>
       </div>
@@ -536,11 +569,12 @@ const MiddleSection = () => {
           <h2>나의 이번달 잔디</h2>
           <div {...stylex.props(MiddleSectionStyle.contentWrapper)}>
             <span>
-              {currentMonth}월 일기는 현재까지 총 {grassCount ? grassCount : 0}
+              {currentMonth}월 일기는 현재까지 총{' '}
+              {grassMonthCount ? grassMonthCount : 0}
               개가 작성되었어요
             </span>
 
-            {grassCount ? (
+            {grassTotalCount ? (
               <span>리워드를 확인 해보세요!</span>
             ) : (
               <span>일기를 쓰고 잔디를 심어보세요!</span>
