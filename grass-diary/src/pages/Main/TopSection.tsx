@@ -4,6 +4,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@components/index';
 import API from '@services/index';
 import mainCharacter from '@icon/mainCharacter.png';
+import Swal from 'sweetalert2';
 
 const TopSectionStyles = stylex.create({
   container: {
