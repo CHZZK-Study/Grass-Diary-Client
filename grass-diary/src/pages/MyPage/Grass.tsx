@@ -42,7 +42,9 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
   const grassColors = useGrass(memberId);
 
   const handleGrassClick = (date: Date | null) => {
-    setSelectedGrass(formatDate(date));
+    formatDate(date) === selectedGrass
+      ? setSelectedGrass(null)
+      : setSelectedGrass(formatDate(date));
   };
 
   const selectedDate: string | null = selectedGrass
