@@ -75,6 +75,7 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
       {grass.map((column, index) => (
         <div key={index} {...stylex.props(styles.grass)}>
           {column.map((day, index) => {
+            if (!day) return;
             const writeDay = formatDate(day);
             return (
               <div key={index} {...stylex.props(styles.dayContainer)}>
