@@ -15,9 +15,10 @@
 
 <br />
 
-<img align="right" width="650" src="https://github.com/CHZZK-Study/Grass-Diary-Client/assets/106158901/86bfbb15-d720-4134-ab1b-d42d5242113d">
+<img align="right" width="300" src="https://github.com/CHZZK-Study/Grass-Diary-Client/assets/106158901/accb61ba-9c66-4dbc-8424-d7f627f6576b">
 
 _<h3> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Activities/Teddy%20Bear.png" alt="Teddy Bear" width="25" height="25" /> 우리는 성장을 위해 기록합니다.</h3>_
+
 변화와 성장이 함께 하는 <br />
 **나만의 스토리**를 완성할 수 있어요.  
 
@@ -32,6 +33,11 @@ _<h3> <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fl
 ## <img src="https://raw.githubusercontent.com/Tarikul-Islam-Anik/Animated-Fluent-Emojis/master/Emojis/Travel%20and%20places/Shooting%20Star.png" alt="Shooting Star" width="35" height="35" /> 프로젝트 주요 기능
 
 추가 예정이에요! 🧐
+
+> 🔎 `full page animation`이 적용된 소개 페이지에서 서비스의 주요 기능들을 확인할 수 있어요.
+
+![intro-page](https://github.com/CHZZK-Study/Grass-Diary-Client/assets/106158901/777ccca8-66fe-4ec4-a2b4-a21cac432b52)
+
 
 <br />
 
