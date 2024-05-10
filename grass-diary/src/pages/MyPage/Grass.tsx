@@ -37,6 +37,7 @@ interface IGrass {
 
 const Grass = ({ setSelectedDiary }: IGrass) => {
   const [selectedGrass, setSelectedGrass] = useState<string | null>(null);
+  const [hoveredGrass, setHoveredGrass] = useState<string | null>(null);
   const { year, grass } = createGrass();
   const { memberId } = useUser();
   const grassColors = useGrass(memberId);
@@ -45,6 +46,12 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
     formatDate(date) === selectedGrass
       ? setSelectedGrass(null)
       : setSelectedGrass(formatDate(date));
+  };
+
+  const handleGrassHover = (date: Date | null) => {
+    date && selectedGrass !== formatDate(date)
+      ? setHoveredGrass(formatDate(date))
+      : setHoveredGrass(null);
   };
 
   const selectedDate: string | null = selectedGrass
@@ -84,6 +91,8 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
                 {grassColors && (
                   <div
                     onClick={() => handleGrassClick(day)}
+                    onMouseOver={() => handleGrassHover(day)}
+                    onMouseOut={() => handleGrassHover(null)}
                     {...stylex.props(
                       styles.grassDate(
                         writeDay === selectedGrass ? '1px solid black' : 'none',
@@ -94,7 +103,12 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
                     )}
                   ></div>
                 )}
-                {formatDate(day) === selectedGrass && (
+                {writeDay === hoveredGrass && writeDay !== selectedGrass && (
+                  <div {...stylex.props(styles.dateBubble)}>
+                    <span>{hoveredGrass}</span>
+                  </div>
+                )}
+                {writeDay === selectedGrass && (
                   <div {...stylex.props(styles.dateBubble)}>
                     <span>{selectedGrass}</span>
                   </div>
