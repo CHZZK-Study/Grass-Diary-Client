@@ -1,5 +1,6 @@
 import styles from './styles';
 import stylex from '@stylexjs/stylex';
+import { useEffect } from 'react';
 import { useRecoilState } from 'recoil';
 import {
   QueryClient,
@@ -30,6 +31,10 @@ const Setting = () => {
   const queryClient: QueryClient = useQueryClient();
   const { nickName, profileIntro }: Partial<IProfile> = useProfile();
   const [profile, setProfile] = useRecoilState(profileAtom);
+
+  useEffect(() => {
+    setProfile({ ...profile, nickName, profileIntro });
+  }, [nickName, profileIntro]);
 
   const handleChangeNickname = (event: React.ChangeEvent<HTMLInputElement>) => {
     setProfile({ ...profile, nickName: event.target.value });
@@ -75,14 +80,16 @@ const Setting = () => {
             <SettingSection label="닉네임">
               <input
                 {...stylex.props(styles.textInput('0 0 0 1.25rem', '3.2rem'))}
-                placeholder={nickName}
+                name="nickName"
+                value={profile.nickName || ''}
                 onChange={handleChangeNickname}
               ></input>
             </SettingSection>
             <SettingSection label="소개글">
               <textarea
                 {...stylex.props(styles.textInput('1rem 1.25rem', '6.25rem'))}
-                placeholder={profileIntro}
+                name="profileIntro"
+                value={profile.profileIntro || ''}
                 onChange={handleChangeProfileIntro}
               ></textarea>
             </SettingSection>
