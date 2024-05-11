@@ -6,7 +6,7 @@ interface IProfile {
 
 // Setting Page updateProfile Type
 interface IUpdateProfile {
-  nickName?: string;
+  nickname?: string;
   profileIntro?: string;
 }
 
