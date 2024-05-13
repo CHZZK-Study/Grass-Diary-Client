@@ -15,9 +15,9 @@ const styles = stylex.create({
     },
   },
   noFeed: {
-    height: '440px',
+    height: '400px',
     textAlign: 'center',
-    lineHeight: '440px',
+    lineHeight: '400px',
   },
 });
 
@@ -53,7 +53,7 @@ const PopularFeed = () => {
       ) : (
         feedList
       )}
-      {!top10 ? (
+      {top10 && !top10.length ? (
         <div {...stylex.props(styles.noFeed)}>
           이번 주는 공개된 일기가 아직 없어요
         </div>
