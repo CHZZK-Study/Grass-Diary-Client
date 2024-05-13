@@ -3,7 +3,8 @@ import { Header, BackButton, Container } from '@components/index';
 
 const styles = stylex.create({
   wrap: {
-    padding: '65px 80px 0 80px',
+    width: '100vw',
+    padding: '80px 160px',
   },
   content: {
     marginTop: '150px',
@@ -17,6 +18,7 @@ const NonExistentDiary = () => {
   return (
     <Container>
       <Header />
+
       <div {...stylex.props(styles.wrap)}>
         <BackButton goBackTo={'/main'} />
         <div {...stylex.props(styles.content)}>

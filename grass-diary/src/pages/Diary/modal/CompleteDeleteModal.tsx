@@ -41,7 +41,7 @@ const styles = stylex.create({
 const CompleteDeleteModal = () => {
   const navigate = useNavigate();
   const closeModal = () => {
-    navigate('/non-existent-page');
+    navigate(-1);
   };
 
   return (
