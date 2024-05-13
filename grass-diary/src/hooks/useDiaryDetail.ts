@@ -8,12 +8,12 @@ const fetchDiaryDetails = (id: string) => {
 };
 
 export const useDiaryDetail = (diaryId: string) => {
-  const {
-    data: detail,
-    isLoading,
-    isError,
-    error,
-  } = useQuery<IDiaryDetail, AxiosError, IDiaryDetail, [string, string]>({
+  const { data: detail, isLoading } = useQuery<
+    IDiaryDetail,
+    AxiosError,
+    IDiaryDetail,
+    [string, string]
+  >({
     queryKey: ['get-diaryDetail', diaryId],
     queryFn: async () => {
       const res = await fetchDiaryDetails(diaryId);
@@ -25,5 +25,5 @@ export const useDiaryDetail = (diaryId: string) => {
   const writerId = detail?.memberId;
   const { data: writer } = useWriterProfile(writerId!);
 
-  return { detail, writer, isLoading, isError, error };
+  return { detail, writer, isLoading };
 };

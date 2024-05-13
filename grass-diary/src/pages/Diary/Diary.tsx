@@ -1,6 +1,6 @@
 import stylex from '@stylexjs/stylex';
 import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import DOMPurify from 'dompurify';
 
 import { Header, BackButton, Like, Container } from '@components/index';
@@ -8,7 +8,6 @@ import useUser from '@recoil/user/useUser';
 import EMOJI from '@constants/emoji';
 import Setting from './Setting';
 import { useDiaryDetail } from '@hooks/useDiaryDetail';
-import axios from 'axios';
 
 const styles = stylex.create({
   wrap: {
@@ -124,21 +123,11 @@ const contentStyle = stylex.create({
 });
 
 const Diary = () => {
-  const navigate = useNavigate();
   const { diaryId } = useParams();
   const { memberId } = useUser();
   const [likeCount, setLikeCount] = useState(0);
   const [mood, setMood] = useState('');
-  const { detail, writer, isLoading, isError, error } = useDiaryDetail(
-    diaryId!,
-  );
-
-  useEffect(() => {
-    if (axios.isAxiosError<ResponseType, any>(error)) {
-      console.log('error: ', error?.response?.data.message);
-      navigate('/non-existent-page');
-    }
-  }, [isError, isLoading]);
+  const { detail, writer, isLoading } = useDiaryDetail(diaryId!);
 
   useEffect(() => {
     if (detail) {
