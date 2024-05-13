@@ -1,5 +1,5 @@
 import { createBrowserRouter } from 'react-router-dom';
-import { ProtectedRoute } from '@components/index';
+import { ProtectedRoute, ErrorBoundaryLayout } from '@components/index';
 import { lazy } from 'react';
 
 const Intro = lazy(() => import('@pages/Intro/Intro'));
@@ -13,23 +13,28 @@ const NonExistentDiary = lazy(() => import('@pages/Diary/NonExistentDiary'));
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <Intro />,
-  },
-  {
-    path: '/main',
-    element: <Main />,
-  },
-  {
-    element: <ProtectedRoute />,
+    element: <ErrorBoundaryLayout />,
     children: [
-      { path: '/creatediary', element: <CreateDiary /> },
-      { path: '/editdiary/:id', element: <CreateDiary /> },
-      { path: '/diary/:diaryId', element: <Diary /> },
-      { path: '/share', element: <Share /> },
-      { path: '/setting', element: <Setting /> },
-      { path: '/mypage', element: <MyPage /> },
-      { path: '/non-existent-page', element: <NonExistentDiary /> },
+      {
+        path: '/',
+        element: <Intro />,
+      },
+      {
+        path: '/main',
+        element: <Main />,
+      },
+      {
+        element: <ProtectedRoute />,
+        children: [
+          { path: '/creatediary', element: <CreateDiary /> },
+          { path: '/editdiary/:id', element: <CreateDiary /> },
+          { path: '/diary/:diaryId', element: <Diary /> },
+          { path: '/share', element: <Share /> },
+          { path: '/setting', element: <Setting /> },
+          { path: '/mypage', element: <MyPage /> },
+          { path: '/non-existent-page', element: <NonExistentDiary /> },
+        ],
+      },
     ],
   },
 ]);

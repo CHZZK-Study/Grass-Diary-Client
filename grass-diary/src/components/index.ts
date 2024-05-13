@@ -9,4 +9,5 @@ export { default as Profile } from './Profile/Profile';
 export { default as MoodProfile } from './Profile/MoodProfile';
 export { default as ProtectedRoute } from './ProtectedRoute';
 export { default as Container } from './Container';
+export { default as ErrorBoundaryLayout } from './ErrorBoundaryLayout';
 export { EllipsisIcon, EllipsisBox } from './Ellipsis';
