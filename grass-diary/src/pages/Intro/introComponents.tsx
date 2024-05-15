@@ -11,7 +11,7 @@ import { checkAuth } from '@utils/authUtils';
 import introDiaryImage from '@icon/introDiaryImage.png';
 import mainCharacter from '@icon/mainCharacter.png';
 
-const OpenModalButton = () => {
+const OpenModalButton = ({ top }: { top: string }) => {
   const navigate: NavigateFunction = useNavigate();
   const { isModalOpen, handleOpenModal, handleCloseModal }: IModalReturn =
     useModal();
@@ -47,7 +47,11 @@ const OpenModalButton = () => {
         onClick={handleStartButton}
       />
       {!isLoggedIn && isModalOpen && (
-        <LoginModal isOpen={handleOpenModal} isClose={handleCloseModal} />
+        <LoginModal
+          top={top}
+          isOpen={handleOpenModal}
+          isClose={handleCloseModal}
+        />
       )}
     </>
   );
@@ -72,7 +76,7 @@ const ServiceMain = () => {
           <p {...stylex.props(styles.contentDesc('1rem', '25px 0 15px 0'))}>
             일상의 작은 기록들이 잔디처럼 자라나 큰 성장으로 이어져요
           </p>
-          <OpenModalButton />
+          <OpenModalButton top="50%" />
         </div>
         <div {...stylex.props(styles.mainImage)}>
           <img src={grassDiary} alt="잔디 다이어리" />
@@ -131,7 +135,7 @@ const StartContent = () => {
   return (
     <div {...stylex.props(styles.mainDescription('center'))}>
       <h1>지금 바로 잔디 일기를 시작해 보세요!</h1>
-      <OpenModalButton />
+      <OpenModalButton top="350%" />
     </div>
   );
 };
