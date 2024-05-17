@@ -79,10 +79,6 @@ textarea:not([rows]) {
   scroll-margin-block: 5ex;
 }
 
-li:hover {
-  background-color: #e2e2e2;
-}
-
 p {
   white-space: pre-wrap;
   word-wrap: break-word; /* IE 5.5-7 */
