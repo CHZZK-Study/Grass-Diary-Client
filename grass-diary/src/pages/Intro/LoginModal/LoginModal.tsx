@@ -21,12 +21,11 @@ const styles = stylex.create({
     backgroundColor: '#ffffff78',
   },
 
-  modal: {
+  modal: (top: string) => ({
     display: 'flex',
     flexDirection: 'column',
     position: 'fixed',
 
-    top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
 
@@ -39,7 +38,9 @@ const styles = stylex.create({
     backgroundColor: '#FFF',
 
     gap: '0.6rem',
-  },
+
+    top,
+  }),
 
   modalHeader: {
     display: 'flex',
@@ -90,7 +91,7 @@ const styles = stylex.create({
   },
 });
 
-const LoginModal = ({ isOpen, isClose }: ILoginModalProps) => {
+const LoginModal = ({ top, isOpen, isClose }: ILoginModalProps) => {
   if (!isOpen) return null;
 
   const handleGoogleLogin: TGoogleLogin = () => {
@@ -100,7 +101,7 @@ const LoginModal = ({ isOpen, isClose }: ILoginModalProps) => {
   return (
     <div {...stylex.props(styles.container)}>
       <div {...stylex.props(styles.background)} onClick={isClose}></div>
-      <div {...stylex.props(styles.modal)}>
+      <div {...stylex.props(styles.modal(top))}>
         <div {...stylex.props(styles.modalHeader)}>
           <span>회원가입 및 로그인</span>
           <button {...stylex.props(styles.xButton)} onClick={isClose}>
