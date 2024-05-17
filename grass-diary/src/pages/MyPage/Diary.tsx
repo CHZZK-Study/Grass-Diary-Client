@@ -91,6 +91,14 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
 
   return (
     <>
+      <aside {...stylex.props(styles.hashtagListContainer)}>
+        <div {...stylex.props(styles.hashtagListTitle)}>해시태그 목록</div>
+        <ul {...stylex.props(styles.hashtagList)}>
+          <li>
+            <a href="/mypage">전체 보기 ({`3`})</a>
+          </li>
+        </ul>
+      </aside>
       <div {...stylex.props(styles.diaryList)}>
         {filteredDiaryList.map((diary, index) => (
           <DiaryItem
