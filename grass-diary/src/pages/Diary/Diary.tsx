@@ -121,6 +121,10 @@ const contentStyle = stylex.create({
   content: {
     minHeight: '200px',
   },
+  image: {
+    width: '500px',
+    padding: '30px 0',
+  },
 });
 
 const Diary = () => {
@@ -203,6 +207,12 @@ const Diary = () => {
               return `#${tag.tag} `;
             })}
           </div>
+          {detail?.hasImage ? (
+            <img
+              {...stylex.props(contentStyle.image)}
+              src={detail?.imageURL}
+            ></img>
+          ) : null}
           <div
             {...stylex.props(contentStyle.content)}
             dangerouslySetInnerHTML={createMarkup(detail?.content)}
