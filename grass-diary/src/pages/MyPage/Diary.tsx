@@ -70,13 +70,19 @@ const DiaryItem = ({ diary, diaryList, index }: IDiaryItem) => {
 interface IDiaryProps {
   searchTerm: string;
   sortOrder: string;
-  selectedDiary?: IDiary;
+  selectedDiary?: IDiary[];
+  setSelectedDiary: any;
 }
 
-const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
+const Diary = ({
+  setSelectedDiary,
+  searchTerm,
+  sortOrder,
+  selectedDiary,
+}: IDiaryProps) => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [hashtagId, setHashtagId] = useState<string>('');
+  const [hashtagId, setHashtagId] = useState<string | null>(null);
   const [isSelected, setIsSelected] = useState('');
 
   const { memberId } = useUser();
@@ -88,8 +94,8 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
   });
 
   const filteredDiaryList =
-    selectedDiary && selectedDiary.diaryId
-      ? [selectedDiary]
+    selectedDiary && selectedDiary.length > 0
+      ? selectedDiary
       : diaryList.filter(diary => diary.content.includes(searchTerm));
 
   const handlePageChange = (page: number) => {
@@ -97,13 +103,13 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
   };
 
   const handleViewAllClick = () => {
-    navigate('/mypage');
     setIsSelected('all');
+    navigate('/mypage');
   };
 
   useEffect(() => {
     const tagId = searchParams.get('tagId');
-    if (tagId) setHashtagId(tagId);
+    tagId ? setHashtagId(tagId) : setHashtagId(null);
   }, [searchParams, navigate]);
 
   const handleTagClick = (tagId: string) => {
@@ -121,6 +127,25 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
       API.get(`/search/hashTag/${memberId}`).then(({ data }) => data),
     enabled: !!memberId,
   });
+
+  const { data: selectedTag } = useQuery<
+    IDiary,
+    Error,
+    IDiary,
+    (string | number | string | null)[]
+  >({
+    queryKey: ['selectedDiary', memberId, hashtagId],
+    queryFn: () =>
+      API.get(`search/tagId/${memberId}?tagId=${hashtagId}`).then(
+        ({ data }) => data,
+      ),
+    enabled: !!hashtagId && !!memberId,
+  });
+
+  useEffect(() => {
+    if (selectedTag) setSelectedDiary(selectedTag);
+    if (!selectedTag) setSelectedDiary(undefined);
+  }, [selectedTag]);
 
   return (
     <>

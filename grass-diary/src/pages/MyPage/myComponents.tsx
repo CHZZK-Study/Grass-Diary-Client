@@ -16,7 +16,7 @@ const MainContainer = () => {
   const [toggleButton, setToggleButton] = useState<string>('나의 일기장');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [sortOrder, setSortOrder] = useState<string>('latest');
-  const [selectedDiary, setSelectedDiary] = useState<IDiary | undefined>(
+  const [selectedDiary, setSelectedDiary] = useState<IDiary[] | undefined>(
     undefined,
   );
 
@@ -54,6 +54,7 @@ const MainContainer = () => {
         <SortButton onSortChange={handleSortChange} />
         {toggleButton === '나의 일기장' ? (
           <Diary
+            setSelectedDiary={setSelectedDiary}
             searchTerm={searchTerm}
             sortOrder={sortOrder}
             selectedDiary={selectedDiary}
@@ -92,7 +93,7 @@ const ToggleButton = ({ buttonLabel, handleToggleButton }: IToggleButton) => {
 };
 
 interface IProfileSection {
-  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary | undefined>>;
+  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary[] | undefined>>;
 }
 
 const ProfileSection = ({ setSelectedDiary }: IProfileSection) => {
