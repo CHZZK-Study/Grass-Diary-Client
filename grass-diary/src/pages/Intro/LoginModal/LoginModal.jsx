@@ -1,5 +1,6 @@
 import stylex from '@stylexjs/stylex';
-import googleButton from '@icon/googleButton.png';
+// import googleButton from '@icon/googleButton.png';
+import { API_URI } from '@services/index';
 
 const styles = stylex.create({
   container: {
@@ -87,6 +88,10 @@ const styles = stylex.create({
     display: 'flex',
     justifyContent: 'center',
   },
+
+  temporaryMessage: {
+    fontSize: '1.2rem',
+  },
 });
 
 const LoginModal = ({ isOpen, isClose }) => {
@@ -94,11 +99,11 @@ const LoginModal = ({ isOpen, isClose }) => {
     return null;
   }
 
-  const handleGoogleLogin = () => {
-    const API_URI = import.meta.env.VITE_API_URI;
+  // const handleGoogleLogin = () => {
+  //   const API_URI = import.meta.env.VITE_API_URI;
 
-    window.open(`${API_URI}/api/auth/google`, '_self');
-  };
+  //   window.open(`${API_URI}/api/auth/google`, '_self');
+  // };
 
   return (
     <div {...stylex.props(styles.container)}>
@@ -111,9 +116,12 @@ const LoginModal = ({ isOpen, isClose }) => {
           </button>
         </div>
         <div {...stylex.props(styles.modalContent)}>
-          <button {...stylex.props(styles.button)} onClick={handleGoogleLogin}>
+          {/* <button {...stylex.props(styles.button)} onClick={handleGoogleLogin}>
             <img {...stylex.props(styles.buttonImage)} src={googleButton}></img>
-          </button>
+          </button> */}
+          <span {...stylex.props(styles.temporaryMessage)}>
+            더 나은 서비스를 제공하기 위해 공사 중이에요.
+          </span>
         </div>
       </div>
     </div>
