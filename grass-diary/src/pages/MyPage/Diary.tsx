@@ -1,9 +1,11 @@
 import styles from './style';
 import stylex from '@stylexjs/stylex';
 import DOMPurify from 'dompurify';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 
+import API from '@services/index';
 import useUser from '@recoil/user/useUser';
 import useDiary from '@hooks/useDiary';
 import { NormalLike, MoodProfile } from '@components/index';
@@ -72,6 +74,11 @@ interface IDiaryProps {
 }
 
 const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [hashtagId, setHashtagId] = useState<string>('');
+  const [isSelected, setIsSelected] = useState('');
+
   const { memberId } = useUser();
   const [currentPage, setCurrentPage] = useState(0);
   const { diaryList, pageSize } = useDiary({
@@ -89,14 +96,62 @@ const Diary = ({ searchTerm, sortOrder, selectedDiary }: IDiaryProps) => {
     setCurrentPage(page);
   };
 
+  const handleViewAllClick = () => {
+    navigate('/mypage');
+    setIsSelected('all');
+  };
+
+  useEffect(() => {
+    const tagId = searchParams.get('tagId');
+    if (tagId) setHashtagId(tagId);
+  }, [searchParams, navigate]);
+
+  const handleTagClick = (tagId: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.set('tagId', tagId);
+    navigate(`/mypage?${params.toString()}`);
+
+    setIsSelected(tagId);
+  };
+
+  const { data: hashtagList } = useQuery({
+    queryKey: ['hashtagList', memberId],
+    queryFn: () =>
+      API.get(`/search/hashTag/${memberId}`).then(({ data }) => data),
+    enabled: !!memberId,
+  });
+
   return (
     <>
       <aside {...stylex.props(styles.hashtagListContainer)}>
         <div {...stylex.props(styles.hashtagListTitle)}>해시태그 목록</div>
         <ul {...stylex.props(styles.hashtagList)}>
-          <li>
-            <a href="/mypage">전체 보기 ({`3`})</a>
-          </li>
+          <a
+            onClick={handleViewAllClick}
+            {...stylex.props(
+              isSelected === 'all' ? styles.selectedHashtag : styles.hashtag,
+            )}
+          >
+            전체 보기 ({diaryList.length})
+          </a>
+          {hashtagList &&
+            hashtagList.map((hashtag: { tagId: string; tag: string }) => (
+              <li
+                key={hashtag.tagId}
+                onClick={() => handleTagClick(hashtag.tagId)}
+              >
+                <a
+                  {...stylex.props(
+                    isSelected === hashtag.tagId
+                      ? styles.selectedHashtag
+                      : styles.hashtag,
+                  )}
+                >
+                  {hashtag.tag}
+                </a>
+              </li>
+            ))}
         </ul>
       </aside>
       <div {...stylex.props(styles.diaryList)}>

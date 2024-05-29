@@ -212,6 +212,7 @@ const styles = stylex.create({
   hashtagList: {
     padding: '0',
     listStyle: 'none',
+    lineHeight: '1.7',
   },
 
   diaryList: {
@@ -263,7 +264,12 @@ const styles = stylex.create({
   },
 
   hashtag: {
-    color: '#777777',
+    cursor: 'pointer',
+  },
+
+  selectedHashtag: {
+    textDecoration: 'none',
+    color: '#43e312',
   },
 
   diaryContent: {
