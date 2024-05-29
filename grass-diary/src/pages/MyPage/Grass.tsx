@@ -70,8 +70,6 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
         ({ data }) => data,
       ),
     enabled: !!selectedGrass && !!memberId,
-    onError: error =>
-      console.error(`선택된 날짜의 일기를 불러올 수 없습니다. ${error}`),
   });
 
   useEffect(() => {

@@ -28,8 +28,6 @@ const useDiary = ({ memberId, currentPage, sortOrder }: IUseDiaryProps) => {
     queryKey,
     queryFn,
     enabled: !!memberId,
-    onError: error =>
-      console.error(`사용자의 일기를 조회할 수 없습니다. ${error}`),
   });
 
   const diaryList: IDiary[] = diary?.content || [];
