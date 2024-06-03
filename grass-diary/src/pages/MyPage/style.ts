@@ -149,6 +149,8 @@ const styles = stylex.create({
     flexDirection: 'column',
     alignItems: 'center',
 
+    position: 'relative',
+
     width: '70%',
     gap: '20px',
   },
@@ -181,6 +183,36 @@ const styles = stylex.create({
     justifyContent: 'flex-end',
 
     width: '95%',
+  },
+
+  hashtagListContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+
+    position: 'absolute',
+
+    top: '8rem',
+    left: '-13.5rem',
+
+    width: '11.5rem',
+    height: '12.5rem',
+
+    textIndent: '0.2rem',
+  },
+
+  hashtagListTitle: {
+    marginBottom: '0.2rem',
+    paddingBottom: '0.5rem',
+    borderBottom: '1px solid #BFBFBF',
+
+    fontSize: '1rem',
+    fontWeight: '600',
+  },
+
+  hashtagList: {
+    padding: '0',
+    listStyle: 'none',
+    lineHeight: '1.7',
   },
 
   diaryList: {
@@ -232,7 +264,12 @@ const styles = stylex.create({
   },
 
   hashtag: {
-    color: '#777777',
+    cursor: 'pointer',
+  },
+
+  selectedHashtag: {
+    textDecoration: 'none',
+    color: '#43e312',
   },
 
   diaryContent: {

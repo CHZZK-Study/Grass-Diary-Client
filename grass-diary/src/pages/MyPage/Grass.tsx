@@ -32,7 +32,7 @@ const createGrass: TCreateGrass = () => {
 };
 
 interface IGrass {
-  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary | undefined>>;
+  setSelectedDiary: React.Dispatch<React.SetStateAction<IDiary[] | undefined>>;
 }
 
 const Grass = ({ setSelectedDiary }: IGrass) => {
@@ -70,12 +70,10 @@ const Grass = ({ setSelectedDiary }: IGrass) => {
         ({ data }) => data,
       ),
     enabled: !!selectedGrass && !!memberId,
-    onError: error =>
-      console.error(`선택된 날짜의 일기를 불러올 수 없습니다. ${error}`),
   });
 
   useEffect(() => {
-    if (selectedDiary) setSelectedDiary(selectedDiary);
+    if (selectedDiary) setSelectedDiary([selectedDiary]);
     if (!selectedDiary) setSelectedDiary(undefined);
   }, [selectedDiary]);
 
