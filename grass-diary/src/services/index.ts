@@ -17,16 +17,16 @@ API.interceptors.request.use(
   error => Promise.reject(error),
 );
 
-API.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response && error.response.status === 500) {
-      localStorage.removeItem('accessToken');
-      window.location.href = '/';
-    }
+// API.interceptors.response.use(
+//   response => response,
+//   error => {
+//     if (error.response && error.response.status === 500) {
+//       localStorage.removeItem('accessToken');
+//       window.location.href = '/';
+//     }
 
-    return Promise.reject(error);
-  },
-);
+//     return Promise.reject(error);
+//   },
+// );
 
 export default API;
